@@ -1,0 +1,4 @@
+interface:
+  display_name: "Develop with BEEZ"
+  short_description: "BEEZ 토큰과 컴포넌트를 프로젝트 규칙에 맞게 개발"
+  default_prompt: "Use $beez-design-system to implement or update a BEEZ token, component, or design-system document."
