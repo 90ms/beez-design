@@ -239,6 +239,7 @@ fun Beez{ComponentName}(
 
 - `modifier`는 첫 번째 선택 인자로 제공한다.
 - 상태는 가능한 한 호출자가 소유하고 이벤트를 위로 전달한다.
+- 공개 컴포넌트 API와 기본 구현은 `commonMain`에 둔다.
 - `CompositionLocal`은 테마처럼 트리 전체에 적용되는 관심사에 제한한다.
 - slot API는 유연성뿐 아니라 허용되는 콘텐츠 계약을 함께 정의한다.
 - 플랫폼 타입을 공통 공개 API에 노출하지 않는다.

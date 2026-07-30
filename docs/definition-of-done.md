@@ -85,6 +85,7 @@
 - [ ] state ownership과 event 흐름이 명확하다.
 - [ ] platform type과 내부 Material type이 공통 공개 API에 노출되지 않는다.
 - [ ] 핵심 모듈에 Material 2 또는 Material 3 dependency가 추가되지 않았다.
+- [ ] 공개 컴포넌트 API와 기본 구현이 `commonMain`에 있다.
 - [ ] API 이름이 BEEZ 명명 규칙을 따른다.
 
 ### Implementation
@@ -138,6 +139,7 @@ Experimental 조건을 모두 충족하고 다음 기준을 추가로 만족해�
 - [ ] Web/Wasm의 지원 여부와 실험적 제약을 표시했다.
 - [ ] 의도하지 않은 플랫폼별 API 차이가 없다.
 - [ ] 의도된 렌더링 및 동작 차이는 명세에 기록되어 있다.
+- [ ] 플랫폼 source set에 전체 컴포넌트 구현이 복제되지 않았다.
 
 ### Accessibility
 

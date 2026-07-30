@@ -148,6 +148,7 @@ BEEZ 핵심 컴포넌트는 Compose Runtime, UI 및 Foundation을 구현 기반�
 - 특정 제품 도메인에만 필요한 비즈니스 컴포넌트
 - 완성된 화면이나 기능 단위 템플릿의 대규모 제공
 - 모든 플랫폼의 픽셀 단위 동일성
+- SwiftUI, UIKit, Android View, React 또는 DOM용 별도 컴포넌트 구현
 - Figma와 코드의 완전 자동 양방향 동기화
 - 전용 CLI, IDE 플러그인 또는 MCP 서버
 - 브랜드별 컴포넌트 포크와 복잡한 화이트라벨 관리 기능
