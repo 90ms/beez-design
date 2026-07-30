@@ -15,6 +15,7 @@ BEEZ is a specification-first Compose Multiplatform design system. Design decisi
 - For platform behavior, read `docs/platform-policy.md` and ADR-0003.
 - For package, artifact, or public API naming, read ADR-0004.
 - For toolchain, targets, or minimum platform versions, read `docs/compatibility.md` and ADR-0005.
+- For core module responsibilities or dependency direction, read ADR-0006.
 - For architecture changes, inspect all relevant accepted ADRs in `docs/decisions/`.
 
 Use `skills/beez-design-system/SKILL.md` for the full task workflow.
