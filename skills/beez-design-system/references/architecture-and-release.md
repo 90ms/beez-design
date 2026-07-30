@@ -28,6 +28,7 @@
 - Keep BEEZ core independent from Material.
 - Keep optional adapters depending on core, never core depending on adapters.
 - Reject cyclic module dependencies.
+- Keep Kotlin packages, Maven coordinates, artifact names, and public API prefixes consistent with ADR-0004.
 - Prefer a new dependency only when Compose primitives or existing dependencies cannot meet a documented requirement.
 
 ## 4. Review compatibility

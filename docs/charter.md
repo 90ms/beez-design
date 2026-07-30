@@ -216,7 +216,6 @@ BEEZ의 성공은 컴포넌트 개수보다 실제 재사용성과 신뢰도로 
 다음 항목은 후속 문서와 Architecture Decision Record에서 결정한다.
 
 - 디자인 토큰의 표준 형식과 생성 도구
-- Kotlin package 및 Maven group ID
 - 아이콘 제공 및 배포 방식
 - 각 플랫폼의 최소 지원 버전
 - 카탈로그 및 문서 사이트의 기술 스택
