@@ -84,6 +84,7 @@
 - [ ] 필수 인자와 안전한 기본값을 구분했다.
 - [ ] state ownership과 event 흐름이 명확하다.
 - [ ] platform type과 내부 Material type이 공통 공개 API에 노출되지 않는다.
+- [ ] 핵심 모듈에 Material 2 또는 Material 3 dependency가 추가되지 않았다.
 - [ ] API 이름이 BEEZ 명명 규칙을 따른다.
 
 ### Implementation
@@ -93,6 +94,7 @@
 - [ ] Light와 Dark theme에서 렌더링된다.
 - [ ] disabled 또는 loading 등 핵심 상태의 상호작용이 명세와 일치한다.
 - [ ] 임의의 원시 디자인 값을 하드코딩하지 않았다.
+- [ ] Compose primitive 기반 interaction과 semantics가 컴포넌트 명세를 따른다.
 
 ### Verification
 
@@ -127,6 +129,7 @@ Experimental 조건을 모두 충족하고 다음 기준을 추가로 만족해�
 - [ ] state hoisting, recomposition과 안정성 특성을 검토했다.
 - [ ] public declaration에 API 문서가 있다.
 - [ ] binary 및 source compatibility 정책에 따른 검사를 통과한다.
+- [ ] Material 연동이 필요하면 핵심 API가 아닌 선택형 adapter에 격리되어 있다.
 
 ### Platform implementation
 

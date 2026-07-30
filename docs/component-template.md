@@ -242,7 +242,8 @@ fun Beez{ComponentName}(
 - `CompositionLocal`은 테마처럼 트리 전체에 적용되는 관심사에 제한한다.
 - slot API는 유연성뿐 아니라 허용되는 콘텐츠 계약을 함께 정의한다.
 - 플랫폼 타입을 공통 공개 API에 노출하지 않는다.
-- Material 구현 타입을 BEEZ 공개 API 계약으로 노출하지 않는다.
+- 핵심 컴포넌트는 Material 구현과 타입에 의존하지 않는다.
+- Material 연동은 별도 adapter의 명시적인 API에서만 제공한다.
 - 접근성에 필요한 데이터는 호출자가 제공하거나 안전한 기본값을 갖는다.
 
 ## Usage
