@@ -33,7 +33,7 @@
 
 ## 4. Review compatibility
 
-- Check Kotlin, Compose Compiler, Compose Multiplatform, Gradle, AGP, platform, and binary/source API effects.
+- Check `docs/compatibility.md` and ADR-0005 for Kotlin, Compose Compiler, Compose Multiplatform, Gradle, AGP, platform, and binary/source API effects.
 - Test the minimum supported and representative current dependency combinations when practical.
 - Record intentional platform differences and unsupported combinations.
 - Treat token names and generated accessors as consumer-facing API when published.

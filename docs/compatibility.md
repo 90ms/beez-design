@@ -1,0 +1,119 @@
+# BEEZ Compatibility
+
+- 상태: Draft
+- 최종 수정일: 2026-07-30
+
+## 1. 목적
+
+이 문서는 BEEZ를 빌드하고 사용하는 데 필요한 toolchain, 플랫폼 및 검증 상태를 관리한다.
+
+ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검증한 버전과 알려진 제약을 계속 갱신한다.
+
+## 2. 현재 빌드 기준선
+
+| 항목 | 버전 | 상태 |
+| --- | --- | --- |
+| Kotlin | 2.4.10 | Selected |
+| Kotlin Multiplatform plugin | 2.4.10 | Selected |
+| Compose Compiler plugin | 2.4.10 | Selected |
+| Compose Multiplatform plugin | 1.11.1 | Selected |
+| Android Gradle Plugin | 9.1.0 | Selected |
+| Gradle wrapper | 9.3.1 | Selected |
+| Gradle runtime JDK | 17 이상 | Selected |
+
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. 실제 Gradle 골격과 CI가 통과하면 `Verified`로 변경한다.
+
+## 3. 최소 플랫폼
+
+| Target | 최소 환경 | 검증 상태 |
+| --- | --- | --- |
+| Android | API 24 | Not configured |
+| iOS arm64 | iOS 14 | Not configured |
+| iOS Simulator arm64 | iOS 14 | Not configured |
+| Desktop JVM | JDK 17 | Not configured |
+| Web Wasm | WasmGC 지원 브라우저 | Not configured |
+
+필요성이 확인되기 전까지 iOS x64 simulator와 추가 native architecture를 공개 지원 대상으로 약속하지 않는다. Target 추가는 사용 환경과 CI 실행 가능성을 함께 검토한다.
+
+## 4. Gradle plugin 정책
+
+### Kotlin 및 Compose
+
+```text
+Kotlin plugin            2.4.10
+Compose Compiler plugin  2.4.10
+Compose plugin           1.11.1
+```
+
+Compose Compiler plugin은 Kotlin과 같은 버전을 사용한다.
+
+### Android KMP
+
+공유 library module에는 다음 plugin을 사용한다.
+
+```text
+com.android.kotlin.multiplatform.library
+```
+
+KMP module에 legacy `com.android.library` plugin을 함께 적용하지 않는다.
+
+Android application entry point가 필요하면 공유 library와 분리된 application module로 구성한다.
+
+## 5. Source target 계획
+
+초기 library target은 다음과 같다.
+
+```text
+android
+iosArm64
+iosSimulatorArm64
+jvm("desktop")
+wasmJs
+```
+
+모든 target을 처음부터 release-ready로 간주하지 않는다. `docs/platform-policy.md`의 지원 등급과 component별 상태를 함께 표시한다.
+
+## 6. 검증 상태 용어
+
+| 상태 | 의미 |
+| --- | --- |
+| Not configured | Build 설정이 없음 |
+| Configured | Target과 task가 생성됨 |
+| Compiles | 대표 main/test compilation 성공 |
+| Verified | CI 및 정의된 target 검증 완료 |
+| Blocked | 알려진 외부 또는 내부 문제로 검증 불가 |
+
+## 7. 호환성 검증 절차
+
+Toolchain 또는 플랫폼 기준을 바꿀 때 다음을 확인한다.
+
+1. Kotlin, Compose, AGP 및 Gradle 공식 호환 범위를 확인한다.
+2. Version catalog와 wrapper를 한 변경으로 갱신한다.
+3. 모든 public library target을 compile한다.
+4. Common test와 가능한 platform test를 실행한다.
+5. Catalog target의 build 또는 run smoke test를 수행한다.
+6. 생성 metadata와 publication artifact를 확인한다.
+7. 이 문서의 상태와 알려진 문제를 갱신한다.
+
+## 8. 소비자 호환성
+
+BEEZ가 첫 Experimental artifact를 배포할 때 다음 소비자 조합을 추가한다.
+
+- BEEZ가 빌드된 기준 toolchain
+- 지원 범위 안의 대표 최신 toolchain
+- 최소 Android SDK consumer
+- Material 3가 없는 consumer
+- Material 3를 별도로 사용하는 consumer
+
+핵심 BEEZ artifact는 Material 3가 없는 consumer에서 동작해야 한다.
+
+## 9. 열린 항목
+
+- Android compile SDK
+- Desktop 운영체제별 최소 버전과 packaging JDK
+- iOS Xcode 최소 및 검증 버전
+- Web browser test matrix
+- CI host와 native target 실행 범위
+- Kotlin 및 Compose 하위 호환 범위
+- Binary compatibility validator 도구
+- Dependency verification 및 lock 정책

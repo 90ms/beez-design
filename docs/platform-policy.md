@@ -7,7 +7,7 @@
 
 이 문서는 BEEZ가 지원하는 플랫폼의 범위, 공통성 기준, 플랫폼별 구현 상태와 품질 기대치를 정의한다.
 
-최소 OS 및 toolchain 버전은 실제 프로젝트 구성과 호환성 검증 후 별도 compatibility table에서 관리한다.
+최소 OS 및 toolchain 버전은 `docs/compatibility.md`에서 관리한다.
 
 ## 2. 지원 모델
 
@@ -201,7 +201,7 @@ Android / iOS / Desktop / Web catalog
 
 ## 12. 호환성 정책
 
-다음 버전 정보는 구현을 시작한 후 `compatibility.md`에서 관리한다.
+다음 버전 정보는 `docs/compatibility.md`에서 관리한다.
 
 - Kotlin
 - Compose Compiler
