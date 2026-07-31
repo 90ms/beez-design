@@ -26,6 +26,8 @@ beez-components → beez-foundation → beez-tokens
 
 첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. GitHub Actions에서 library build와 공통 테스트가 통과했으며, API는 아직 Experimental입니다.
 
+두 번째 컴포넌트로 단일 행 Text Field 명세를 Proposed 상태로 추가했습니다. 구현 전에 value state, 오류/읽기 전용 상태, 접근성 semantics와 token 확장 계약을 검토합니다.
+
 Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
 ### 핵심 원칙
@@ -58,6 +60,7 @@ Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확�
 - [테마 가이드](docs/theme.md)
 - [토큰 원본](specification/tokens/)
 - [Action Button 명세](docs/components/action-button.md)
+- [Text Field 명세](docs/components/text-field.md)
 - [Showcase 가이드](docs/showcase.md)
 - [아키텍처 결정](docs/decisions/)
 - [에이전트 작업 규칙](AGENTS.md)
@@ -86,6 +89,8 @@ beez-components → beez-foundation → beez-tokens
 - `beez-components`: public BEEZ component APIs and implementations
 
 The first Action Button specification and provisional implementation are present. The library build and common tests pass on GitHub Actions, but the API remains Experimental.
+
+The second component, a single-line Text Field specification, is now Proposed. Its value state, error/read-only behavior, accessibility semantics, and required token extensions will be reviewed before implementation.
 
 Catalog, icons, adapters, and documentation tooling will be added when validated use cases require them.
 
@@ -119,6 +124,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Theme guide](docs/theme.md)
 - [Token sources](specification/tokens/)
 - [Action Button specification](docs/components/action-button.md)
+- [Text Field specification](docs/components/text-field.md)
 - [Showcase guide](docs/showcase.md)
 - [Architecture decisions](docs/decisions/)
 - [Agent workflow rules](AGENTS.md)
