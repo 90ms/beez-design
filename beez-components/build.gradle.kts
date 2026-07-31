@@ -46,7 +46,7 @@ kotlin {
             implementation("org.jetbrains.compose.ui:ui-test:1.11.1")
         }
 
-        desktopTest.dependencies {
+        getByName("desktopTest").dependencies {
             implementation(compose.desktop.currentOs)
         }
     }
