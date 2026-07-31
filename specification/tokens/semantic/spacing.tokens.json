@@ -2,6 +2,9 @@
   "$description": "BEEZ semantic spacing contract.",
   "spacing": {
     "semantic": {
+      "interaction": {
+        "minimumTouchTarget": { "$type": "dimension", "$value": { "value": 48, "unit": "dp" } }
+      },
       "screen": {
         "gutter": { "$type": "dimension", "$value": "{dimension.scale.x6}" },
         "sectionGap": { "$type": "dimension", "$value": "{dimension.scale.x8}" }
@@ -11,7 +14,16 @@
         "stackGap": { "$type": "dimension", "$value": "{dimension.scale.x4}" }
       },
       "control": {
-        "contentGap": { "$type": "dimension", "$value": "{dimension.scale.x2}" }
+        "contentGap": { "$type": "dimension", "$value": "{dimension.scale.x2}" },
+        "compactHeight": { "$type": "dimension", "$value": { "value": 40, "unit": "dp" } },
+        "defaultHeight": { "$type": "dimension", "$value": { "value": 48, "unit": "dp" } },
+        "comfortableHeight": { "$type": "dimension", "$value": { "value": 56, "unit": "dp" } },
+        "compactHorizontalInset": { "$type": "dimension", "$value": { "value": 12, "unit": "dp" } },
+        "defaultHorizontalInset": { "$type": "dimension", "$value": { "value": 16, "unit": "dp" } },
+        "comfortableHorizontalInset": { "$type": "dimension", "$value": { "value": 20, "unit": "dp" } },
+        "compactVerticalInset": { "$type": "dimension", "$value": { "value": 8, "unit": "dp" } },
+        "defaultVerticalInset": { "$type": "dimension", "$value": { "value": 12, "unit": "dp" } },
+        "comfortableVerticalInset": { "$type": "dimension", "$value": { "value": 16, "unit": "dp" } }
       }
     }
   }

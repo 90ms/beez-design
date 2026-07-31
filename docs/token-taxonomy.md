@@ -206,6 +206,19 @@ spacing.semantic.control.contentGap
 
 모든 padding과 gap을 semantic token으로 만들지는 않는다. 컴포넌트 내부의 고정 간격은 컴포넌트 명세가 dimension scale 또는 적절한 spacing token을 참조할 수 있다.
 
+Control size와 접근성에 필요한 semantic spacing은 control과 interaction group으로 관리한다.
+
+```text
+spacing.semantic.control.contentGap
+spacing.semantic.control.compactHeight
+spacing.semantic.control.defaultHeight
+spacing.semantic.control.comfortableHeight
+spacing.semantic.control.compactHorizontalInset
+spacing.semantic.control.defaultHorizontalInset
+spacing.semantic.control.comfortableHorizontalInset
+spacing.semantic.interaction.minimumTouchTarget
+```
+
 ### 5.4 Typography
 
 Typography는 원자적인 scale token과 역할 기반의 composite semantic token으로 구성한다.

@@ -24,6 +24,8 @@ beez-components → beez-foundation → beez-tokens
 - `beez-foundation`: 테마, CompositionLocal, 공통 UI 기반
 - `beez-components`: 공개 BEEZ 컴포넌트 API와 구현
 
+첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. 아직 compile 및 target 검증 전입니다.
+
 Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
 ### 핵심 원칙
@@ -55,6 +57,7 @@ Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확�
 - [배포 가이드](docs/publishing.md)
 - [테마 가이드](docs/theme.md)
 - [토큰 원본](specification/tokens/)
+- [Action Button 명세](docs/components/action-button.md)
 - [아키텍처 결정](docs/decisions/)
 - [에이전트 작업 규칙](AGENTS.md)
 - [BEEZ Design System Skill](skills/beez-design-system/)
@@ -80,6 +83,8 @@ beez-components → beez-foundation → beez-tokens
 - `beez-tokens`: token values, schemes, and generated token APIs
 - `beez-foundation`: theme, CompositionLocal, and shared UI foundations
 - `beez-components`: public BEEZ component APIs and implementations
+
+The first Action Button specification and provisional implementation are present, but compile and target verification are still pending.
 
 Catalog, icons, adapters, and documentation tooling will be added when validated use cases require them.
 
@@ -112,6 +117,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Publishing guide](docs/publishing.md)
 - [Theme guide](docs/theme.md)
 - [Token sources](specification/tokens/)
+- [Action Button specification](docs/components/action-button.md)
 - [Architecture decisions](docs/decisions/)
 - [Agent workflow rules](AGENTS.md)
 - [BEEZ Design System Skill](skills/beez-design-system/)
