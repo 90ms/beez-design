@@ -1,7 +1,9 @@
 # ADR-0010: BEEZ showcase strategy
 
-- 상태: Accepted
+- 상태: Superseded by ADR-0011
 - 결정일: 2026-07-31
+
+> 이 결정은 초기 정적 Showcase prototype을 위한 단계적 전략이었다. 최종 Showcase를 Compose Multiplatform Catalog로 직접 마이그레이션하는 현재 결정은 [ADR-0011](0011-compose-catalog-migration.md)을 따른다.
 
 ## 문맥
 

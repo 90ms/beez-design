@@ -10,7 +10,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 ### 현재 상태
 
-현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
+현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 이를 Compose Multiplatform Web/Wasm Catalog로 마이그레이션하고 있습니다. 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
 Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증합니다. 첫 library validation workflow가 성공했으며, iOS Simulator 테스트는 Linux runner 제약으로 건너뜁니다.
 
@@ -28,7 +28,7 @@ beez-components → beez-foundation → beez-tokens
 
 두 번째 컴포넌트로 단일 행 Text Field 명세와 provisional implementation을 Experimental 상태로 추가했습니다. value state, 오류/읽기 전용 상태와 접근성 semantics를 정의했으며 오류 전용 semantic color token도 추가했습니다. GitHub Actions에서 Android/Desktop/Wasm compile, 공통 테스트와 Compose UI semantics 테스트가 통과했습니다.
 
-Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
+Catalog는 실제 `beez-components`를 사용하는 Compose Multiplatform 애플리케이션으로 마이그레이션 중입니다. icons, adapters와 documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
 ### 핵심 원칙
 
@@ -74,7 +74,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 ### Status
 
-BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, but no stable component artifact has been released yet.
+BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, and the prototype is being migrated to a Compose Multiplatform Web/Wasm Catalog. No stable component artifact has been released yet.
 
 The Gradle project skeleton is present, and compile/test validation runs on GitHub Actions instead of the Synology host. The first library validation workflow passed; iOS Simulator tests are skipped because the runner is Linux.
 
@@ -92,7 +92,7 @@ The first Action Button specification and provisional implementation are present
 
 The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Its value state, error/read-only behavior, and accessibility semantics are defined, with dedicated critical semantic color roles added. Android/Desktop/Wasm compilation, common tests, and Compose UI semantics tests pass in GitHub Actions.
 
-Catalog, icons, adapters, and documentation tooling will be added when validated use cases require them.
+The Catalog is being migrated to a Compose Multiplatform application that consumes the actual `beez-components` APIs. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 
 ### Principles
 

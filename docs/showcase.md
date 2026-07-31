@@ -1,19 +1,19 @@
 # BEEZ Showcase Guide
 
-- 상태: Draft
+- 상태: Migration in progress
 - 기준일: 2026-07-31
 
-BEEZ Showcase는 token, theme, component를 시각적으로 검토하는 페이지다. 현재는 Gradle과 독립적인 정적 prototype이며, 이후 실제 Compose Web Catalog로 확장할 수 있다.
+BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 검토하는 Compose Multiplatform Catalog다. 기존 HTML/CSS/JavaScript prototype을 `beez-catalog` Web/Wasm 애플리케이션으로 직접 마이그레이션한다. 마이그레이션 중에는 기존 정적 파일을 참고용으로 유지한다.
 
-## 실행
+## 현재 실행
 
-repository root에서 정적 서버를 실행한다.
+현재 배포된 prototype을 확인하려면 repository root에서 정적 서버를 실행한다.
 
 ```text
 python3 -m http.server 8080
 ```
 
-브라우저에서 http://localhost:8080/showcase/ 를 연다. file:// 로 직접 열면 JSON fetch가 차단될 수 있으므로 정적 서버를 사용한다.
+브라우저에서 http://localhost:8080/showcase/ 를 연다. Compose Catalog 모듈이 추가되면 Wasm distribution 실행 방법을 이 문서에 추가한다.
 
 ## 페이지 구성
 
@@ -43,9 +43,9 @@ python3 -m http.server 8080
 
 Showcase JavaScript는 원본을 복제하지 않고 token loader와 rendering adapter만 제공한다. 시각적 차이가 발견되면 showcase를 임의로 고치는 대신 token 또는 component 명세를 먼저 검토한다.
 
-## Prototype와 최종 Catalog
+## Compose Catalog 마이그레이션
 
-현재 정적 prototype은 다음을 빠르게 조정하기 위한 consumer다.
+Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한다.
 
 - 브랜드 accent와 semantic foreground/background 조합
 - Light/Dark theme 대비
@@ -56,7 +56,7 @@ Showcase JavaScript는 원본을 복제하지 않고 token loader와 rendering a
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - 긴 label, narrow viewport와 responsive layout
 
-prototype은 실제 Compose semantics나 platform accessibility bridge를 검증하지 않는다. Web/Wasm build 환경이 안정되고 scenario model이 검증되면 동일한 시나리오를 Compose Web Catalog로 옮긴다.
+기존 prototype은 마이그레이션 기간의 시각 비교와 복구 지점으로만 사용한다. 최종 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다.
 
 Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 locale과 관계없이 영어로 고정한다. 나머지 설명과 control label은 브라우저 locale 또는 상단 언어 선택을 따른다.
 
@@ -64,10 +64,10 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 - 로컬 정적 서버: 현재 사용 가능
 - GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
-- Compose Web Catalog: Planned
+- Compose Web Catalog: Migration in progress
 - Stable 문서 사이트: 미정
 
-GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. 활성화 후 기본 URL은 repository Pages 주소이며, root는 showcase/로 redirect한다.
+GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. 마이그레이션 완료 후 Pages artifact는 Compose Web/Wasm distribution을 포함한다.
 
 ## 기여 규칙
 
