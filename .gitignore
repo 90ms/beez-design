@@ -1,0 +1,17 @@
+.gradle/
+.idea/
+.kotlin/
+**/build/
+local.properties
+*.iml
+out/
+
+# Kotlin/JS and Wasm
+kotlin-js-store/
+
+# macOS
+.DS_Store
+
+# Signing and local publication
+*.gpg
+*.keystore

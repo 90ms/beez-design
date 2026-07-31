@@ -20,6 +20,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Android Gradle Plugin | 9.1.0 | Selected |
 | Gradle wrapper | 9.3.1 | Selected |
 | Gradle runtime JDK | 17 이상 | Selected |
+| Android compile SDK | API 37 | Selected |
 
 `Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. 실제 Gradle 골격과 CI가 통과하면 `Verified`로 변경한다.
 
@@ -109,7 +110,6 @@ BEEZ가 첫 Experimental artifact를 배포할 때 다음 소비자 조합을 �
 
 ## 9. 열린 항목
 
-- Android compile SDK
 - Desktop 운영체제별 최소 버전과 packaging JDK
 - iOS Xcode 최소 및 검증 버전
 - Web browser test matrix
