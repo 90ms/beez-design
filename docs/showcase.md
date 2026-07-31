@@ -23,6 +23,15 @@ python3 -m http.server 8080
 - Components: Action Button variant, size, state matrix
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
+## 언어와 locale
+
+페이지는 별도 runtime dependency 없이 한국어와 영어를 제공한다.
+
+- 첫 방문 시 브라우저의 `navigator.languages`를 확인하며, `ko`로 시작하면 한국어를 기본값으로 선택한다.
+- 한국어가 아니면 영어를 기본값으로 사용한다.
+- 상단의 언어 전환 버튼으로 즉시 변경할 수 있으며, 선택한 언어는 같은 브라우저의 다음 방문에도 유지한다.
+- 번역되지 않은 token key와 API 예시는 원본 식별자를 보존해 문서와 구현을 대조할 수 있도록 한다.
+
 ## Source of truth
 
 | 표시 영역 | 원본 |
