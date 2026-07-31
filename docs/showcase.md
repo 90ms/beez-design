@@ -1,19 +1,17 @@
 # BEEZ Showcase Guide
 
-- 상태: Migration in progress
+- 상태: Active
 - 기준일: 2026-07-31
 
-BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 검토하는 Compose Multiplatform Catalog다. 기존 HTML/CSS/JavaScript prototype을 `beez-catalog` Web/Wasm 애플리케이션으로 직접 마이그레이션한다. 마이그레이션 중에는 기존 정적 파일을 참고용으로 유지한다.
+BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 검토하는 Compose Multiplatform Catalog다. `beez-catalog` Web/Wasm 애플리케이션이 GitHub Pages의 기본 Showcase를 제공하며, 기존 HTML/CSS/JavaScript prototype은 배포 전환 후 제거되었다.
 
-## 현재 실행
+## 실행
 
-마이그레이션 중인 정적 prototype을 확인하려면 repository root에서 정적 서버를 실행한다.
+배포된 Catalog를 연다.
 
-```text
-python3 -m http.server 8080
-```
+[90ms.github.io/beez-design](https://90ms.github.io/beez-design/)
 
-브라우저에서 http://localhost:8080/showcase/ 를 연다. 로컬 Synology에서는 Gradle을 실행하지 않으며, 최종 Compose Catalog는 GitHub Actions가 Wasm distribution을 빌드해 GitHub Pages에 배포한다.
+로컬 Synology에서는 Gradle을 실행하지 않는다. GitHub Actions가 Wasm distribution을 빌드하고 GitHub Pages에 배포한다.
 
 ## 페이지 구성
 
@@ -39,11 +37,11 @@ python3 -m http.server 8080
 | Token 값과 alias | specification/tokens |
 | Theme 역할과 확장 규칙 | docs/token-taxonomy.md, docs/theme.md |
 | Component API와 동작 | docs/components |
-| 현재 구현 | beez-tokens, beez-foundation, beez-components |
+| 현재 구현 | beez-tokens, beez-foundation, beez-components, beez-catalog |
 
-Showcase JavaScript는 원본을 복제하지 않고 token loader와 rendering adapter만 제공한다. 시각적 차이가 발견되면 showcase를 임의로 고치는 대신 token 또는 component 명세를 먼저 검토한다.
+Catalog 화면은 원본 명세를 복제하지 않고 Kotlin token scheme과 `beez-components` API를 직접 사용한다. 시각적 차이가 발견되면 Catalog를 임의로 고치는 대신 token 또는 component 명세를 먼저 검토한다.
 
-## Compose Catalog 마이그레이션
+## Compose Catalog
 
 Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한다.
 
@@ -56,16 +54,15 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - 긴 label, narrow viewport와 responsive layout
 
-기존 prototype은 마이그레이션 기간의 시각 비교와 복구 지점으로만 사용한다. 최종 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다.
+Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다. 공통 UI 테스트는 GitHub Actions의 Wasm browser test로 실행한다.
 
 Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 locale과 관계없이 영어로 고정한다. 나머지 설명과 control label은 브라우저 locale 또는 상단 언어 선택을 따른다.
 
 ## 배포 상태
 
-- 로컬 정적 서버: legacy prototype 확인용
 - `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
-- Compose Web Catalog: Migration in progress (initial vertical slice)
+- Compose Web Catalog: Active (initial vertical slice)
 - Stable 문서 사이트: 미정
 
 GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. Pages artifact는 `beez-catalog` Compose Web/Wasm distribution을 포함한다.
@@ -76,5 +73,5 @@ GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로
 
 - 새 component를 추가할 때 명세, showcase scenario와 문서 링크를 함께 추가한다.
 - token 값을 HTML, CSS, JavaScript에 직접 복사하지 않는다.
-- Prototype에서만 가능한 시각 표현은 화면에 prototype 상태를 표시한다.
+- Catalog에서만 가능한 시각 표현은 실제 component API와 semantics를 기준으로 유지한다.
 - component API나 token 역할을 바꾸면 관련 ADR과 showcase를 같은 변경 단위로 갱신한다.

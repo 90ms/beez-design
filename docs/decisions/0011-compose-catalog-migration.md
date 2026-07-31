@@ -56,3 +56,7 @@ Catalog의 component 예제는 HTML preview를 복제하지 않고 `beez-compone
 ## ADR-0010과의 관계
 
 ADR-0010의 정적 Showcase 우선 결정은 초기 visual feedback을 위한 단계적 선택이었다. 현재 사용자 결정에 따라 최종 Showcase 기술을 Compose Catalog로 확정하며, ADR-0010은 이 ADR로 대체한다.
+
+## 현재 결과
+
+Compose Catalog의 Wasm distribution과 GitHub Pages 배포가 GitHub Actions에서 성공한 뒤 기존 `showcase/` HTML, CSS와 JavaScript 파일을 제거했다. 현재 Pages의 기본 Showcase는 `beez-catalog` artifact를 사용한다.
