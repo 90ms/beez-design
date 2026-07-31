@@ -7,7 +7,9 @@ pluginManagement {
 }
 
 dependencyResolutionManagement {
-    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    // Kotlin/Wasm adds its Node.js distribution repository during configuration.
+    // Keep settings repositories preferred while allowing that toolchain repository.
+    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
     repositories {
         google()
         mavenCentral()
