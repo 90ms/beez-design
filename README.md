@@ -10,7 +10,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 ### 현재 상태
 
-현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source와 Kotlin scheme API를 추가했으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
+현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
 Gradle 프로젝트 골격은 생성되어 있지만, 이 저장소의 초기 scaffold는 아직 컴파일 검증 전 상태입니다.
 
@@ -58,6 +58,7 @@ Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확�
 - [테마 가이드](docs/theme.md)
 - [토큰 원본](specification/tokens/)
 - [Action Button 명세](docs/components/action-button.md)
+- [Showcase 가이드](docs/showcase.md)
 - [아키텍처 결정](docs/decisions/)
 - [에이전트 작업 규칙](AGENTS.md)
 - [BEEZ Design System Skill](skills/beez-design-system/)
@@ -70,7 +71,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 ### Status
 
-BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source and Kotlin scheme API are present, but no stable component artifact has been released yet.
+BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, but no stable component artifact has been released yet.
 
 The Gradle project skeleton is present, but this initial scaffold has not been compile-verified yet.
 
@@ -118,6 +119,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Theme guide](docs/theme.md)
 - [Token sources](specification/tokens/)
 - [Action Button specification](docs/components/action-button.md)
+- [Showcase guide](docs/showcase.md)
 - [Architecture decisions](docs/decisions/)
 - [Agent workflow rules](AGENTS.md)
 - [BEEZ Design System Skill](skills/beez-design-system/)
