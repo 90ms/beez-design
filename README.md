@@ -17,12 +17,15 @@ Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 
 ### 모듈
 
 ```text
+beez-catalog (Compose Web/Wasm application)
+        ↓
 beez-components → beez-foundation → beez-tokens
 ```
 
 - `beez-tokens`: 토큰 값, scheme, 생성 토큰 API
 - `beez-foundation`: 테마, CompositionLocal, 공통 UI 기반
 - `beez-components`: 공개 BEEZ 컴포넌트 API와 구현
+- `beez-catalog`: 실제 BEEZ 컴포넌트를 사용하는 Compose Web/Wasm 쇼케이스 애플리케이션
 
 첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. GitHub Actions에서 library build와 공통 테스트가 통과했으며, API는 아직 Experimental입니다.
 
@@ -81,12 +84,15 @@ The Gradle project skeleton is present, and compile/test validation runs on GitH
 ### Modules
 
 ```text
+beez-catalog (Compose Web/Wasm application)
+        ↓
 beez-components → beez-foundation → beez-tokens
 ```
 
 - `beez-tokens`: token values, schemes, and generated token APIs
 - `beez-foundation`: theme, CompositionLocal, and shared UI foundations
 - `beez-components`: public BEEZ component APIs and implementations
+- `beez-catalog`: Compose Web/Wasm Showcase application consuming the actual BEEZ components
 
 The first Action Button specification and provisional implementation are present. The library build and common tests pass on GitHub Actions, but the API remains Experimental.
 

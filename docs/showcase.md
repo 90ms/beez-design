@@ -13,7 +13,7 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 python3 -m http.server 8080
 ```
 
-브라우저에서 http://localhost:8080/showcase/ 를 연다. Compose Catalog 모듈이 추가되면 Wasm distribution 실행 방법을 이 문서에 추가한다.
+브라우저에서 http://localhost:8080/showcase/ 를 연다. `beez-catalog`의 Wasm distribution 실행 방법은 GitHub Actions 배포 전환 단계에서 추가한다.
 
 ## 페이지 구성
 
@@ -63,6 +63,7 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 ## 배포 상태
 
 - 로컬 정적 서버: 현재 사용 가능
+- `beez-catalog` Compose Web/Wasm 모듈: 초기 vertical slice 구현 중
 - GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
 - Compose Web Catalog: Migration in progress
 - Stable 문서 사이트: 미정

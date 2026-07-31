@@ -22,4 +22,5 @@ include(
     ":beez-tokens",
     ":beez-foundation",
     ":beez-components",
+    ":beez-catalog",
 )
