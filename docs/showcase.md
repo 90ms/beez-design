@@ -7,13 +7,13 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 
 ## 현재 실행
 
-현재 배포된 prototype을 확인하려면 repository root에서 정적 서버를 실행한다.
+마이그레이션 중인 정적 prototype을 확인하려면 repository root에서 정적 서버를 실행한다.
 
 ```text
 python3 -m http.server 8080
 ```
 
-브라우저에서 http://localhost:8080/showcase/ 를 연다. `beez-catalog`의 Wasm distribution 실행 방법은 GitHub Actions 배포 전환 단계에서 추가한다.
+브라우저에서 http://localhost:8080/showcase/ 를 연다. 로컬 Synology에서는 Gradle을 실행하지 않으며, 최종 Compose Catalog는 GitHub Actions가 Wasm distribution을 빌드해 GitHub Pages에 배포한다.
 
 ## 페이지 구성
 
@@ -62,13 +62,13 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 ## 배포 상태
 
-- 로컬 정적 서버: 현재 사용 가능
+- 로컬 정적 서버: legacy prototype 확인용
 - `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
-- GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
+- GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
 - Compose Web Catalog: Migration in progress (initial vertical slice)
 - Stable 문서 사이트: 미정
 
-GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. 마이그레이션 완료 후 Pages artifact는 Compose Web/Wasm distribution을 포함한다.
+GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. Pages artifact는 `beez-catalog` Compose Web/Wasm distribution을 포함한다.
 
 ## 기여 규칙
 

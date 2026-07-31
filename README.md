@@ -10,7 +10,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 ### 현재 상태
 
-현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 이를 Compose Multiplatform Web/Wasm Catalog로 마이그레이션하고 있습니다. 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
+현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 Compose Multiplatform Web/Wasm Catalog 초기 화면을 추가했습니다. 기존 정적 Showcase 파일은 마이그레이션 참고용으로 남아 있으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
 Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증합니다. 첫 library validation workflow가 성공했으며, iOS Simulator 테스트는 Linux runner 제약으로 건너뜁니다.
 
@@ -77,7 +77,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 ### Status
 
-BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, and the prototype is being migrated to a Compose Multiplatform Web/Wasm Catalog. No stable component artifact has been released yet.
+BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and an initial Compose Multiplatform Web/Wasm Catalog are present. The legacy static Showcase files remain as migration reference, and no stable component artifact has been released yet.
 
 The Gradle project skeleton is present, and compile/test validation runs on GitHub Actions instead of the Synology host. The first library validation workflow passed; iOS Simulator tests are skipped because the runner is Linux.
 

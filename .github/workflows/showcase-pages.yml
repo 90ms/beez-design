@@ -25,19 +25,29 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Set up Gradle 9.3.1
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: "9.3.1"
+          cache-provider: basic
+
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
-      - name: Assemble Showcase artifact
+      - name: Build Compose Web/Wasm Catalog
+        run: gradle --no-daemon :beez-catalog:wasmJsBrowserDistribution
+
+      - name: Assemble Catalog artifact
         run: |
           rm -rf dist
-          mkdir -p dist/showcase dist/specification
-          cp -R showcase/. dist/showcase/
-          cp -R specification/tokens dist/specification/
-          printf '%s\n' \
-            '<!doctype html>' \
-            '<html lang="en"><head><meta charset="utf-8"><meta http-equiv="refresh" content="0; url=showcase/"><title>BEEZ Showcase</title></head><body><a href="showcase/">Open BEEZ Showcase</a></body></html>' \
-            > dist/index.html
+          mkdir -p dist
+          cp -R beez-catalog/build/dist/wasmJs/productionExecutable/. dist/
           touch dist/.nojekyll
 
       - name: Upload GitHub Pages artifact
