@@ -49,9 +49,11 @@ prototype은 실제 Compose semantics나 platform accessibility bridge를 검증
 ## 배포 상태
 
 - 로컬 정적 서버: 현재 사용 가능
-- GitHub Pages: 다음 단계에서 workflow 추가
+- GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
 - Compose Web Catalog: Planned
 - Stable 문서 사이트: 미정
+
+GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. 활성화 후 기본 URL은 repository Pages 주소이며, root는 showcase/로 redirect한다.
 
 ## 기여 규칙
 
