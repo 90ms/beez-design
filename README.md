@@ -12,7 +12,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
-Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증하도록 구성했습니다. 첫 workflow 성공 전까지 초기 scaffold는 검증 전 상태로 표시합니다.
+Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증합니다. 첫 library validation workflow가 성공했으며, iOS Simulator 테스트는 Linux runner 제약으로 건너뜁니다.
 
 ### 모듈
 
@@ -24,7 +24,7 @@ beez-components → beez-foundation → beez-tokens
 - `beez-foundation`: 테마, CompositionLocal, 공통 UI 기반
 - `beez-components`: 공개 BEEZ 컴포넌트 API와 구현
 
-첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. 아직 compile 및 target 검증 전입니다.
+첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. GitHub Actions에서 library build와 공통 테스트가 통과했으며, API는 아직 Experimental입니다.
 
 Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
@@ -73,7 +73,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, but no stable component artifact has been released yet.
 
-The Gradle project skeleton is present, and compile/test validation is configured to run on GitHub Actions instead of the Synology host. The initial scaffold remains unverified until the first successful workflow run.
+The Gradle project skeleton is present, and compile/test validation runs on GitHub Actions instead of the Synology host. The first library validation workflow passed; iOS Simulator tests are skipped because the runner is Linux.
 
 ### Modules
 
@@ -85,7 +85,7 @@ beez-components → beez-foundation → beez-tokens
 - `beez-foundation`: theme, CompositionLocal, and shared UI foundations
 - `beez-components`: public BEEZ component APIs and implementations
 
-The first Action Button specification and provisional implementation are present, but compile and target verification are still pending.
+The first Action Button specification and provisional implementation are present. The library build and common tests pass on GitHub Actions, but the API remains Experimental.
 
 Catalog, icons, adapters, and documentation tooling will be added when validated use cases require them.
 

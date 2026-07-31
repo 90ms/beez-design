@@ -13,17 +13,17 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 
 | 항목 | 버전 | 상태 |
 | --- | --- | --- |
-| Kotlin | 2.4.10 | Selected |
-| Kotlin Multiplatform plugin | 2.4.10 | Selected |
-| Compose Compiler plugin | 2.4.10 | Selected |
-| Compose Multiplatform plugin | 1.11.1 | Selected |
-| Android Gradle Plugin | 9.1.0 | Selected |
-| Gradle distribution | 9.3.1 | Configured in GitHub Actions |
+| Kotlin | 2.4.10 | Verified in GitHub Actions |
+| Kotlin Multiplatform plugin | 2.4.10 | Verified in GitHub Actions |
+| Compose Compiler plugin | 2.4.10 | Verified in GitHub Actions |
+| Compose Multiplatform plugin | 1.11.1 | Verified in GitHub Actions |
+| Android Gradle Plugin | 9.1.0 | Verified in GitHub Actions |
+| Gradle distribution | 9.3.1 | Verified in GitHub Actions |
 | Gradle wrapper | Not committed | Deferred |
-| Gradle runtime JDK | 17 이상 | Selected |
-| Android compile SDK | API 37 | Selected |
+| Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
+| Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 첫 성공 실행 전까지 target 상태는 검증 전으로 유지한다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 검증 결과는 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)을 기준으로 기록한다.
 
 ## 2.1 GitHub Actions 검증
 
@@ -34,17 +34,24 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - 검증 범위: token JSON alias, 모든 library target의 `build` task
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 
-현재 Synology 로컬 환경에서는 Gradle을 실행하지 않는다. 로컬 성능 이슈를 피하고, CI runner의 결과를 compile/test 검증의 기준으로 사용한다. Workflow가 성공하기 전에는 호환성 상태를 `Verified`로 표시하지 않는다.
+현재 Synology 로컬 환경에서는 Gradle을 실행하지 않는다. 로컬 성능 이슈를 피하고, CI runner의 결과를 compile/test 검증의 기준으로 사용한다.
+
+첫 성공 실행에서 확인된 알려진 warning:
+
+- `wasmJs` target 선언은 `ExperimentalWasmDsl` opt-in이 필요하다.
+- Compose dependency shorthand 일부가 deprecated 상태다.
+- AGP 9.1.0은 compile SDK 37에 대해 공식 테스트 범위가 36.1까지라는 warning을 출력한다.
+- iOS Simulator test는 Linux runner에서 실행할 수 없어 skip된다.
 
 ## 3. 최소 플랫폼
 
 | Target | 최소 환경 | 검증 상태 |
 | --- | --- | --- |
-| Android | API 24 | Not configured |
-| iOS arm64 | iOS 14 | Not configured |
-| iOS Simulator arm64 | iOS 14 | Not configured |
-| Desktop JVM | JDK 17 | Not configured |
-| Web Wasm | WasmGC 지원 브라우저 | Not configured |
+| Android | API 24 | Verified in CI build |
+| iOS arm64 | iOS 14 | Compiles in CI; device test pending |
+| iOS Simulator arm64 | iOS 14 | Blocked on Linux; test skipped |
+| Desktop JVM | JDK 17 | Verified in CI build |
+| Web Wasm | WasmGC 지원 브라우저 | Compiles and test task passes in CI |
 
 필요성이 확인되기 전까지 iOS x64 simulator와 추가 native architecture를 공개 지원 대상으로 약속하지 않는다. Target 추가는 사용 환경과 CI 실행 가능성을 함께 검토한다.
 
