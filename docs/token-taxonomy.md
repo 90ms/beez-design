@@ -377,6 +377,8 @@ BeezDarkTheme
 
 ### 브랜드 테마
 
+Compose 구현에서는 beez-tokens의 BeezTokenScheme과 beez-foundation의 BeezTheme provider가 이 계약을 제공한다. 컴포넌트는 BeezTheme에서 semantic scheme을 읽고 appearance나 브랜드 이름을 직접 분기하지 않는다.
+
 브랜드는 BEEZ semantic token 계약을 구현하는 scheme을 제공한다.
 
 ```text
