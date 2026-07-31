@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.semantics.ProgressBarRangeInfo
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.disabled
 import androidx.compose.ui.semantics.progressBarRangeInfo
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
@@ -103,6 +104,9 @@ public fun BeezActionButton(
             .onFocusChanged { focused = it.isFocused }
             .semantics(mergeDescendants = true) {
                 role = Role.Button
+                if (!enabled) {
+                    disabled()
+                }
                 if (loading) {
                     progressBarRangeInfo = ProgressBarRangeInfo.Indeterminate
                 }

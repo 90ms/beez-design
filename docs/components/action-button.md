@@ -215,6 +215,7 @@ BeezTheme {
 - [x] 기본 rendering API와 callback parameter가 compile-verified 상태다
 - [ ] variant와 size matrix
 - [x] disabled/loading state의 중복 입력 차단 로직
+- [x] enabled=false의 disabled semantics와 loading progress semantics 계약을 commonMain 구현에 반영
 - [ ] Light/Dark와 test brand theme
 - [ ] LTR/RTL, 긴 label과 font scale
 - [ ] button semantics와 focus action
@@ -254,3 +255,4 @@ GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와
 | --- | --- | --- |
 | 2026-07-31 | 최초 제안 | 첫 공통 component vertical slice |
 | 2026-07-31 | CI compile/test와 loading interaction 로직 검증 | 공통 library build baseline 확보 |
+| 2026-07-31 | disabled semantics를 명시하고 loading progress semantics 계약을 기록 | 보조기술에 상태를 일관되게 전달 |
