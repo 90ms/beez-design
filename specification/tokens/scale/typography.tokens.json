@@ -1,0 +1,39 @@
+{
+  "$description": "BEEZ provisional typography scales.",
+  "fontFamily": {
+    "scale": {
+      "sans": {
+        "$type": "fontFamily",
+        "$value": ["sans-serif"]
+      }
+    }
+  },
+  "fontSize": {
+    "scale": {
+      "step100": { "$type": "dimension", "$value": { "value": 12, "unit": "sp" } },
+      "step200": { "$type": "dimension", "$value": { "value": 14, "unit": "sp" } },
+      "step300": { "$type": "dimension", "$value": { "value": 16, "unit": "sp" } },
+      "step400": { "$type": "dimension", "$value": { "value": 20, "unit": "sp" } },
+      "step500": { "$type": "dimension", "$value": { "value": 28, "unit": "sp" } },
+      "step600": { "$type": "dimension", "$value": { "value": 36, "unit": "sp" } }
+    }
+  },
+  "lineHeight": {
+    "scale": {
+      "step100": { "$type": "dimension", "$value": { "value": 16, "unit": "sp" } },
+      "step200": { "$type": "dimension", "$value": { "value": 20, "unit": "sp" } },
+      "step300": { "$type": "dimension", "$value": { "value": 24, "unit": "sp" } },
+      "step400": { "$type": "dimension", "$value": { "value": 28, "unit": "sp" } },
+      "step500": { "$type": "dimension", "$value": { "value": 36, "unit": "sp" } },
+      "step600": { "$type": "dimension", "$value": { "value": 44, "unit": "sp" } }
+    }
+  },
+  "fontWeight": {
+    "scale": {
+      "regular": { "$type": "fontWeight", "$value": 400 },
+      "medium": { "$type": "fontWeight", "$value": 500 },
+      "semiBold": { "$type": "fontWeight", "$value": 600 },
+      "bold": { "$type": "fontWeight", "$value": 700 }
+    }
+  }
+}

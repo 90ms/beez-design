@@ -1,0 +1,16 @@
+{
+  "$description": "BEEZ default theme contract.",
+  "theme": {
+    "beez": {
+      "appearances": ["light", "dark"],
+      "semanticContracts": [
+        "color",
+        "typography",
+        "spacing",
+        "shape",
+        "elevation",
+        "motion"
+      ]
+    }
+  }
+}

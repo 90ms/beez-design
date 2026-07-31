@@ -1,0 +1,11 @@
+{
+  "$description": "BEEZ elevation scale in dp.",
+  "elevation": {
+    "scale": {
+      "level0": { "$type": "dimension", "$value": { "value": 0, "unit": "dp" } },
+      "level1": { "$type": "dimension", "$value": { "value": 1, "unit": "dp" } },
+      "level2": { "$type": "dimension", "$value": { "value": 3, "unit": "dp" } },
+      "level3": { "$type": "dimension", "$value": { "value": 8, "unit": "dp" } }
+    }
+  }
+}

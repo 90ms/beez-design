@@ -1,0 +1,14 @@
+{
+  "$description": "BEEZ dimension scale in dp.",
+  "dimension": {
+    "scale": {
+      "x0": { "$type": "dimension", "$value": { "value": 0, "unit": "dp" } },
+      "x1": { "$type": "dimension", "$value": { "value": 4, "unit": "dp" } },
+      "x2": { "$type": "dimension", "$value": { "value": 8, "unit": "dp" } },
+      "x3": { "$type": "dimension", "$value": { "value": 12, "unit": "dp" } },
+      "x4": { "$type": "dimension", "$value": { "value": 16, "unit": "dp" } },
+      "x6": { "$type": "dimension", "$value": { "value": 24, "unit": "dp" } },
+      "x8": { "$type": "dimension", "$value": { "value": 32, "unit": "dp" } }
+    }
+  }
+}

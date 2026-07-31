@@ -1,0 +1,13 @@
+{
+  "$description": "BEEZ semantic typography contract.",
+  "typography": {
+    "semantic": {
+      "display": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step600}", "lineHeight": "{lineHeight.scale.step600}", "fontWeight": "{fontWeight.scale.bold}" } },
+      "screenTitle": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step500}", "lineHeight": "{lineHeight.scale.step500}", "fontWeight": "{fontWeight.scale.bold}" } },
+      "sectionTitle": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step400}", "lineHeight": "{lineHeight.scale.step400}", "fontWeight": "{fontWeight.scale.semiBold}" } },
+      "body": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step300}", "lineHeight": "{lineHeight.scale.step300}", "fontWeight": "{fontWeight.scale.regular}" } },
+      "label": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step200}", "lineHeight": "{lineHeight.scale.step200}", "fontWeight": "{fontWeight.scale.medium}" } },
+      "caption": { "$type": "typography", "$value": { "fontFamily": "{fontFamily.scale.sans}", "fontSize": "{fontSize.scale.step100}", "lineHeight": "{lineHeight.scale.step100}", "fontWeight": "{fontWeight.scale.regular}" } }
+    }
+  }
+}

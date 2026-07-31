@@ -1,0 +1,123 @@
+{
+  "$description": "BEEZ provisional color scales.",
+  "color": {
+    "scale": {
+      "gray": {
+        "step0": {
+          "$type": "color",
+          "$description": "White",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 1, 1],
+            "alpha": 1
+          }
+        },
+        "step100": {
+          "$type": "color",
+          "$description": "Light neutral foreground",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.901961, 0.882353, 0.898039],
+            "alpha": 1
+          }
+        },
+        "step200": {
+          "$type": "color",
+          "$description": "Dark theme secondary foreground",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.792157, 0.768627, 0.815686],
+            "alpha": 1
+          }
+        },
+        "step500": {
+          "$type": "color",
+          "$description": "Secondary foreground",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.384314, 0.356863, 0.443137],
+            "alpha": 1
+          }
+        },
+        "step700": {
+          "$type": "color",
+          "$description": "Neutral stroke",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.474510, 0.454902, 0.494118],
+            "alpha": 1
+          }
+        },
+        "step750": {
+          "$type": "color",
+          "$description": "Dark theme neutral stroke",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.576471, 0.560784, 0.600000],
+            "alpha": 1
+          }
+        },
+        "step900": {
+          "$type": "color",
+          "$description": "Deep neutral",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.109804, 0.105882, 0.121569],
+            "alpha": 1
+          }
+        }
+      },
+      "orange": {
+        "step300": {
+          "$type": "color",
+          "$description": "Light BEEZ accent",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 0.701961, 0.419608],
+            "alpha": 1
+          }
+        },
+        "step700": {
+          "$type": "color",
+          "$description": "BEEZ brand accent",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.603922, 0.203922, 0.070588],
+            "alpha": 1
+          }
+        }
+      },
+      "brown": {
+        "step900": {
+          "$type": "color",
+          "$description": "Foreground on light brand accent",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.231373, 0.094118, 0],
+            "alpha": 1
+          }
+        }
+      },
+      "red": {
+        "step200": {
+          "$type": "color",
+          "$description": "Dark theme critical color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 0.705882, 0.670588],
+            "alpha": 1
+          }
+        },
+        "step700": {
+          "$type": "color",
+          "$description": "Light theme critical color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.729412, 0.101961, 0.101961],
+            "alpha": 1
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "$description": "BEEZ semantic spacing contract.",
+  "spacing": {
+    "semantic": {
+      "screen": {
+        "gutter": { "$type": "dimension", "$value": "{dimension.scale.x6}" },
+        "sectionGap": { "$type": "dimension", "$value": "{dimension.scale.x8}" }
+      },
+      "content": {
+        "inlineGap": { "$type": "dimension", "$value": "{dimension.scale.x2}" },
+        "stackGap": { "$type": "dimension", "$value": "{dimension.scale.x4}" }
+      },
+      "control": {
+        "contentGap": { "$type": "dimension", "$value": "{dimension.scale.x2}" }
+      }
+    }
+  }
+}

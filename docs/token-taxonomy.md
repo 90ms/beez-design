@@ -1,7 +1,7 @@
 # BEEZ Token Taxonomy
 
 - 상태: Draft
-- 최종 수정일: 2026-07-30
+- 최종 수정일: 2026-07-31
 
 ## 1. 목적
 
@@ -466,6 +466,8 @@ specification/tokens/
 ```
 
 실제 파일에서는 scale과 semantic mode 파일을 분리하며, 빌드 과정에서 alias를 해석하고 스키마를 검증한다.
+
+현재 repository에는 이 구조의 provisional 원본이 specification/tokens/에 추가되어 있다. Compose public token 계약은 beez-tokens/src/commonMain의 scheme 타입으로 제공하며, token generator가 도입되기 전까지 JSON 원본과 Kotlin 값을 같은 변경 단위로 검토한다.
 
 ## 10. 사용 규칙
 

@@ -1,0 +1,31 @@
+{
+  "$description": "BEEZ dark semantic color contract.",
+  "color": {
+    "semantic": {
+      "background": {
+        "brand": { "$type": "color", "$value": "{color.scale.orange.step300}" },
+        "neutral": { "$type": "color", "$value": "{color.scale.gray.step900}" },
+        "critical": { "$type": "color", "$value": "{color.scale.red.step200}" }
+      },
+      "foreground": {
+        "primary": { "$type": "color", "$value": "{color.scale.gray.step100}" },
+        "secondary": { "$type": "color", "$value": "{color.scale.gray.step200}" },
+        "onBrand": { "$type": "color", "$value": "{color.scale.brown.step900}" }
+      },
+      "stroke": {
+        "neutral": { "$type": "color", "$value": "{color.scale.gray.step750}" },
+        "focus": { "$type": "color", "$value": "{color.scale.orange.step300}" }
+      },
+      "overlay": {
+        "scrim": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0, 0, 0],
+            "alpha": 0.6
+          }
+        }
+      }
+    }
+  }
+}

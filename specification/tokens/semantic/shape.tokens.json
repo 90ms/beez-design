@@ -1,0 +1,11 @@
+{
+  "$description": "BEEZ semantic shape contract.",
+  "shape": {
+    "semantic": {
+      "control": { "$type": "dimension", "$value": "{radius.scale.medium}" },
+      "container": { "$type": "dimension", "$value": "{radius.scale.medium}" },
+      "overlay": { "$type": "dimension", "$value": "{radius.scale.large}" },
+      "round": { "$type": "dimension", "$value": "{radius.scale.full}" }
+    }
+  }
+}

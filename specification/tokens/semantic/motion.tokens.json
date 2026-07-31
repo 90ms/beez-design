@@ -1,0 +1,9 @@
+{
+  "$description": "BEEZ semantic motion contract.",
+  "duration": {
+    "semantic": {
+      "colorTransition": { "$type": "duration", "$value": "{duration.scale.fast}" },
+      "pressedScale": { "$type": "duration", "$value": "{duration.scale.fast}" }
+    }
+  }
+}

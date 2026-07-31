@@ -1,0 +1,12 @@
+{
+  "$description": "BEEZ radius scale in dp.",
+  "radius": {
+    "scale": {
+      "none": { "$type": "dimension", "$value": { "value": 0, "unit": "dp" } },
+      "small": { "$type": "dimension", "$value": { "value": 8, "unit": "dp" } },
+      "medium": { "$type": "dimension", "$value": { "value": 12, "unit": "dp" } },
+      "large": { "$type": "dimension", "$value": { "value": 24, "unit": "dp" } },
+      "full": { "$type": "dimension", "$value": { "value": 999, "unit": "dp" } }
+    }
+  }
+}

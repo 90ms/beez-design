@@ -1,0 +1,10 @@
+{
+  "$description": "BEEZ semantic elevation contract.",
+  "elevation": {
+    "semantic": {
+      "raised": { "$type": "dimension", "$value": "{elevation.scale.level1}" },
+      "floating": { "$type": "dimension", "$value": "{elevation.scale.level2}" },
+      "overlay": { "$type": "dimension", "$value": "{elevation.scale.level3}" }
+    }
+  }
+}
