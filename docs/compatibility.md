@@ -23,7 +23,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
 | Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, Text Field가 포함된 최신 library validation은 [Run #30612117225](https://github.com/90ms/beez-design/actions/runs/30612117225)에서 성공했다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, Text Field Compose UI test와 Desktop runtime을 포함한 최신 library validation은 [Run #30613617949](https://github.com/90ms/beez-design/actions/runs/30613617949)에서 성공했다.
 
 ## 2.1 GitHub Actions 검증
 

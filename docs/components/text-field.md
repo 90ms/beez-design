@@ -277,13 +277,14 @@ BeezTextField(
 
 ### Automated
 
-- [ ] value/onValueChange 입력, recomposition과 상태 색상 매핑의 CI UI/common test
+- [x] value/onValueChange 입력, recomposition과 상태 색상 매핑의 CI UI/common test
 - [ ] placeholder, supportingText와 label
-- [ ] enabled, readOnly, isError state와 disabled/error semantics
+- [x] enabled, readOnly, isError state와 disabled/error semantics
 - [ ] Light/Dark와 test brand theme
 - [ ] 긴 label/value, 좁은 constraint와 font scale
 - [ ] LTR/RTL slot 방향과 text alignment
-- [ ] semantics role, label, value, error와 disabled/read-only state
+- [x] label, value, error와 disabled/read-only semantics
+- [ ] 플랫폼별 text field role과 IME semantics
 - [ ] keyboard focus, selection과 callback
 
 ### Visual
@@ -324,3 +325,4 @@ GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와
 | 2026-07-31 | 단일 행 Text Field 명세와 provisional implementation | 두 번째 공통 입력 component의 범위와 접근성 계약 정의 |
 | 2026-07-31 | 오류 전용 semantic color token 연결 | 구현 전 token 계약 완성 |
 | 2026-07-31 | GitHub Actions library validation 통과 | Android/Desktop/Wasm compile과 공통 상태 테스트 확인 |
+| 2026-07-31 | Compose UI test와 Desktop runtime 검증 통과 | 입력, disabled, read-only, error semantics 확인 |
