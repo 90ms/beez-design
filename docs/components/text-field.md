@@ -277,9 +277,9 @@ BeezTextField(
 
 ### Automated
 
-- [x] value/onValueChange API와 상태 색상 매핑의 CI compile/common test
+- [ ] value/onValueChange 입력, recomposition과 상태 색상 매핑의 CI UI/common test
 - [ ] placeholder, supportingText와 label
-- [ ] enabled, readOnly, isError state
+- [ ] enabled, readOnly, isError state와 disabled/error semantics
 - [ ] Light/Dark와 test brand theme
 - [ ] 긴 label/value, 좁은 constraint와 font scale
 - [ ] LTR/RTL slot 방향과 text alignment
