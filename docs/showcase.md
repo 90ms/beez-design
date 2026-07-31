@@ -63,7 +63,7 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 ## 배포 상태
 
 - 로컬 정적 서버: 현재 사용 가능
-- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice
+- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
 - GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
 - Compose Web Catalog: Migration in progress (initial vertical slice)
 - Stable 문서 사이트: 미정

@@ -114,7 +114,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         testBrand = "테스트 브랜드",
         appearance = "화면 모드",
         brandMapping = "브랜드 매핑",
-        overviewTitle = "의미를 담아 디자인하세요.",
+        overviewTitle = "Design with meaning.",
         overviewBody = "토큰을 중심으로 설계된 테마형 컴포넌트 언어입니다.",
         principlesTitle = "분명한 관점을 가진 시스템.",
         principlesBody = "값보다 의미를 우선하고, 하나의 공통 계약으로 브랜드를 확장합니다.",
@@ -174,8 +174,8 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
 
 /** The Compose Multiplatform Showcase application. */
 @Composable
-public fun CatalogApp() {
-    var locale by remember { mutableStateOf(defaultCatalogLocale()) }
+public fun CatalogApp(initialLocale: CatalogLocale = defaultCatalogLocale()) {
+    var locale by remember { mutableStateOf(initialLocale) }
     var appearance by remember { mutableStateOf(CatalogAppearance.Light) }
     var brand by remember { mutableStateOf(CatalogBrand.Beez) }
     var section by remember { mutableStateOf(CatalogSection.Overview) }

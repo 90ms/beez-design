@@ -17,5 +17,10 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.foundation)
         }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation("org.jetbrains.compose.ui:ui-test:1.11.1")
+        }
     }
 }
