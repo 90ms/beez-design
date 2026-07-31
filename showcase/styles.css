@@ -246,12 +246,23 @@ h1 em { color: var(--brand); font-family: Georgia, "Times New Roman", serif; fon
 .button-stage-small { min-height: 130px; border: 0; }
 .beez-button { display: inline-flex; align-items: center; gap: 13px; justify-content: center; min-height: var(--minimum-touch-target, 48px); padding: 0 var(--control-default-inset, 17px); border-radius: var(--radius-control); font-size: .78rem; font-weight: 740; transition: transform var(--transition), background var(--transition), box-shadow var(--transition); }
 .beez-button:hover { transform: translateY(-2px); }
+.beez-button:disabled, .beez-button.is-loading { cursor: wait; opacity: .58; transform: none; }
 .beez-button:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
 .button-brand { background: var(--brand); color: var(--on-brand); }
 .button-neutral { background: var(--surface-muted); color: var(--ink); }
 .button-outline { border: 1px solid var(--line); background: transparent; color: var(--ink); }
+.button-spinner { display: none; width: 13px; height: 13px; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; }
+.beez-button.is-loading .button-spinner { display: inline-block; animation: demo-spin 700ms linear infinite; }
 .beez-button.is-small { min-height: max(var(--minimum-touch-target, 48px), var(--control-compact-height, 40px)); padding: 0 var(--control-compact-inset, 12px); font-size: .7rem; }
 .beez-button.is-large { min-height: var(--control-comfortable-height, 56px); padding: 0 var(--control-comfortable-inset, 20px); }
+.demo-toolbar { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding-top: 18px; }
+.demo-toolbar-label { color: var(--ink-faint); font-size: .67rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.demo-controls { display: flex; flex-wrap: wrap; justify-content: end; gap: 7px; }
+.demo-control { padding: 7px 10px; border: 1px solid var(--line); border-radius: 8px; background: transparent; color: var(--ink-soft); font-size: .67rem; }
+.demo-control:hover, .demo-control[aria-pressed="true"] { border-color: var(--brand); color: var(--brand); }
+.demo-status { margin: 12px 0 0; color: var(--ink-faint); font-size: .7rem; }
+.demo-status.is-active { color: var(--brand); }
+@keyframes demo-spin { to { transform: rotate(360deg); } }
 .component-notes { display: flex; flex-direction: column; gap: 15px; }
 .note-row { align-items: start; padding-bottom: 15px; border-bottom: 1px solid var(--line); line-height: 1.35; }
 .note-key { min-width: 62px; color: var(--ink-faint); font-size: .65rem; text-transform: uppercase; }
@@ -291,7 +302,13 @@ h1 em { color: var(--brand); font-family: Georgia, "Times New Roman", serif; fon
   .principle-card { min-height: 180px; }
   .card-index { margin-bottom: 30px; }
   .lab-preview, .component-notes { margin-top: 15px; }
+  .demo-toolbar { align-items: start; flex-direction: column; }
+  .demo-controls { justify-content: start; }
   .access-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .beez-button.is-loading .button-spinner { animation: none; }
 }
 
 @media (max-width: 480px) {

@@ -20,7 +20,7 @@ python3 -m http.server 8080
 - Overview: BEEZ 원칙, 지원 플랫폼, 현재 maturity
 - Foundations: color, typography, spacing, shape, elevation, motion
 - Themes: Light, Dark, BEEZ, Test Brand 전환
-- Components: Action Button variant, size, state matrix
+- Components: Action Button variant, size, state matrix와 callback preview
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
 ## 언어와 locale
@@ -51,6 +51,7 @@ Showcase JavaScript는 원본을 복제하지 않고 token loader와 rendering a
 - Light/Dark theme 대비
 - Action Button variant와 size hierarchy
 - disabled, loading, focus 표현
+- 버튼 callback, disabled/loading 전환과 reset 동작
 - 긴 label, narrow viewport와 responsive layout
 
 prototype은 실제 Compose semantics나 platform accessibility bridge를 검증하지 않는다. Web/Wasm build 환경이 안정되고 scenario model이 검증되면 동일한 시나리오를 Compose Web Catalog로 옮긴다.

@@ -205,14 +205,23 @@
                   <span class="status-badge" data-i18n="components.experimental">Experimental</span>
                 </div>
                 <div class="button-stage" data-button-stage>
-                  <button class="beez-button button-brand" data-action-button="brand"><span data-i18n="components.continue">Continue</span> <span>→</span></button>
-                  <button class="beez-button button-neutral" data-action-button="neutral" data-i18n="components.saveDraft">Save draft</button>
-                  <button class="beez-button button-outline" data-action-button="outline" data-i18n="components.learnMore">Learn more</button>
+                  <button class="beez-button button-brand" type="button" data-action-button="brand" data-demo-action data-demo-primary><span data-i18n="components.continue">Continue</span> <span>→</span><span class="button-spinner" aria-hidden="true"></span></button>
+                  <button class="beez-button button-neutral" type="button" data-action-button="neutral" data-demo-action data-i18n="components.saveDraft">Save draft</button>
+                  <button class="beez-button button-outline" type="button" data-action-button="outline" data-demo-action data-i18n="components.learnMore">Learn more</button>
                 </div>
                 <div class="button-stage button-stage-small" data-button-stage-small>
-                  <button class="beez-button button-brand is-small" data-i18n="components.small">Small</button>
-                  <button class="beez-button button-brand is-large" data-i18n="components.largeAction">Large action</button>
+                  <button class="beez-button button-brand is-small" type="button" data-demo-action data-i18n="components.small">Small</button>
+                  <button class="beez-button button-brand is-large" type="button" data-demo-action data-i18n="components.largeAction">Large action</button>
                 </div>
+                <div class="demo-toolbar">
+                  <span class="demo-toolbar-label" data-i18n="components.demoControls">Interactive preview</span>
+                  <div class="demo-controls">
+                    <button class="demo-control" type="button" data-demo-toggle="disabled" aria-pressed="false">Disable actions</button>
+                    <button class="demo-control" type="button" data-demo-toggle="loading" aria-pressed="false">Simulate loading</button>
+                    <button class="demo-control" type="button" data-demo-reset>Reset</button>
+                  </div>
+                </div>
+                <p class="demo-status" data-demo-status data-i18n="components.demoReady" aria-live="polite">Ready · choose an action</p>
               </div>
               <div class="component-notes">
                 <div class="note-row"><span class="note-key" data-i18n="components.variants">Variants</span><span data-i18n="components.variantValues">BrandSolid · Neutral · Outline</span></div>

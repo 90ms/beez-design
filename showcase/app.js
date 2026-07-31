@@ -74,6 +74,16 @@
       "components.learnMore": "Learn more",
       "components.small": "Small",
       "components.largeAction": "Large action",
+      "components.demoControls": "Interactive preview",
+      "components.demoReady": "Ready · choose an action",
+      "components.demoTriggered": "Action triggered:",
+      "components.demoDisabled": "Actions are disabled",
+      "components.demoLoading": "Loading state is active",
+      "components.disableActions": "Disable actions",
+      "components.enableActions": "Enable actions",
+      "components.simulateLoading": "Simulate loading",
+      "components.stopLoading": "Stop loading",
+      "components.reset": "Reset",
       "components.variants": "Variants",
       "components.variantValues": "BrandSolid · Neutral · Outline",
       "components.states": "States",
@@ -162,6 +172,16 @@
       "components.learnMore": "자세히 보기",
       "components.small": "작게",
       "components.largeAction": "큰 액션",
+      "components.demoControls": "인터랙티브 미리보기",
+      "components.demoReady": "준비됨 · 액션을 선택하세요",
+      "components.demoTriggered": "실행된 액션:",
+      "components.demoDisabled": "액션이 비활성화되었습니다",
+      "components.demoLoading": "로딩 상태가 활성화되었습니다",
+      "components.disableActions": "액션 비활성화",
+      "components.enableActions": "액션 활성화",
+      "components.simulateLoading": "로딩 시뮬레이션",
+      "components.stopLoading": "로딩 중지",
+      "components.reset": "초기화",
       "components.variants": "변형",
       "components.variantValues": "BrandSolid · Neutral · Outline",
       "components.states": "상태",
@@ -202,6 +222,15 @@
   let appearance = root.dataset.theme || "light";
   let brand = root.dataset.brand || "beez";
   let currentTheme;
+  const demoActions = [...document.querySelectorAll("[data-demo-action]")];
+  const demoPrimary = document.querySelector("[data-demo-primary]");
+  const demoStatusNode = document.querySelector("[data-demo-status]");
+  const demoDisabledToggle = document.querySelector("[data-demo-toggle='disabled']");
+  const demoLoadingToggle = document.querySelector("[data-demo-toggle='loading']");
+  const demoReset = document.querySelector("[data-demo-reset]");
+  let demoDisabled = false;
+  let demoLoading = false;
+  let demoLastAction = "";
 
   const sections = [...document.querySelectorAll(".section-anchor")];
   const navLinks = [...document.querySelectorAll("[data-nav]")];
@@ -229,6 +258,39 @@
     });
   };
 
+  const getDemoActionLabel = (button) => button.querySelector("[data-i18n]")?.dataset.i18n
+    || button.textContent.replace("→", "").trim();
+
+  const updateDemoState = () => {
+    const actionsBlocked = demoDisabled || demoLoading;
+    demoActions.forEach((button) => {
+      button.disabled = actionsBlocked;
+      button.setAttribute("aria-disabled", String(actionsBlocked));
+    });
+    demoPrimary?.classList.toggle("is-loading", demoLoading);
+    demoPrimary?.setAttribute("aria-busy", String(demoLoading));
+    if (demoDisabledToggle) {
+      demoDisabledToggle.textContent = demoDisabled ? t("components.enableActions") : t("components.disableActions");
+      demoDisabledToggle.setAttribute("aria-pressed", String(demoDisabled));
+    }
+    if (demoLoadingToggle) {
+      demoLoadingToggle.textContent = demoLoading ? t("components.stopLoading") : t("components.simulateLoading");
+      demoLoadingToggle.setAttribute("aria-pressed", String(demoLoading));
+    }
+    if (demoStatusNode) {
+      const actionLabel = demoLastAction.includes(".") ? t(demoLastAction) : demoLastAction;
+      const status = demoDisabled
+        ? t("components.demoDisabled")
+        : demoLoading
+          ? t("components.demoLoading")
+          : demoLastAction
+            ? t("components.demoTriggered") + " " + actionLabel
+            : t("components.demoReady");
+      demoStatusNode.textContent = status;
+      demoStatusNode.classList.toggle("is-active", Boolean(demoLastAction) && !actionsBlocked);
+    }
+  };
+
   const applyLocale = () => {
     root.lang = locale;
     root.dataset.locale = locale;
@@ -250,6 +312,7 @@
     });
     updateAppearanceControls();
     updateBrandControls();
+    updateDemoState();
     if (currentTheme) updateTokenLabels(currentTheme);
   };
 
@@ -315,6 +378,35 @@
       button.addEventListener("click", () => setLocale(button.dataset.localeOption));
     });
 
+    demoActions.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (demoDisabled || demoLoading) return;
+        demoLastAction = getDemoActionLabel(button);
+        updateDemoState();
+      });
+    });
+
+    demoDisabledToggle?.addEventListener("click", () => {
+      demoDisabled = !demoDisabled;
+      demoLoading = false;
+      demoLastAction = "";
+      updateDemoState();
+    });
+
+    demoLoadingToggle?.addEventListener("click", () => {
+      if (demoDisabled) return;
+      demoLoading = !demoLoading;
+      demoLastAction = "";
+      updateDemoState();
+    });
+
+    demoReset?.addEventListener("click", () => {
+      demoDisabled = false;
+      demoLoading = false;
+      demoLastAction = "";
+      updateDemoState();
+    });
+
     menuToggle?.addEventListener("click", () => {
       const isOpen = menu?.classList.toggle("is-open") || false;
       menuToggle.setAttribute("aria-label", isOpen ? t("menu.close") : t("menu.open"));
@@ -329,6 +421,7 @@
 
     window.addEventListener("scroll", updateActiveSection, { passive: true });
     updateActiveSection();
+    updateDemoState();
     applyTheme();
   };
 
