@@ -4,7 +4,7 @@
 
 | 항목 | 값 |
 | --- | --- |
-| Status | Proposed |
+| Status | Experimental |
 | Since | 미출시 (0.1.0-SNAPSHOT 이전 설계) |
 | Platforms | Android / iOS / Desktop / Web |
 | Replaces | 없음 |
@@ -321,5 +321,5 @@ GitHub Actions의 공통 build/test는 구현 단계에서 추가한다. 실제 
 
 | Date | Change | Reason |
 | --- | --- | --- |
-| 2026-07-31 | 단일 행 Text Field 명세 초안 | 두 번째 공통 입력 component의 범위와 접근성 계약 정의 |
+| 2026-07-31 | 단일 행 Text Field 명세와 provisional implementation | 두 번째 공통 입력 component의 범위와 접근성 계약 정의 |
 | 2026-07-31 | 오류 전용 semantic color token 연결 | 구현 전 token 계약 완성 |
