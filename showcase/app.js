@@ -68,6 +68,24 @@
       "components.title": "One contract, many contexts.",
       "components.intro": "Action Button is the first BEEZ component slice. Review hierarchy, states, and content before it becomes Stable.",
       "components.actionButton": "Action Button",
+      "components.textField": "Text Field",
+      "components.textFieldLabel": "Email address",
+      "components.textFieldPlaceholder": "name@example.com",
+      "components.textFieldSupporting": "Use an address you can access.",
+      "components.textFieldErrorSupporting": "Enter a valid email address.",
+      "components.textFieldControls": "Interactive preview",
+      "components.textFieldReady": "Ready · enter a value",
+      "components.textFieldChanged": "Value changed",
+      "components.textFieldError": "Show error",
+      "components.textFieldClearError": "Hide error",
+      "components.textFieldReadOnly": "Read only",
+      "components.textFieldEditable": "Allow editing",
+      "components.textFieldDisable": "Disable",
+      "components.textFieldEnable": "Enable",
+      "components.textFieldDisabled": "Field is disabled",
+      "components.textFieldReadOnlyStatus": "Field is read only",
+      "components.textFieldStateValues": "Enabled · Focused · Read only · Disabled · Error",
+      "components.textFieldA11yValues": "Label · value · error · read-only",
       "components.experimental": "Experimental",
       "components.continue": "Continue",
       "components.saveDraft": "Save draft",
@@ -166,6 +184,24 @@
       "components.title": "하나의 계약, 다양한 맥락.",
       "components.intro": "Action Button은 첫 번째 BEEZ 컴포넌트 슬라이스입니다. Stable이 되기 전에 계층, 상태, 콘텐츠를 검토합니다.",
       "components.actionButton": "Action Button",
+      "components.textField": "Text Field",
+      "components.textFieldLabel": "이메일 주소",
+      "components.textFieldPlaceholder": "name@example.com",
+      "components.textFieldSupporting": "확인할 수 있는 주소를 입력하세요.",
+      "components.textFieldErrorSupporting": "올바른 이메일 주소를 입력하세요.",
+      "components.textFieldControls": "인터랙티브 미리보기",
+      "components.textFieldReady": "준비됨 · 값을 입력하세요",
+      "components.textFieldChanged": "값이 변경되었습니다",
+      "components.textFieldError": "오류 표시",
+      "components.textFieldClearError": "오류 숨기기",
+      "components.textFieldReadOnly": "읽기 전용",
+      "components.textFieldEditable": "편집 허용",
+      "components.textFieldDisable": "비활성화",
+      "components.textFieldEnable": "활성화",
+      "components.textFieldDisabled": "필드가 비활성화되었습니다",
+      "components.textFieldReadOnlyStatus": "필드가 읽기 전용입니다",
+      "components.textFieldStateValues": "활성 · 포커스 · 읽기 전용 · 비활성 · 오류",
+      "components.textFieldA11yValues": "라벨 · 값 · 오류 · 읽기 전용",
       "components.experimental": "실험적",
       "components.continue": "계속하기",
       "components.saveDraft": "초안 저장",
@@ -222,15 +258,25 @@
   let appearance = root.dataset.theme || "light";
   let brand = root.dataset.brand || "beez";
   let currentTheme;
+  let tokenLoaderApi;
   const demoActions = [...document.querySelectorAll("[data-demo-action]")];
   const demoPrimary = document.querySelector("[data-demo-primary]");
   const demoStatusNode = document.querySelector("[data-demo-status]");
   const demoDisabledToggle = document.querySelector("[data-demo-toggle='disabled']");
   const demoLoadingToggle = document.querySelector("[data-demo-toggle='loading']");
   const demoReset = document.querySelector("[data-demo-reset]");
+  const textFieldShell = document.querySelector("[data-text-field-shell]");
+  const textFieldInput = document.querySelector("[data-text-field-input]");
+  const textFieldSupporting = document.querySelector("[data-text-field-supporting]");
+  const textFieldStatus = document.querySelector("[data-text-field-status]");
+  const textFieldToggles = [...document.querySelectorAll("[data-text-field-toggle]")];
+  const textFieldReset = document.querySelector("[data-text-field-reset]");
   let demoDisabled = false;
   let demoLoading = false;
   let demoLastAction = "";
+  let textFieldError = false;
+  let textFieldReadOnly = false;
+  let textFieldDisabled = false;
 
   const sections = [...document.querySelectorAll(".section-anchor")];
   const navLinks = [...document.querySelectorAll("[data-nav]")];
@@ -291,6 +337,51 @@
     }
   };
 
+  const updateTextFieldState = () => {
+    if (!textFieldInput) return;
+    const blocked = textFieldDisabled || textFieldReadOnly;
+    textFieldInput.disabled = textFieldDisabled;
+    textFieldInput.readOnly = blocked;
+    textFieldInput.setAttribute("aria-invalid", String(textFieldError));
+    textFieldInput.setAttribute("aria-readonly", String(textFieldReadOnly));
+    textFieldShell?.classList.toggle("is-error", textFieldError);
+    textFieldShell?.classList.toggle("is-read-only", textFieldReadOnly);
+    textFieldShell?.classList.toggle("is-disabled", textFieldDisabled);
+    textFieldSupporting?.classList.toggle("is-error", textFieldError);
+    if (textFieldSupporting) {
+      textFieldSupporting.textContent = textFieldError
+        ? t("components.textFieldErrorSupporting")
+        : t("components.textFieldSupporting");
+    }
+    textFieldToggles.forEach((button) => {
+      const state = button.dataset.textFieldToggle === "error"
+        ? textFieldError
+        : button.dataset.textFieldToggle === "readonly"
+          ? textFieldReadOnly
+          : textFieldDisabled;
+      button.setAttribute("aria-pressed", String(state));
+      const key = button.dataset.textFieldToggle === "error"
+        ? (state ? "components.textFieldClearError" : "components.textFieldError")
+        : button.dataset.textFieldToggle === "readonly"
+          ? (state ? "components.textFieldEditable" : "components.textFieldReadOnly")
+          : (state ? "components.textFieldEnable" : "components.textFieldDisable");
+      button.textContent = t(key);
+    });
+    if (textFieldStatus) {
+      const status = textFieldDisabled
+        ? t("components.textFieldDisabled")
+        : textFieldReadOnly
+          ? t("components.textFieldReadOnlyStatus")
+          : textFieldError
+            ? t("components.textFieldErrorSupporting")
+            : textFieldInput.value
+              ? t("components.textFieldChanged")
+              : t("components.textFieldReady");
+      textFieldStatus.textContent = status;
+      textFieldStatus.classList.toggle("is-active", Boolean(textFieldInput.value) || textFieldError);
+    }
+  };
+
   const applyLocale = () => {
     root.lang = locale;
     root.dataset.locale = locale;
@@ -298,6 +389,9 @@
     document.querySelector("meta[name='description']")?.setAttribute("content", t("meta.description"));
     document.querySelectorAll("[data-i18n]").forEach((node) => {
       node.textContent = t(node.dataset.i18n);
+    });
+    document.querySelectorAll("[data-i18n-placeholder]").forEach((node) => {
+      node.setAttribute("placeholder", t(node.dataset.i18nPlaceholder));
     });
     document.querySelectorAll("[data-i18n-html]").forEach((node) => {
       node.innerHTML = t(node.dataset.i18nHtml);
@@ -313,6 +407,7 @@
     updateAppearanceControls();
     updateBrandControls();
     updateDemoState();
+    updateTextFieldState();
     if (currentTheme) updateTokenLabels(currentTheme);
   };
 
@@ -355,10 +450,14 @@
   const applyTheme = (nextAppearance = appearance, nextBrand = brand) => {
     appearance = nextAppearance;
     brand = nextBrand;
-    currentTheme = tokenLoader.applyTheme(appearance, brand);
+    root.dataset.theme = appearance;
+    root.dataset.brand = brand;
+    if (tokenLoaderApi) {
+      currentTheme = tokenLoaderApi.applyTheme(appearance, brand);
+    }
     updateAppearanceControls();
     updateBrandControls();
-    updateTokenLabels(currentTheme);
+    if (currentTheme) updateTokenLabels(currentTheme);
   };
 
   const setupInteractions = () => {
@@ -407,6 +506,26 @@
       updateDemoState();
     });
 
+    textFieldInput?.addEventListener("input", updateTextFieldState);
+
+    textFieldToggles.forEach((button) => {
+      button.addEventListener("click", () => {
+        const state = button.dataset.textFieldToggle;
+        if (state === "error") textFieldError = !textFieldError;
+        if (state === "readonly") textFieldReadOnly = !textFieldReadOnly;
+        if (state === "disabled") textFieldDisabled = !textFieldDisabled;
+        updateTextFieldState();
+      });
+    });
+
+    textFieldReset?.addEventListener("click", () => {
+      if (textFieldInput) textFieldInput.value = "";
+      textFieldError = false;
+      textFieldReadOnly = false;
+      textFieldDisabled = false;
+      updateTextFieldState();
+    });
+
     menuToggle?.addEventListener("click", () => {
       const isOpen = menu?.classList.toggle("is-open") || false;
       menuToggle.setAttribute("aria-label", isOpen ? t("menu.close") : t("menu.open"));
@@ -426,9 +545,13 @@
   };
 
   applyLocale();
+  setupInteractions();
 
   if (tokenLoader) {
-    tokenLoader.ready.then(setupInteractions).catch((error) => {
+    tokenLoader.ready.then((api) => {
+      tokenLoaderApi = api;
+      applyTheme();
+    }).catch((error) => {
       console.error("BEEZ token loader failed", error);
       document.body.dataset.tokenError = "true";
     });

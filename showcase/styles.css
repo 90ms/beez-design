@@ -263,6 +263,19 @@ h1 em { color: var(--brand); font-family: Georgia, "Times New Roman", serif; fon
 .demo-status { margin: 12px 0 0; color: var(--ink-faint); font-size: .7rem; }
 .demo-status.is-active { color: var(--brand); }
 @keyframes demo-spin { to { transform: rotate(360deg); } }
+.text-field-showcase { margin-top: 15px; }
+.text-field-stage { min-height: 235px; padding: 42px clamp(12px, 8vw, 90px) 28px; border-bottom: 1px solid var(--line); }
+.beez-text-field-label { display: block; margin-bottom: 8px; color: var(--ink-soft); font-size: .72rem; font-weight: 700; }
+.beez-text-field { display: flex; min-height: var(--control-comfortable-height, 56px); align-items: center; border: 1px solid var(--line); border-radius: var(--radius-control); background: transparent; transition: border-color var(--transition), box-shadow var(--transition), opacity var(--transition); }
+.beez-text-field:focus-within { border-color: var(--focus); box-shadow: 0 0 0 3px color-mix(in srgb, var(--focus) 18%, transparent); }
+.beez-text-field.is-error, .beez-text-field.is-error:focus-within { border-color: var(--critical); box-shadow: 0 0 0 3px color-mix(in srgb, var(--critical) 15%, transparent); }
+.beez-text-field.is-read-only { border-style: dashed; }
+.beez-text-field.is-disabled { opacity: .56; }
+.beez-text-field input { width: 100%; min-width: 0; padding: 0 var(--control-default-inset, 16px); border: 0; outline: 0; background: transparent; color: var(--ink); font: inherit; font-size: .88rem; }
+.beez-text-field input::placeholder { color: var(--ink-faint); }
+.beez-text-field input:disabled { cursor: not-allowed; }
+.text-field-supporting { margin: 8px 0 0; color: var(--ink-faint); font-size: .68rem; }
+.text-field-supporting.is-error { color: var(--critical); }
 .component-notes { display: flex; flex-direction: column; gap: 15px; }
 .note-row { align-items: start; padding-bottom: 15px; border-bottom: 1px solid var(--line); line-height: 1.35; }
 .note-key { min-width: 62px; color: var(--ink-faint); font-size: .65rem; text-transform: uppercase; }

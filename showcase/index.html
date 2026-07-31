@@ -54,7 +54,7 @@
           <section class="hero section-anchor" id="overview">
             <div class="hero-copy">
               <p class="eyebrow" data-i18n-html="hero.eyebrow">BEEZ DESIGN SYSTEM <span>·</span> VISUAL PROTOTYPE</p>
-              <h1 data-i18n-html="hero.title">Design with<br><em>meaning.</em></h1>
+              <h1>Design with<br><em>meaning.</em></h1>
               <p class="hero-description" data-i18n="hero.description">A token-first, themeable component language for products that feel unmistakably their own.</p>
               <div class="hero-actions">
                 <a class="button button-primary" href="#components"><span data-i18n="hero.explore">Explore components</span> <span>↘</span></a>
@@ -231,6 +231,41 @@
                 <pre class="code-snippet"><code>BeezActionButton(
     label = "Continue",
     onClick = onContinue,
+)</code></pre>
+              </div>
+            </div>
+            <div class="component-showcase text-field-showcase">
+              <div class="component-preview">
+                <div class="preview-toolbar">
+                  <span data-i18n="components.textField">Text Field</span>
+                  <span class="status-badge" data-i18n="components.experimental">Experimental</span>
+                </div>
+                <div class="text-field-stage">
+                  <label class="beez-text-field-label" for="showcase-email" data-i18n="components.textFieldLabel">Email address</label>
+                  <div class="beez-text-field" data-text-field-shell>
+                    <input id="showcase-email" type="email" value="" autocomplete="off" data-text-field-input data-i18n-placeholder="components.textFieldPlaceholder" placeholder="name@example.com" aria-describedby="showcase-email-supporting">
+                  </div>
+                  <p class="text-field-supporting" id="showcase-email-supporting" data-text-field-supporting data-i18n="components.textFieldSupporting">Use an address you can access.</p>
+                </div>
+                <div class="demo-toolbar">
+                  <span class="demo-toolbar-label" data-i18n="components.textFieldControls">Interactive preview</span>
+                  <div class="demo-controls">
+                    <button class="demo-control" type="button" data-text-field-toggle="error" aria-pressed="false" data-i18n="components.textFieldError">Show error</button>
+                    <button class="demo-control" type="button" data-text-field-toggle="readonly" aria-pressed="false" data-i18n="components.textFieldReadOnly">Read only</button>
+                    <button class="demo-control" type="button" data-text-field-toggle="disabled" aria-pressed="false" data-i18n="components.textFieldDisable">Disable</button>
+                    <button class="demo-control" type="button" data-text-field-reset data-i18n="components.reset">Reset</button>
+                  </div>
+                </div>
+                <p class="demo-status" data-text-field-status aria-live="polite" data-i18n="components.textFieldReady">Ready · enter a value</p>
+              </div>
+              <div class="component-notes">
+                <div class="note-row"><span class="note-key" data-i18n="components.states">States</span><span data-i18n="components.textFieldStateValues">Enabled · Focused · Read only · Disabled · Error</span></div>
+                <div class="note-row"><span class="note-key" data-i18n="components.theme">Theme</span><span data-i18n="components.themeValues">Semantic colors, shape, spacing</span></div>
+                <div class="note-row"><span class="note-key" data-i18n="components.a11y">A11y</span><span data-i18n="components.textFieldA11yValues">Label · value · error · read-only</span></div>
+                <pre class="code-snippet"><code>BeezTextField(
+    value = email,
+    onValueChange = { email = it },
+    label = "Email address",
 )</code></pre>
               </div>
             </div>
