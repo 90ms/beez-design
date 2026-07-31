@@ -70,6 +70,8 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. Pages artifact는 `beez-catalog` Compose Web/Wasm distribution을 포함한다.
 
+배포된 Catalog: [90ms.github.io/beez-design](https://90ms.github.io/beez-design/)
+
 ## 기여 규칙
 
 - 새 component를 추가할 때 명세, showcase scenario와 문서 링크를 함께 추가한다.
