@@ -12,7 +12,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 정적 Showcase prototype을 추가했으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
-Gradle 프로젝트 골격은 생성되어 있지만, 이 저장소의 초기 scaffold는 아직 컴파일 검증 전 상태입니다.
+Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증하도록 구성했습니다. 첫 workflow 성공 전까지 초기 scaffold는 검증 전 상태로 표시합니다.
 
 ### 모듈
 
@@ -73,7 +73,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and static Showcase prototype are present, but no stable component artifact has been released yet.
 
-The Gradle project skeleton is present, but this initial scaffold has not been compile-verified yet.
+The Gradle project skeleton is present, and compile/test validation is configured to run on GitHub Actions instead of the Synology host. The initial scaffold remains unverified until the first successful workflow run.
 
 ### Modules
 

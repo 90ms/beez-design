@@ -1,7 +1,7 @@
 # BEEZ Compatibility
 
 - 상태: Draft
-- 최종 수정일: 2026-07-30
+- 최종 수정일: 2026-07-31
 
 ## 1. 목적
 
@@ -18,11 +18,22 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Compose Compiler plugin | 2.4.10 | Selected |
 | Compose Multiplatform plugin | 1.11.1 | Selected |
 | Android Gradle Plugin | 9.1.0 | Selected |
-| Gradle wrapper | 9.3.1 | Selected |
+| Gradle distribution | 9.3.1 | Configured in GitHub Actions |
+| Gradle wrapper | Not committed | Deferred |
 | Gradle runtime JDK | 17 이상 | Selected |
 | Android compile SDK | API 37 | Selected |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. 실제 Gradle 골격과 CI가 통과하면 `Verified`로 변경한다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 첫 성공 실행 전까지 target 상태는 검증 전으로 유지한다.
+
+## 2.1 GitHub Actions 검증
+
+- workflow: `.github/workflows/library-validation.yml`
+- runner: `ubuntu-latest`
+- runtime JDK: Temurin 17
+- Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
+- 검증 범위: token JSON alias, 모든 library target의 `build` task
+
+현재 Synology 로컬 환경에서는 Gradle을 실행하지 않는다. 로컬 성능 이슈를 피하고, CI runner의 결과를 compile/test 검증의 기준으로 사용한다. Workflow가 성공하기 전에는 호환성 상태를 `Verified`로 표시하지 않는다.
 
 ## 3. 최소 플랫폼
 
@@ -89,7 +100,7 @@ wasmJs
 Toolchain 또는 플랫폼 기준을 바꿀 때 다음을 확인한다.
 
 1. Kotlin, Compose, AGP 및 Gradle 공식 호환 범위를 확인한다.
-2. Version catalog와 wrapper를 한 변경으로 갱신한다.
+2. Version catalog와 CI Gradle distribution을 한 변경으로 갱신한다. wrapper를 도입할 때는 같은 변경에서 함께 갱신한다.
 3. 모든 public library target을 compile한다.
 4. Common test와 가능한 platform test를 실행한다.
 5. Catalog target의 build 또는 run smoke test를 수행한다.
