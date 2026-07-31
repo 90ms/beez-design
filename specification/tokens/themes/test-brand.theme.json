@@ -1,0 +1,37 @@
+{
+  "$description": "Showcase-only test brand semantic overrides.",
+  "color": {
+    "semantic": {
+      "background": {
+        "brand": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.09, 0.41, 0.67],
+            "alpha": 1
+          }
+        }
+      },
+      "foreground": {
+        "onBrand": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [1, 1, 1],
+            "alpha": 1
+          }
+        }
+      },
+      "stroke": {
+        "focus": {
+          "$type": "color",
+          "$value": {
+            "colorSpace": "srgb",
+            "components": [0.09, 0.41, 0.67],
+            "alpha": 1
+          }
+        }
+      }
+    }
+  }
+}

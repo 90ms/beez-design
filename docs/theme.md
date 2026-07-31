@@ -42,9 +42,9 @@ Light와 Dark는 같은 semantic role을 제공하며 값과 mapping만 다르�
 ```kotlin
 val productScheme = BeezTokenSchemes.light.withColors(
     BeezTokenSchemes.light.colors.copy(
-        backgroundBrand = Color(0xFF0057B8),
+        backgroundBrand = Color(0xFF1769AB),
         foregroundOnBrand = Color.White,
-        strokeFocus = Color(0xFF0057B8),
+        strokeFocus = Color(0xFF1769AB),
     ),
 )
 
