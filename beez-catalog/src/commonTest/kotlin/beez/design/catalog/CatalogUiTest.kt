@@ -1,7 +1,6 @@
 package beez.design.catalog
 
 import androidx.compose.ui.test.ExperimentalTestApi
-import androidx.compose.ui.test.assertExists
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -18,7 +17,7 @@ class CatalogUiTest {
             CatalogApp(initialLocale = CatalogLocale.Korean)
         }
 
-        onNodeWithText("Design with meaning.").assertExists()
+        onNodeWithText("Design with meaning.").assertTextEquals("Design with meaning.")
     }
 
     @Test
@@ -31,7 +30,7 @@ class CatalogUiTest {
         onNodeWithText("Dark").performClick()
         onNodeWithText("Test Brand").performClick()
 
-        onNodeWithText("Test Brand · Dark").assertExists()
+        onNodeWithText("Test Brand · Dark").assertTextEquals("Test Brand · Dark")
     }
 
     @Test
