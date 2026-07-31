@@ -277,7 +277,7 @@ BeezTextField(
 
 ### Automated
 
-- [ ] 기본 value/onValueChange 입력과 recomposition
+- [x] value/onValueChange API와 상태 색상 매핑의 CI compile/common test
 - [ ] placeholder, supportingText와 label
 - [ ] enabled, readOnly, isError state
 - [ ] Light/Dark와 test brand theme
@@ -299,7 +299,7 @@ BeezTextField(
 - [ ] Desktop keyboard, selection과 paste
 - [ ] Web keyboard와 browser semantics
 
-GitHub Actions의 공통 build/test는 구현 단계에서 추가한다. 실제 text input bridge, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하며 Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
+GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트가 통과했다. 실제 text input bridge, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하며 Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
 
 ## Catalog scenarios
 
@@ -323,3 +323,4 @@ GitHub Actions의 공통 build/test는 구현 단계에서 추가한다. 실제 
 | --- | --- | --- |
 | 2026-07-31 | 단일 행 Text Field 명세와 provisional implementation | 두 번째 공통 입력 component의 범위와 접근성 계약 정의 |
 | 2026-07-31 | 오류 전용 semantic color token 연결 | 구현 전 token 계약 완성 |
+| 2026-07-31 | GitHub Actions library validation 통과 | Android/Desktop/Wasm compile과 공통 상태 테스트 확인 |
