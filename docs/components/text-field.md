@@ -299,7 +299,7 @@ BeezTextField(
 - [ ] Desktop keyboard, selection과 paste
 - [ ] Web keyboard와 browser semantics
 
-GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트가 통과했다. 실제 text input bridge, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하며 Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
+GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. Desktop Compose UI test는 Linux runner의 `xvfb-run` 가상 디스플레이에서 실행하며, 실제 text input bridge, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하다. Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
 
 ## Catalog scenarios
 
