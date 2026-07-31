@@ -31,6 +31,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
 import beez.design.components.BeezActionButtonVariant
@@ -38,6 +39,10 @@ import beez.design.components.BeezTextField
 import beez.design.foundation.BeezTheme
 import beez.design.tokens.BeezTokenScheme
 import beez.design.tokens.BeezTokenSchemes
+import beez.design.beez_catalog.generated.resources.Res
+import beez.design.beez_catalog.generated.resources.noto_sans_kr_catalog
+import org.jetbrains.compose.resources.ExperimentalResourceApi
+import org.jetbrains.compose.resources.Font
 
 public enum class CatalogLocale {
     Korean,
@@ -173,6 +178,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
 }
 
 /** The Compose Multiplatform Showcase application. */
+@OptIn(ExperimentalResourceApi::class)
 @Composable
 public fun CatalogApp(initialLocale: CatalogLocale = defaultCatalogLocale()) {
     var locale by remember { mutableStateOf(initialLocale) }
@@ -571,12 +577,24 @@ private fun sectionLabel(section: CatalogSection, copy: CatalogCopy): String = w
     CatalogSection.Accessibility -> copy.accessibility
 }
 
+@OptIn(ExperimentalResourceApi::class)
+@Composable
 private fun catalogScheme(appearance: CatalogAppearance, brand: CatalogBrand): BeezTokenScheme {
     val base = if (appearance == CatalogAppearance.Light) BeezTokenSchemes.light else BeezTokenSchemes.dark
-    if (brand == CatalogBrand.Beez) return base
+    val fontFamily = FontFamily(Font(Res.font.noto_sans_kr_catalog))
+    val typography = base.typography.copy(
+        display = base.typography.display.copy(fontFamily = fontFamily),
+        screenTitle = base.typography.screenTitle.copy(fontFamily = fontFamily),
+        sectionTitle = base.typography.sectionTitle.copy(fontFamily = fontFamily),
+        body = base.typography.body.copy(fontFamily = fontFamily),
+        label = base.typography.label.copy(fontFamily = fontFamily),
+        caption = base.typography.caption.copy(fontFamily = fontFamily),
+    )
+    val themedBase = base.copy(typography = typography)
+    if (brand == CatalogBrand.Beez) return themedBase
 
     val testBrand = Color(0xFF1769AB)
-    return base.copy(
+    return themedBase.copy(
         colors = base.colors.copy(
             backgroundBrand = testBrand,
             foregroundOnBrand = Color.White,

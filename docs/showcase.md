@@ -30,7 +30,7 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 - 상단의 언어 전환 버튼으로 즉시 변경할 수 있다.
 - 번역되지 않은 token key와 API 예시는 원본 식별자를 보존해 문서와 구현을 대조할 수 있도록 한다.
 
-Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)을 만나도 Compose 텍스트 locale 초기화가 실패하지 않도록 배포 HTML에서 locale을 정규화한다.
+Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)을 만나도 Compose 텍스트 locale 초기화가 실패하지 않도록 배포 HTML에서 locale을 정규화한다. 또한 브라우저 시스템 폰트에 한글 글리프가 없어도 동일하게 보이도록 Catalog 전용 Noto Sans KR subset을 함께 번들한다. 폰트는 SIL Open Font License 1.1을 따른다([라이선스](licenses/NOTO_SANS_KR_OFL.txt)).
 
 ## Source of truth
 
