@@ -48,4 +48,10 @@ Get user direction before changes that materially expand scope, break consumer c
 - Inspect the staged diff before committing.
 - Use concise Conventional Commit-style subjects.
 - Do not rewrite history unless explicitly requested.
+- Before pushing, review the implementation and identify every affected specification, guide, API reference, compatibility note, changelog, and README section.
+- Update affected documentation in the same stage as the implementation or decision that changes it.
+- Before pushing, verify that documentation describes the current repository state and does not claim unverified builds, targets, or releases.
+- Check links, examples, module names, version references, and platform support tables for stale information.
+- Do not push while required documentation updates or the corresponding documentation commit are pending.
+- Push only after the final diff, documentation state, and validation result have been reviewed.
 - Report the commit hash and validation result after each completed stage.
