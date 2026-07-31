@@ -32,7 +32,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - runtime JDK: Temurin 17
 - Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
 - 검증 범위: token JSON alias, 모든 library target의 `build` task
-- repository mode: settings repository를 우선하며 Kotlin/Wasm의 Node.js toolchain repository 추가를 허용
+- repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 
 현재 Synology 로컬 환경에서는 Gradle을 실행하지 않는다. 로컬 성능 이슈를 피하고, CI runner의 결과를 compile/test 검증의 기준으로 사용한다. Workflow가 성공하기 전에는 호환성 상태를 `Verified`로 표시하지 않는다.
 

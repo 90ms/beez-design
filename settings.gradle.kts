@@ -8,8 +8,8 @@ pluginManagement {
 
 dependencyResolutionManagement {
     // Kotlin/Wasm adds its Node.js distribution repository during configuration.
-    // Keep settings repositories preferred while allowing that toolchain repository.
-    repositoriesMode.set(RepositoriesMode.PREFER_SETTINGS)
+    // Project repositories are preferred so that toolchain repository remains usable.
+    repositoriesMode.set(RepositoriesMode.PREFER_PROJECT)
     repositories {
         google()
         mavenCentral()
