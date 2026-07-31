@@ -27,8 +27,10 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 
 - 첫 방문 시 브라우저의 `navigator.languages`를 확인하며, `ko`로 시작하면 한국어를 기본값으로 선택한다.
 - 한국어가 아니면 영어를 기본값으로 사용한다.
-- 상단의 언어 전환 버튼으로 즉시 변경할 수 있으며, 선택한 언어는 같은 브라우저의 다음 방문에도 유지한다.
+- 상단의 언어 전환 버튼으로 즉시 변경할 수 있다.
 - 번역되지 않은 token key와 API 예시는 원본 식별자를 보존해 문서와 구현을 대조할 수 있도록 한다.
+
+Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)을 만나도 Compose 텍스트 locale 초기화가 실패하지 않도록 배포 HTML에서 locale을 정규화한다.
 
 ## Source of truth
 
@@ -64,6 +66,8 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
 - Compose Web Catalog: Active (initial vertical slice)
 - Stable 문서 사이트: 미정
+
+배포 HTML은 `html`과 `body`를 viewport 크기로 고정한다. Compose `ComposeViewport`가 문서의 콘텐츠 높이를 viewport로 오인하지 않도록 하는 Web/Wasm 런타임 전제다.
 
 GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. Pages artifact는 `beez-catalog` Compose Web/Wasm distribution을 포함한다.
 

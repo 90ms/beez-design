@@ -135,7 +135,6 @@ public fun BeezActionButton(
         BasicText(
             text = label,
             style = BeezTheme.typography.label.copy(color = colors.content),
-            modifier = Modifier.weight(1f),
         )
 
         trailingContent?.invoke()

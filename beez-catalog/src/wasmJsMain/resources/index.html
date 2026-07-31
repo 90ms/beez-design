@@ -4,8 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>BEEZ Catalog</title>
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            min-height: 100%;
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
 </head>
 <body>
+<script>
+    (() => {
+        const normalizeLocale = (value) => {
+            const candidate = String(value || "")
+                .replace(/@.*$/, "")
+                .replace(/_/g, "-");
+            try {
+                new Intl.Locale(candidate);
+                return candidate;
+            } catch (_) {
+                return "en-US";
+            }
+        };
+
+        const language = normalizeLocale(window.navigator.language);
+        const languages = Array.from(window.navigator.languages || [language], normalizeLocale);
+
+        try {
+            Object.defineProperty(window.navigator, "language", {
+                configurable: true,
+                get: () => language,
+            });
+            Object.defineProperty(window.navigator, "languages", {
+                configurable: true,
+                get: () => languages,
+            });
+        } catch (_) {
+            // Some browsers expose Navigator as non-configurable. Compose will use its native locale there.
+        }
+    })();
+</script>
 <script type="application/javascript" src="beez-catalog.js"></script>
 </body>
 </html>
