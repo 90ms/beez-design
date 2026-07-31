@@ -75,7 +75,7 @@ public fun BeezActionButton(
     )
     val sizeTokens = resolveSize(size, BeezTheme.spacing)
     val shape = RoundedCornerShape(BeezTheme.shapes.controlRadius)
-    val interactive = enabled && !loading
+    val interactive = isActionButtonInteractive(enabled = enabled, loading = loading)
     var focused by remember { mutableStateOf(false) }
     val borderWidth = when {
         focused && interactive -> 2.dp
@@ -131,12 +131,17 @@ public fun BeezActionButton(
         BasicText(
             text = label,
             style = BeezTheme.typography.label.copy(color = colors.content),
-            modifier = Modifier.weight(1f, fill = false),
+            modifier = Modifier.weight(1f),
         )
 
         trailingContent?.invoke()
     }
 }
+
+internal fun isActionButtonInteractive(
+    enabled: Boolean,
+    loading: Boolean,
+): Boolean = enabled && !loading
 
 @Immutable
 internal data class BeezActionButtonColors(

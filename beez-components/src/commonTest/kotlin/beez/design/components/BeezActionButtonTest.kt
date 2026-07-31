@@ -4,6 +4,7 @@ import androidx.compose.ui.unit.dp
 import beez.design.tokens.BeezTokenSchemes
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertNotEquals
 import kotlin.test.assertTrue
 
@@ -49,5 +50,12 @@ class BeezActionButtonTest {
         assertEquals(spacing.controlCompactHeight, size.height)
         assertTrue(size.height < spacing.minimumTouchTarget)
         assertEquals(spacing.minimumTouchTarget, 48.dp)
+    }
+
+    @Test
+    fun loadingStateBlocksInteraction() {
+        assertFalse(isActionButtonInteractive(enabled = true, loading = true))
+        assertFalse(isActionButtonInteractive(enabled = false, loading = false))
+        assertTrue(isActionButtonInteractive(enabled = true, loading = false))
     }
 }

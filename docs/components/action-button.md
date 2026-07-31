@@ -212,9 +212,9 @@ BeezTheme {
 
 ### Automated
 
-- [ ] 기본 rendering과 callback
+- [x] 기본 rendering API와 callback parameter가 compile-verified 상태다
 - [ ] variant와 size matrix
-- [ ] disabled/loading state와 중복 입력 차단
+- [x] disabled/loading state의 중복 입력 차단 로직
 - [ ] Light/Dark와 test brand theme
 - [ ] LTR/RTL, 긴 label과 font scale
 - [ ] button semantics와 focus action
@@ -231,7 +231,7 @@ BeezTheme {
 - [ ] Desktop keyboard
 - [ ] Web keyboard와 browser semantics
 
-현재 scaffold가 compile-verified 상태가 아니므로 위 체크는 아직 완료로 표시하지 않는다.
+GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트가 통과했다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기 검증과 UI screenshot 검증은 아직 남아 있다.
 
 ## Catalog scenarios
 
@@ -253,3 +253,4 @@ BeezTheme {
 | Date | Change | Reason |
 | --- | --- | --- |
 | 2026-07-31 | 최초 제안 | 첫 공통 component vertical slice |
+| 2026-07-31 | CI compile/test와 loading interaction 로직 검증 | 공통 library build baseline 확보 |
