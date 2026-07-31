@@ -186,10 +186,10 @@ Text Field는 stateless API다. `value`와 `onValueChange`는 호출자가 소�
 | All | root | Container | transparent platform value |
 | Enabled / ReadOnly | root | Border | `color.semantic.stroke.neutral` |
 | Focused | root | Border | `color.semantic.stroke.focus` |
-| Error | root | Border | `color.semantic.stroke.critical` (추가 필요) |
+| Error | root | Border | `color.semantic.stroke.critical` |
 | Enabled / ReadOnly | label/input | Foreground | `color.semantic.foreground.primary` |
 | Empty | placeholder | Foreground | `color.semantic.foreground.secondary` |
-| Error | label/supportingText | Foreground | `color.semantic.foreground.critical` (추가 필요) |
+| Error | label/supportingText | Foreground | `color.semantic.foreground.critical` |
 | Disabled | label/input/supportingText | Foreground | `color.semantic.foreground.secondary` |
 | All | input | Typography | `typography.semantic.body` |
 | All | label | Typography | `typography.semantic.label` |
@@ -198,7 +198,7 @@ Text Field는 stateless API다. `value`와 `onValueChange`는 호출자가 소�
 | All | input row | Height / inset / gap | `spacing.semantic.control.comfortable*`, `spacing.semantic.control.contentGap` |
 | All | root | Minimum touch target | `spacing.semantic.interaction.minimumTouchTarget` |
 
-`color.semantic.stroke.critical`과 `color.semantic.foreground.critical`은 현재 semantic color contract에 없어 구현 전에 추가해야 한다. `background.critical`을 border나 text에 재사용하지 않는다.
+오류 전용 전경과 stroke 역할은 Light/Dark semantic color contract에 추가했다. `background.critical`을 border나 text에 재사용하지 않는다.
 
 ## Compose API
 
@@ -313,7 +313,6 @@ GitHub Actions의 공통 build/test는 구현 단계에서 추가한다. 실제 
 
 ## Open questions
 
-- `color.semantic.stroke.critical`과 `color.semantic.foreground.critical`의 scale mapping 및 contrast 기준
 - 1차 구현에서 `KeyboardOptions`와 IME action을 노출할 실제 제품 요구
 - Multiline, password와 visual transformation을 별도 component로 둘지 확장 API로 둘지
 - trailing action slot의 semantics와 focus order를 공통 primitive로 제공할지
@@ -323,3 +322,4 @@ GitHub Actions의 공통 build/test는 구현 단계에서 추가한다. 실제 
 | Date | Change | Reason |
 | --- | --- | --- |
 | 2026-07-31 | 단일 행 Text Field 명세 초안 | 두 번째 공통 입력 component의 범위와 접근성 계약 정의 |
+| 2026-07-31 | 오류 전용 semantic color token 연결 | 구현 전 token 계약 완성 |

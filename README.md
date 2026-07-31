@@ -26,7 +26,7 @@ beez-components → beez-foundation → beez-tokens
 
 첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. GitHub Actions에서 library build와 공통 테스트가 통과했으며, API는 아직 Experimental입니다.
 
-두 번째 컴포넌트로 단일 행 Text Field 명세를 Proposed 상태로 추가했습니다. 구현 전에 value state, 오류/읽기 전용 상태, 접근성 semantics와 token 확장 계약을 검토합니다.
+두 번째 컴포넌트로 단일 행 Text Field 명세를 Proposed 상태로 추가했습니다. value state, 오류/읽기 전용 상태와 접근성 semantics를 정의했으며 오류 전용 semantic color token도 추가했습니다.
 
 Catalog, icons, adapters, documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
@@ -90,7 +90,7 @@ beez-components → beez-foundation → beez-tokens
 
 The first Action Button specification and provisional implementation are present. The library build and common tests pass on GitHub Actions, but the API remains Experimental.
 
-The second component, a single-line Text Field specification, is now Proposed. Its value state, error/read-only behavior, accessibility semantics, and required token extensions will be reviewed before implementation.
+The second component, a single-line Text Field specification, is now Proposed. Its value state, error/read-only behavior, and accessibility semantics are defined, with dedicated critical semantic color roles added before implementation.
 
 Catalog, icons, adapters, and documentation tooling will be added when validated use cases require them.
 

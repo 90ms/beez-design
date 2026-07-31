@@ -16,7 +16,9 @@ public data class BeezColorScheme(
     public val foregroundPrimary: Color,
     public val foregroundSecondary: Color,
     public val foregroundOnBrand: Color,
+    public val foregroundCritical: Color,
     public val strokeNeutral: Color,
     public val strokeFocus: Color,
+    public val strokeCritical: Color,
     public val overlayScrim: Color,
 )

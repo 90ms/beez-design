@@ -10,11 +10,13 @@
       "foreground": {
         "primary": { "$type": "color", "$value": "{color.scale.gray.step900}" },
         "secondary": { "$type": "color", "$value": "{color.scale.gray.step500}" },
-        "onBrand": { "$type": "color", "$value": "{color.scale.gray.step0}" }
+        "onBrand": { "$type": "color", "$value": "{color.scale.gray.step0}" },
+        "critical": { "$type": "color", "$value": "{color.scale.red.step700}" }
       },
       "stroke": {
         "neutral": { "$type": "color", "$value": "{color.scale.gray.step700}" },
-        "focus": { "$type": "color", "$value": "{color.scale.orange.step700}" }
+        "focus": { "$type": "color", "$value": "{color.scale.orange.step700}" },
+        "critical": { "$type": "color", "$value": "{color.scale.red.step700}" }
       },
       "overlay": {
         "scrim": {

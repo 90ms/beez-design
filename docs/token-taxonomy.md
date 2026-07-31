@@ -172,8 +172,10 @@ color.semantic.background.critical
 color.semantic.foreground.primary
 color.semantic.foreground.secondary
 color.semantic.foreground.onBrand
+color.semantic.foreground.critical
 color.semantic.stroke.neutral
 color.semantic.stroke.focus
+color.semantic.stroke.critical
 color.semantic.overlay.scrim
 ```
 
