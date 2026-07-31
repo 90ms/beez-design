@@ -41,6 +41,7 @@
 
 ## 5. Prepare a release change
 
+- Read docs/publishing.md and ADR-0007 before changing publication or release behavior.
 - Classify the change under the project's stability and versioning policy.
 - Generate and review API and artifact diffs.
 - Update changelog or changeset and migration guidance.

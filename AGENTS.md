@@ -8,6 +8,7 @@ BEEZ is a specification-first Compose Multiplatform design system. Design decisi
 
 ## Read before changing
 
+- For publishing, release, or consumer dependency changes, read docs/publishing.md and ADR-0007.
 - For project scope or a new capability, read `docs/charter.md`.
 - For tokens or themes, read `docs/token-taxonomy.md` and ADR-0001.
 - For components, read `docs/component-template.md` and `docs/definition-of-done.md`.
