@@ -63,9 +63,9 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 ## 배포 상태
 
 - 로컬 정적 서버: 현재 사용 가능
-- `beez-catalog` Compose Web/Wasm 모듈: 초기 vertical slice 구현 중
+- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice
 - GitHub Pages: .github/workflows/showcase-pages.yml로 workflow 구성됨
-- Compose Web Catalog: Migration in progress
+- Compose Web Catalog: Migration in progress (initial vertical slice)
 - Stable 문서 사이트: 미정
 
 GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로 선택해야 실제 배포 URL이 활성화된다. 마이그레이션 완료 후 Pages artifact는 Compose Web/Wasm distribution을 포함한다.

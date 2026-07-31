@@ -1,62 +1,586 @@
 package beez.design.catalog
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
+import beez.design.components.BeezActionButtonVariant
 import beez.design.components.BeezTextField
 import beez.design.foundation.BeezTheme
+import beez.design.tokens.BeezTokenScheme
 import beez.design.tokens.BeezTokenSchemes
 
-/**
- * Initial Compose Catalog entry point.
- *
- * The full Showcase sections will be migrated incrementally. This first
- * vertical slice deliberately renders the real BEEZ components instead of
- * duplicating them in HTML or CSS.
- */
+public enum class CatalogLocale {
+    Korean,
+    English,
+}
+
+private enum class CatalogAppearance {
+    Light,
+    Dark,
+}
+
+private enum class CatalogBrand {
+    Beez,
+    Test,
+}
+
+private enum class CatalogSection {
+    Overview,
+    Foundations,
+    Themes,
+    Components,
+    Accessibility,
+}
+
+private data class CatalogCopy(
+    val designSystem: String,
+    val explore: String,
+    val overview: String,
+    val foundations: String,
+    val themes: String,
+    val components: String,
+    val accessibility: String,
+    val guidelines: String,
+    val light: String,
+    val dark: String,
+    val beez: String,
+    val testBrand: String,
+    val appearance: String,
+    val brandMapping: String,
+    val overviewTitle: String,
+    val overviewBody: String,
+    val principlesTitle: String,
+    val principlesBody: String,
+    val foundationsTitle: String,
+    val themesTitle: String,
+    val componentsTitle: String,
+    val accessibilityTitle: String,
+    val actionButton: String,
+    val textField: String,
+    val email: String,
+    val placeholder: String,
+    val supporting: String,
+    val error: String,
+    val readOnly: String,
+    val disabled: String,
+    val reset: String,
+    val ready: String,
+    val experimental: String,
+)
+
+private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
+    CatalogLocale.Korean -> CatalogCopy(
+        designSystem = "디자인 시스템",
+        explore = "탐색",
+        overview = "Overview",
+        foundations = "Foundations",
+        themes = "Themes",
+        components = "Components",
+        accessibility = "Accessibility",
+        guidelines = "가이드라인",
+        light = "라이트",
+        dark = "다크",
+        beez = "BEEZ",
+        testBrand = "테스트 브랜드",
+        appearance = "화면 모드",
+        brandMapping = "브랜드 매핑",
+        overviewTitle = "의미를 담아 디자인하세요.",
+        overviewBody = "토큰을 중심으로 설계된 테마형 컴포넌트 언어입니다.",
+        principlesTitle = "분명한 관점을 가진 시스템.",
+        principlesBody = "값보다 의미를 우선하고, 하나의 공통 계약으로 브랜드를 확장합니다.",
+        foundationsTitle = "작은 결정을 일관되게.",
+        themesTitle = "나만의 것으로 만드세요.",
+        componentsTitle = "하나의 계약, 다양한 맥락.",
+        accessibilityTitle = "품질은 형태의 일부입니다.",
+        actionButton = "Action Button",
+        textField = "Text Field",
+        email = "이메일 주소",
+        placeholder = "name@example.com",
+        supporting = "확인할 수 있는 주소를 입력하세요.",
+        error = "오류 표시",
+        readOnly = "읽기 전용",
+        disabled = "비활성화",
+        reset = "초기화",
+        ready = "준비됨 · 값을 입력하세요",
+        experimental = "실험적",
+    )
+
+    CatalogLocale.English -> CatalogCopy(
+        designSystem = "Design System",
+        explore = "Explore",
+        overview = "Overview",
+        foundations = "Foundations",
+        themes = "Themes",
+        components = "Components",
+        accessibility = "Accessibility",
+        guidelines = "Guidelines",
+        light = "Light",
+        dark = "Dark",
+        beez = "BEEZ",
+        testBrand = "Test Brand",
+        appearance = "Appearance",
+        brandMapping = "Brand mapping",
+        overviewTitle = "Design with meaning.",
+        overviewBody = "A token-first, themeable component language for products that feel unmistakably their own.",
+        principlesTitle = "A system with a point of view.",
+        principlesBody = "Meaning over raw values, one shared contract, and room for each brand to make it theirs.",
+        foundationsTitle = "Small decisions, repeated well.",
+        themesTitle = "Make it yours.",
+        componentsTitle = "One contract, many contexts.",
+        accessibilityTitle = "Quality is part of the shape.",
+        actionButton = "Action Button",
+        textField = "Text Field",
+        email = "Email address",
+        placeholder = "name@example.com",
+        supporting = "Use an address you can access.",
+        error = "Show error",
+        readOnly = "Read only",
+        disabled = "Disable",
+        reset = "Reset",
+        ready = "Ready · enter a value",
+        experimental = "Experimental",
+    )
+}
+
+/** The Compose Multiplatform Showcase application. */
 @Composable
 public fun CatalogApp() {
-    BeezTheme(scheme = BeezTokenSchemes.light) {
-        var value by remember { mutableStateOf("") }
+    var locale by remember { mutableStateOf(defaultCatalogLocale()) }
+    var appearance by remember { mutableStateOf(CatalogAppearance.Light) }
+    var brand by remember { mutableStateOf(CatalogBrand.Beez) }
+    var section by remember { mutableStateOf(CatalogSection.Overview) }
+    val copy = copyFor(locale)
+    val scheme = catalogScheme(appearance, brand)
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(BeezTheme.colors.backgroundNeutral)
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            BasicText(text = "BEEZ Catalog")
-            BasicText(text = "Compose Multiplatform Showcase")
-
-            BeezActionButton(
-                label = "Action Button",
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
+    BeezTheme(scheme = scheme) {
+        Row(modifier = Modifier.fillMaxSize().background(BeezTheme.colors.backgroundNeutral)) {
+            CatalogSidebar(
+                copy = copy,
+                selected = section,
+                onSelect = { section = it },
             )
 
-            BeezTextField(
-                value = value,
-                onValueChange = { value = it },
-                label = "Text Field",
-                placeholder = "Type something",
-                modifier = Modifier.fillMaxWidth(),
-            )
+            Column(modifier = Modifier.fillMaxSize()) {
+                CatalogTopBar(
+                    copy = copy,
+                    locale = locale,
+                    appearance = appearance,
+                    onLocaleChange = { locale = it },
+                    onToggleAppearance = {
+                        appearance = if (appearance == CatalogAppearance.Light) {
+                            CatalogAppearance.Dark
+                        } else {
+                            CatalogAppearance.Light
+                        }
+                    },
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .verticalScroll(rememberScrollState())
+                        .padding(BeezTheme.spacing.screenGutter),
+                    verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.screenSectionGap),
+                ) {
+                    when (section) {
+                        CatalogSection.Overview -> OverviewSection(copy)
+                        CatalogSection.Foundations -> FoundationsSection(copy)
+                        CatalogSection.Themes -> ThemesSection(
+                            copy = copy,
+                            appearance = appearance,
+                            brand = brand,
+                            onAppearanceChange = { appearance = it },
+                            onBrandChange = { brand = it },
+                        )
+                        CatalogSection.Components -> ComponentsSection(copy)
+                        CatalogSection.Accessibility -> AccessibilitySection(copy)
+                    }
+                }
+            }
         }
     }
+}
+
+@Composable
+private fun CatalogSidebar(
+    copy: CatalogCopy,
+    selected: CatalogSection,
+    onSelect: (CatalogSection) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .width(240.dp)
+            .fillMaxHeight()
+            .background(BeezTheme.colors.backgroundBrand)
+            .padding(BeezTheme.spacing.screenGutter),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                modifier = Modifier
+                    .size(40.dp)
+                    .clip(RoundedCornerShape(BeezTheme.shapes.controlRadius))
+                    .background(BeezTheme.colors.foregroundOnBrand),
+                contentAlignment = Alignment.Center,
+            ) {
+                BasicText(
+                    text = "B",
+                    style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.backgroundBrand),
+                )
+            }
+            Spacer(modifier = Modifier.width(BeezTheme.spacing.contentInlineGap))
+            Column {
+                BasicText(
+                    text = "BEEZ",
+                    style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundOnBrand),
+                )
+                BasicText(
+                    text = copy.designSystem,
+                    style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundOnBrand),
+                )
+            }
+        }
+
+        Spacer(modifier = Modifier.height(BeezTheme.spacing.contentStackGap))
+        BasicText(
+            text = copy.explore,
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundOnBrand),
+        )
+
+        CatalogSection.entries.forEach { item ->
+            CatalogChoice(
+                label = sectionLabel(item, copy),
+                selected = item == selected,
+                onClick = { onSelect(item) },
+                selectedColor = BeezTheme.colors.foregroundOnBrand,
+                contentColor = BeezTheme.colors.foregroundOnBrand,
+            )
+        }
+
+        Spacer(modifier = Modifier.weight(1f))
+        BasicText(
+            text = "Experimental · 0.1.0",
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundOnBrand),
+        )
+    }
+}
+
+@Composable
+private fun CatalogTopBar(
+    copy: CatalogCopy,
+    locale: CatalogLocale,
+    appearance: CatalogAppearance,
+    onLocaleChange: (CatalogLocale) -> Unit,
+    onToggleAppearance: () -> Unit,
+) {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(
+                horizontal = BeezTheme.spacing.screenGutter,
+                vertical = BeezTheme.spacing.contentInlineGap,
+            ),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+    ) {
+        BasicText(
+            text = "BEEZ / Showcase",
+            style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundSecondary),
+            modifier = Modifier.weight(1f),
+        )
+        CatalogChoice(
+            label = "한국어",
+            selected = locale == CatalogLocale.Korean,
+            onClick = { onLocaleChange(CatalogLocale.Korean) },
+            selectedColor = BeezTheme.colors.backgroundBrand,
+            contentColor = BeezTheme.colors.foregroundPrimary,
+        )
+        CatalogChoice(
+            label = "English",
+            selected = locale == CatalogLocale.English,
+            onClick = { onLocaleChange(CatalogLocale.English) },
+            selectedColor = BeezTheme.colors.backgroundBrand,
+            contentColor = BeezTheme.colors.foregroundPrimary,
+        )
+        BeezActionButton(
+            label = if (appearance == CatalogAppearance.Light) copy.light else copy.dark,
+            onClick = onToggleAppearance,
+            variant = BeezActionButtonVariant.Outline,
+            size = beez.design.components.BeezActionButtonSize.Small,
+        )
+    }
+}
+
+@Composable
+private fun CatalogChoice(
+    label: String,
+    selected: Boolean,
+    onClick: () -> Unit,
+    selectedColor: Color,
+    contentColor: Color,
+) {
+    BasicText(
+        text = label,
+        style = BeezTheme.typography.label.copy(
+            color = if (selected) selectedColor else contentColor,
+        ),
+        modifier = Modifier
+            .clip(RoundedCornerShape(BeezTheme.shapes.controlRadius))
+            .background(if (selected) selectedColor.copy(alpha = 0.14f) else Color.Transparent)
+            .border(
+                width = if (selected) 1.dp else 0.dp,
+                color = if (selected) selectedColor else Color.Transparent,
+                shape = RoundedCornerShape(BeezTheme.shapes.controlRadius),
+            )
+            .clickable(onClick = onClick)
+            .semantics { role = Role.Button }
+            .padding(
+                horizontal = BeezTheme.spacing.controlCompactHorizontalInset,
+                vertical = BeezTheme.spacing.controlCompactVerticalInset,
+            ),
+    )
+}
+
+@Composable
+private fun OverviewSection(copy: CatalogCopy) {
+    CatalogSectionHeader(
+        eyebrow = "01 / OVERVIEW",
+        title = copy.overviewTitle,
+        body = copy.overviewBody,
+    )
+    CatalogCard(
+        title = copy.principlesTitle,
+        body = copy.principlesBody,
+    )
+}
+
+@Composable
+private fun FoundationsSection(copy: CatalogCopy) {
+    CatalogSectionHeader(
+        eyebrow = "02 / FOUNDATIONS",
+        title = copy.foundationsTitle,
+        body = "Semantic tokens turn design intent into a vocabulary components can share.",
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        CatalogTokenCard(
+            title = "Color",
+            value = "background.brand",
+            preview = BeezTheme.colors.backgroundBrand,
+            modifier = Modifier.weight(1f),
+        )
+        CatalogTokenCard(
+            title = "Typography",
+            value = "screenTitle · ${BeezTheme.typography.screenTitle.fontSize}",
+            preview = BeezTheme.colors.foregroundPrimary,
+            modifier = Modifier.weight(1f),
+        )
+        CatalogTokenCard(
+            title = "Spacing",
+            value = "content.stackGap · ${BeezTheme.spacing.contentStackGap}",
+            preview = BeezTheme.colors.strokeFocus,
+            modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+@Composable
+private fun ThemesSection(
+    copy: CatalogCopy,
+    appearance: CatalogAppearance,
+    brand: CatalogBrand,
+    onAppearanceChange: (CatalogAppearance) -> Unit,
+    onBrandChange: (CatalogBrand) -> Unit,
+) {
+    CatalogSectionHeader(
+        eyebrow = "03 / THEME LAB",
+        title = copy.themesTitle,
+        body = "Change the semantic mapping. The component contract stays the same.",
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.screenSectionGap),
+    ) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+        ) {
+            BasicText(text = copy.appearance, style = BeezTheme.typography.label)
+            Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+                CatalogChoice("${copy.light}", appearance == CatalogAppearance.Light, { onAppearanceChange(CatalogAppearance.Light) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+                CatalogChoice("${copy.dark}", appearance == CatalogAppearance.Dark, { onAppearanceChange(CatalogAppearance.Dark) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            }
+            BasicText(text = copy.brandMapping, style = BeezTheme.typography.label)
+            Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+                CatalogChoice(copy.beez, brand == CatalogBrand.Beez, { onBrandChange(CatalogBrand.Beez) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+                CatalogChoice(copy.testBrand, brand == CatalogBrand.Test, { onBrandChange(CatalogBrand.Test) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            }
+        }
+        CatalogCard(
+            title = "${if (brand == CatalogBrand.Beez) copy.beez else copy.testBrand} · ${if (appearance == CatalogAppearance.Light) copy.light else copy.dark}",
+            body = "background.brand",
+            accent = BeezTheme.colors.backgroundBrand,
+            modifier = Modifier.weight(1f),
+        )
+    }
+}
+
+@Composable
+private fun ComponentsSection(copy: CatalogCopy) {
+    CatalogSectionHeader(
+        eyebrow = "04 / COMPONENTS",
+        title = copy.componentsTitle,
+        body = "These previews call the actual BEEZ commonMain APIs.",
+    )
+    var email by remember { mutableStateOf("") }
+    var error by remember { mutableStateOf(false) }
+    var readOnly by remember { mutableStateOf(false) }
+    var disabled by remember { mutableStateOf(false) }
+
+    CatalogCard(title = copy.actionButton, body = copy.experimental) {
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            BeezActionButton(label = "Continue", onClick = {}, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Outline", onClick = {}, variant = BeezActionButtonVariant.Outline, modifier = Modifier.weight(1f))
+        }
+    }
+
+    CatalogCard(title = copy.textField, body = copy.experimental) {
+        BeezTextField(
+            value = email,
+            onValueChange = { email = it },
+            label = copy.email,
+            placeholder = copy.placeholder,
+            supportingText = if (error) "Please enter a valid email address." else copy.supporting,
+            enabled = !disabled,
+            readOnly = readOnly,
+            isError = error,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            CatalogChoice(copy.error, error, { error = !error }, BeezTheme.colors.backgroundCritical, BeezTheme.colors.foregroundPrimary)
+            CatalogChoice(copy.readOnly, readOnly, { readOnly = !readOnly }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            CatalogChoice(copy.disabled, disabled, { disabled = !disabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            CatalogChoice(copy.reset, false, {
+                email = ""
+                error = false
+                readOnly = false
+                disabled = false
+            }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+        }
+        BasicText(text = if (email.isEmpty()) copy.ready else "Value changed", style = BeezTheme.typography.caption)
+    }
+}
+
+@Composable
+private fun AccessibilitySection(copy: CatalogCopy) {
+    CatalogSectionHeader(
+        eyebrow = "05 / ACCESSIBILITY",
+        title = copy.accessibilityTitle,
+        body = "Accessibility is part of every component contract, not a later audit.",
+    )
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        CatalogCard("48dp target", "Visual size and interaction area stay distinct.", Modifier.weight(1f))
+        CatalogCard("Focus visible", "Keyboard and assistive focus has a clear ring.", Modifier.weight(1f))
+        CatalogCard("State semantics", "Disabled, loading and error states are exposed to assistive technology.", Modifier.weight(1f))
+    }
+}
+
+@Composable
+private fun CatalogSectionHeader(eyebrow: String, title: String, body: String) {
+    Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+        BasicText(text = eyebrow, style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary))
+        BasicText(text = title, style = BeezTheme.typography.display.copy(color = BeezTheme.colors.foregroundPrimary))
+        BasicText(text = body, style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary))
+    }
+}
+
+@Composable
+private fun CatalogCard(
+    title: String,
+    body: String,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+    accent: Color = BeezTheme.colors.backgroundBrand,
+    content: (@Composable () -> Unit)? = null,
+) {
+    Column(
+        modifier = modifier
+            .clip(RoundedCornerShape(BeezTheme.shapes.containerRadius))
+            .background(BeezTheme.colors.backgroundNeutral)
+            .border(1.dp, BeezTheme.colors.strokeNeutral, RoundedCornerShape(BeezTheme.shapes.containerRadius))
+            .padding(BeezTheme.spacing.screenGutter),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(8.dp)
+                .clip(RoundedCornerShape(BeezTheme.shapes.roundRadius))
+                .background(accent),
+        )
+        BasicText(text = title, style = BeezTheme.typography.sectionTitle)
+        BasicText(text = body, style = BeezTheme.typography.body)
+        content?.invoke()
+    }
+}
+
+@Composable
+private fun CatalogTokenCard(title: String, value: String, preview: Color, modifier: Modifier) {
+    CatalogCard(title = title, body = value, accent = preview, modifier = modifier)
+}
+
+private fun sectionLabel(section: CatalogSection, copy: CatalogCopy): String = when (section) {
+    CatalogSection.Overview -> copy.overview
+    CatalogSection.Foundations -> copy.foundations
+    CatalogSection.Themes -> copy.themes
+    CatalogSection.Components -> copy.components
+    CatalogSection.Accessibility -> copy.accessibility
+}
+
+private fun catalogScheme(appearance: CatalogAppearance, brand: CatalogBrand): BeezTokenScheme {
+    val base = if (appearance == CatalogAppearance.Light) BeezTokenSchemes.light else BeezTokenSchemes.dark
+    if (brand == CatalogBrand.Beez) return base
+
+    val testBrand = Color(0xFF1769AB)
+    return base.copy(
+        colors = base.colors.copy(
+            backgroundBrand = testBrand,
+            foregroundOnBrand = Color.White,
+            strokeFocus = testBrand,
+        ),
+    )
 }
