@@ -5,6 +5,7 @@ import {
   expectedBeezDependency,
   expectedMainArtifactExtension,
   expectedPublicationNames,
+  selectPublicationFileNames,
 } from "./validate-publications.mjs";
 
 test("defines the three aligned root and target publication sets", () => {
@@ -42,4 +43,26 @@ test("detects forbidden Material dependency metadata", () => {
   assert.equal(containsForbiddenMaterialDependency("androidx.compose.material3"), true);
   assert.equal(containsForbiddenMaterialDependency("org.jetbrains.compose.material"), true);
   assert.equal(containsForbiddenMaterialDependency("org.jetbrains.compose.foundation"), false);
+});
+
+test("selects timestamped Maven snapshot publication files", () => {
+  const prefix = "beez-components-0.1.0-20260803.062312-1";
+  const selected = selectPublicationFileNames([
+    `${prefix}.pom`,
+    `${prefix}.pom.sha256`,
+    `${prefix}.module`,
+    `${prefix}.module.sha256`,
+    `${prefix}.jar`,
+    `${prefix}.jar.sha256`,
+    `${prefix}-sources.jar`,
+    `${prefix}-sources.jar.sha256`,
+    "maven-metadata.xml",
+  ], "beez-components");
+
+  assert.deepEqual(selected, {
+    pom: `${prefix}.pom`,
+    module: `${prefix}.module`,
+    source: `${prefix}-sources.jar`,
+    artifact: `${prefix}.jar`,
+  });
 });

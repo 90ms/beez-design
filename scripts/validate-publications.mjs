@@ -4,7 +4,7 @@ import {
   readFileSync,
   readdirSync,
 } from "node:fs";
-import { join } from "node:path";
+import { basename, join } from "node:path";
 import { pathToFileURL } from "node:url";
 import { validateBeezVersion } from "./release-version.mjs";
 
@@ -54,6 +54,30 @@ export function containsForbiddenMaterialDependency(metadata) {
   return forbiddenMaterialDependency.test(metadata);
 }
 
+export function selectPublicationFileNames(fileNames, publication) {
+  const selectOne = (label, predicate) => {
+    const matches = fileNames.filter(predicate);
+    if (matches.length !== 1) {
+      throw new Error(
+        `Expected one ${label} for ${publication}; found ${matches.length}: ${matches.join(", ")}`,
+      );
+    }
+    return matches[0];
+  };
+  const extension = expectedMainArtifactExtension(publication);
+
+  return {
+    pom: selectOne("POM", (name) => name.endsWith(".pom")),
+    module: selectOne("Gradle module file", (name) => name.endsWith(".module")),
+    source: selectOne("sources JAR", (name) => name.endsWith("-sources.jar")),
+    artifact: selectOne("primary artifact", (name) => (
+      name.endsWith(`.${extension}`)
+      && !name.endsWith("-sources.jar")
+      && !name.endsWith("-metadata.jar")
+    )),
+  };
+}
+
 function requireFile(path) {
   if (!existsSync(path)) {
     throw new Error(`Missing publication file: ${path}`);
@@ -97,7 +121,7 @@ function verifyPom(pom, publication, version) {
   }
 }
 
-function verifyModule(moduleMetadata, publication, version) {
+function verifyModule(moduleMetadata, publication, version, rootModuleFileName) {
   const module = JSON.parse(moduleMetadata);
   const rootPublication = libraries.find((library) => publication.startsWith(library));
   const expected = {
@@ -113,7 +137,7 @@ function verifyModule(moduleMetadata, publication, version) {
   });
 
   if (publication !== rootPublication) {
-    const expectedUrl = `../../${rootPublication}/${version}/${rootPublication}-${version}.module`;
+    const expectedUrl = `../../${rootPublication}/${version}/${rootModuleFileName}`;
     if (module.component?.url !== expectedUrl) {
       throw new Error(`Gradle module root redirect mismatch for ${publication}`);
     }
@@ -135,30 +159,35 @@ export function validatePublicationRepository(repositoryRoot, version) {
     );
   }
 
-  expected.forEach((publication) => {
+  const publicationFiles = new Map(expected.map((publication) => {
     const versionRoot = join(publicationRoot, publication, version);
-    const baseName = `${publication}-${version}`;
-    const pomPath = join(versionRoot, `${baseName}.pom`);
-    const modulePath = join(versionRoot, `${baseName}.module`);
-    const sourcePath = join(versionRoot, `${baseName}-sources.jar`);
-    const artifactPath = join(
-      versionRoot,
-      `${baseName}.${expectedMainArtifactExtension(publication)}`,
-    );
+    const names = selectPublicationFileNames(readdirSync(versionRoot), publication);
+    return [publication, {
+      pom: join(versionRoot, names.pom),
+      module: join(versionRoot, names.module),
+      source: join(versionRoot, names.source),
+      artifact: join(versionRoot, names.artifact),
+    }];
+  }));
 
-    [pomPath, modulePath, sourcePath, artifactPath].forEach((path) => {
+  expected.forEach((publication) => {
+    const files = publicationFiles.get(publication);
+
+    Object.values(files).forEach((path) => {
       requireFile(path);
       verifySha256(path);
     });
 
-    const pom = readFileSync(pomPath, "utf8");
-    const moduleMetadata = readFileSync(modulePath, "utf8");
+    const pom = readFileSync(files.pom, "utf8");
+    const moduleMetadata = readFileSync(files.module, "utf8");
     if (containsForbiddenMaterialDependency(`${pom}\n${moduleMetadata}`)) {
       throw new Error(`Material dependency found in ${publication} metadata`);
     }
 
     verifyPom(pom, publication, version);
-    verifyModule(moduleMetadata, publication, version);
+    const rootPublication = libraries.find((library) => publication.startsWith(library));
+    const rootModuleFileName = basename(publicationFiles.get(rootPublication).module);
+    verifyModule(moduleMetadata, publication, version, rootModuleFileName);
   });
 
   return {
