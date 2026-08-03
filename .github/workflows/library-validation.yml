@@ -39,7 +39,7 @@ permissions:
   contents: read
 
 concurrency:
-  group: library-validation-${{ github.workflow }}-${{ github.ref }}
+  group: library-validation-${{ github.workflow }}-${{ github.ref }}-${{ inputs.beez_version || 'snapshot' }}
   cancel-in-progress: true
 
 jobs:
@@ -75,7 +75,7 @@ jobs:
 
       - name: Validate build version
         run: |
-          node --test scripts/release-version.test.mjs
+          node --test scripts/release-version.test.mjs scripts/validate-publications.test.mjs
           node scripts/release-version.mjs "$BEEZ_VERSION"
 
       - name: Show toolchain
@@ -86,6 +86,9 @@ jobs:
 
       - name: Publish libraries to staging repository
         run: gradle --no-daemon --stacktrace publishLibrariesToStagingRepository -PbeezVersion="$BEEZ_VERSION"
+
+      - name: Validate staging publications
+        run: node scripts/validate-publications.mjs build/staging-repository "$BEEZ_VERSION"
 
       - name: Verify published artifact consumer
         working-directory: samples/published-consumer

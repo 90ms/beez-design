@@ -36,6 +36,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - Token generation 검증: Node.js tooling test와 commit된 Kotlin 생성물 drift 검사
 - Library 검증: 모든 library target의 `build` task
 - Publication 검증: 세 공개 모듈의 Android, Desktop, iOS arm64, iOS Simulator arm64, Wasm 및 root metadata를 repository-local Maven staging 경로에 publish하고 독립 consumer fixture에서 Android 및 Desktop compile
+- Publication artifact 검사: 18개 publication의 POM/Gradle module identity, primary/source artifact, SHA-256 checksum, 정렬된 내부 dependency와 Material 비포함
 - Desktop visual 검증: Action Button, Checkbox와 Text Field의 Light/Dark/alternate brand normalized baseline 비교
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
