@@ -58,6 +58,11 @@ jobs:
       - name: Validate token sources
         run: node scripts/validate-tokens.mjs
 
+      - name: Verify token generation
+        run: |
+          node --test scripts/token-tools.test.mjs scripts/token-kotlin.test.mjs
+          node scripts/generate-tokens.mjs --check
+
       - name: Show toolchain
         run: gradle --version
 

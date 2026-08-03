@@ -1,7 +1,7 @@
 # BEEZ Compatibility
 
 - 상태: Draft
-- 최종 수정일: 2026-07-31
+- 최종 수정일: 2026-08-03
 
 ## 1. 목적
 
@@ -23,7 +23,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
 | Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, Catalog Compose UI test를 포함한 최신 library validation은 [Run #30616942973](https://github.com/90ms/beez-design/actions/runs/30616942973)에서 성공했다. GitHub Pages의 Wasm distribution 배포는 [Run #30616943004](https://github.com/90ms/beez-design/actions/runs/30616943004)에서 성공했다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, 현재 원격 `main` 기준의 최근 library validation은 [Run #30617819527](https://github.com/90ms/beez-design/actions/runs/30617819527)에서 성공했다. GitHub Pages의 최근 Wasm distribution 배포는 [Run #30617819535](https://github.com/90ms/beez-design/actions/runs/30617819535)에서 성공했다. Token generation drift 검사를 추가한 로컬 변경의 첫 원격 검증은 push 후 기록한다.
 
 ## 2.1 GitHub Actions 검증
 
@@ -31,7 +31,9 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - runner: `ubuntu-latest`
 - runtime JDK: Temurin 17
 - Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
-- 검증 범위: token JSON alias, 모든 library target의 `build` task
+- Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override와 Kotlin identifier
+- Token generation 검증: Node.js tooling test와 commit된 Kotlin 생성물 drift 검사
+- Library 검증: 모든 library target의 `build` task
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 
