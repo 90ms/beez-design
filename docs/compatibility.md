@@ -29,6 +29,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 
 - workflow: `.github/workflows/library-validation.yml`
 - runner: `ubuntu-latest`
+- GitHub-hosted action runtime: Node.js 24 기반 action major 사용
 - runtime JDK: Temurin 17
 - Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
 - Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override와 Kotlin identifier
