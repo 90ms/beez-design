@@ -593,12 +593,5 @@ private fun catalogScheme(appearance: CatalogAppearance, brand: CatalogBrand): B
     val themedBase = base.copy(typography = typography)
     if (brand == CatalogBrand.Beez) return themedBase
 
-    val testBrand = Color(0xFF1769AB)
-    return themedBase.copy(
-        colors = base.colors.copy(
-            backgroundBrand = testBrand,
-            foregroundOnBrand = Color.White,
-            strokeFocus = testBrand,
-        ),
-    )
+    return themedBase.withCatalogTestBrand()
 }

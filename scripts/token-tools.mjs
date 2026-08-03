@@ -331,6 +331,7 @@ export const validateTokenRepository = (tokenRoot) => {
   const commonFiles = [...scaleFiles, ...semanticFiles];
   const light = buildTokenTable([...commonFiles, ...lightColor]);
   const dark = buildTokenTable([...commonFiles, ...darkColor]);
+  const testBrandOverrides = buildTokenTable(testBrand);
   const test = applyTokenOverrides(light, testBrand);
 
   validateTokenTable(light);
@@ -341,5 +342,6 @@ export const validateTokenRepository = (tokenRoot) => {
   return {
     documents,
     contexts: { light, dark, test },
+    overrides: { testBrand: testBrandOverrides },
   };
 };

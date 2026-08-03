@@ -102,7 +102,7 @@ The first Action Button specification and provisional implementation are present
 
 The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Its value state, error/read-only behavior, and accessibility semantics are defined, with dedicated critical semantic color roles added. Android/Desktop/Wasm compilation, common tests, and Compose UI semantics tests pass in GitHub Actions.
 
-The Catalog is being migrated to a Compose Multiplatform application that consumes the actual `beez-components` APIs. Icons, adapters, and documentation tooling will be added when validated use cases require them.
+The Catalog is provided as a Compose Multiplatform application that consumes the actual `beez-components` APIs. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 
 ### Principles
 

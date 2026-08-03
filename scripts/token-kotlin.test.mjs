@@ -3,6 +3,7 @@ import { join } from "node:path";
 import test from "node:test";
 import {
   renderBeezTokenSchemes,
+  renderCatalogTestBrandTokens,
   renderColor,
   renderDimension,
 } from "./token-kotlin.mjs";
@@ -37,4 +38,15 @@ test("renders deterministic default schemes from the repository source", () => {
   assert.match(first, /fontWeight = FontWeight\.Normal/);
   assert.doesNotMatch(first, /containerRadius = 16\.dp/);
   assert.equal(first.endsWith("\n"), true);
+});
+
+test("renders only the declared Catalog Test Brand overrides", () => {
+  const { contexts, overrides } = validateTokenRepository(join(process.cwd(), "specification", "tokens"));
+  const output = renderCatalogTestBrandTokens(contexts.test, overrides.testBrand);
+
+  assert.match(output, /internal fun BeezTokenScheme\.withCatalogTestBrand/);
+  assert.match(output, /backgroundBrand = Color\(0xFF1769AB\)/);
+  assert.match(output, /foregroundOnBrand = Color\(0xFFFFFFFF\)/);
+  assert.match(output, /strokeFocus = Color\(0xFF1769AB\)/);
+  assert.doesNotMatch(output, /foregroundPrimary/);
 });

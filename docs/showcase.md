@@ -1,7 +1,7 @@
 # BEEZ Showcase Guide
 
 - 상태: Active
-- 기준일: 2026-07-31
+- 기준일: 2026-08-03
 
 BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 검토하는 Compose Multiplatform Catalog다. `beez-catalog` Web/Wasm 애플리케이션이 GitHub Pages의 기본 Showcase를 제공하며, 기존 HTML/CSS/JavaScript prototype은 배포 전환 후 제거되었다.
 
@@ -42,6 +42,8 @@ Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)�
 | 현재 구현 | beez-tokens, beez-foundation, beez-components, beez-catalog |
 
 Catalog 화면은 원본 명세를 복제하지 않고 Kotlin token scheme과 `beez-components` API를 직접 사용한다. 시각적 차이가 발견되면 Catalog를 임의로 고치는 대신 token 또는 component 명세를 먼저 검토한다.
+
+Test Brand 색상 override도 `specification/tokens/themes/test-brand.theme.json`에서 Catalog internal Kotlin 파일로 생성한다. Catalog source에 브랜드 원시 색상값을 다시 작성하지 않는다.
 
 ## Compose Catalog
 

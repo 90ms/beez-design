@@ -1,6 +1,9 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
-import { renderBeezTokenSchemes } from "./token-kotlin.mjs";
+import {
+  renderBeezTokenSchemes,
+  renderCatalogTestBrandTokens,
+} from "./token-kotlin.mjs";
 import { validateTokenRepository } from "./token-tools.mjs";
 
 const repositoryRoot = process.cwd();
@@ -16,12 +19,29 @@ const coreOutput = join(
   "tokens",
   "BeezTokenSchemes.generated.kt",
 );
+const catalogOutput = join(
+  repositoryRoot,
+  "beez-catalog",
+  "src",
+  "commonMain",
+  "kotlin",
+  "beez",
+  "design",
+  "catalog",
+  "CatalogTestBrandTokens.generated.kt",
+);
 
-const { contexts } = validateTokenRepository(tokenRoot);
-const outputs = [{
-  path: coreOutput,
-  content: renderBeezTokenSchemes(contexts),
-}];
+const { contexts, overrides } = validateTokenRepository(tokenRoot);
+const outputs = [
+  {
+    path: coreOutput,
+    content: renderBeezTokenSchemes(contexts),
+  },
+  {
+    path: catalogOutput,
+    content: renderCatalogTestBrandTokens(contexts.test, overrides.testBrand),
+  },
+];
 const check = process.argv.includes("--check");
 
 if (check) {
