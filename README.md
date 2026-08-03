@@ -37,7 +37,7 @@ beez-components → beez-foundation → beez-tokens
 
 세 번째 컴포넌트로 binary Checkbox 명세와 provisional implementation을 Experimental 상태로 추가했습니다. 공통 UI 테스트는 state hoisting, checked/disabled semantics, keyboard Space 실행, 최소 touch target과 RTL 확대 font scale을 검증하고, Catalog는 playground와 state/theme matrix를 제공합니다. Tri-state와 실제 플랫폼 보조기술 검증은 아직 남아 있습니다.
 
-네 번째 컴포넌트로 비대화형 neutral Surface 명세와 provisional implementation을 추가했습니다. Surface는 container shape와 Flat/Raised/Floating semantic elevation만 담당하며 role이나 click semantics를 암묵적으로 추가하지 않습니다. 공통 단위/UI 테스트와 Catalog scenario를 추가했으며 Desktop visual baseline 기록과 원격 target 검증은 아직 남아 있습니다.
+네 번째 컴포넌트로 비대화형 neutral Surface 명세와 provisional implementation을 추가했습니다. Surface는 container shape와 Flat/Raised/Floating semantic elevation만 담당하며 role이나 click semantics를 암묵적으로 추가하지 않습니다. 공통 단위/UI 테스트, Light/Dark/alternate brand Desktop visual baseline과 Catalog scenario가 원격 CI에서 검증되었으며 실제 플랫폼 shadow와 보조기술 검증은 아직 남아 있습니다.
 
 Catalog는 실제 `beez-components`를 사용하는 Compose Multiplatform 애플리케이션으로 제공됩니다. Components 화면은 실제 preview를 포함한 카드 overview를 제공하고, 카드를 선택하면 Playground, Anatomy, Properties, Guidelines와 Accessibility로 구성된 상세 화면을 표시합니다. icons, adapters와 documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
@@ -118,7 +118,7 @@ The second component, a single-line Text Field specification and provisional imp
 
 The third component is an Experimental binary Checkbox specification and provisional implementation. Shared UI tests cover state hoisting, checked and disabled semantics, keyboard Space activation, the minimum touch target, and RTL rendering at an enlarged font scale, while the Catalog provides playground and state/theme matrices. Tri-state and real platform assistive-technology verification remain pending.
 
-The fourth component is a provisional non-interactive neutral Surface. It owns container shape and Flat/Raised/Floating semantic elevation without adding implicit role or click semantics. Shared unit/UI tests and Catalog scenarios are present; Desktop visual baselines and remote target validation remain pending.
+The fourth component is a provisional non-interactive neutral Surface. It owns container shape and Flat/Raised/Floating semantic elevation without adding implicit role or click semantics. Shared unit/UI tests, Light/Dark/alternate-brand Desktop visual baselines, and Catalog scenarios now pass remote CI; real-platform shadow and assistive-technology verification remain pending.
 
 The Catalog is provided as a Compose Multiplatform application that consumes the actual `beez-components` APIs. Its Components screen presents card-based previews, then opens a guided detail view with Playground, Anatomy, Properties, Guidelines, and Accessibility sections. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 

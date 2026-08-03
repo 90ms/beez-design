@@ -23,9 +23,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
 | Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, semantic color contrast, token source와 생성물 drift, Action Button/Checkbox/Text Field 공통 UI 테스트, Desktop visual baseline, 전체 KMP staging publication, artifact audit와 독립 Android/Desktop consumer compile을 포함한 현재 원격 `main` 기준의 library validation은 [Run #30790461653](https://github.com/90ms/beez-design/actions/runs/30790461653)에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30790461775](https://github.com/90ms/beez-design/actions/runs/30790461775)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다. `0.1.0-alpha.1` 좌표의 versioned staging dry-run과 artifact 보관은 [Run #30789231140](https://github.com/90ms/beez-design/actions/runs/30789231140)에서 성공했다.
-
-Surface 구현과 component card/detail Catalog 변경은 위 성공 실행 이후의 작업이며 아직 원격 target build, Wasm browser test와 Desktop visual baseline을 통과했다고 기록하지 않는다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이다. Semantic color contrast, token source와 생성물 drift, Action Button/Checkbox/Text Field/Surface 공통 UI 테스트, Desktop visual baseline, 전체 KMP staging publication, artifact audit와 독립 Android/Desktop consumer compile을 포함한 library validation은 [Run #30793043399](https://github.com/90ms/beez-design/actions/runs/30793043399)에서 성공했다. Component card/detail navigation을 포함한 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30793043271](https://github.com/90ms/beez-design/actions/runs/30793043271)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다. `0.1.0-alpha.1` 좌표의 versioned staging dry-run과 artifact 보관은 [Run #30789231140](https://github.com/90ms/beez-design/actions/runs/30789231140)에서 성공했다.
 
 ## 2.1 GitHub Actions 검증
 
@@ -39,7 +37,7 @@ Surface 구현과 component card/detail Catalog 변경은 위 성공 실행 이�
 - Library 검증: 모든 library target의 `build` task
 - Publication 검증: 세 공개 모듈의 Android, Desktop, iOS arm64, iOS Simulator arm64, Wasm 및 root metadata를 repository-local Maven staging 경로에 publish하고 독립 consumer fixture에서 Android 및 Desktop compile
 - Publication artifact 검사: 18개 publication의 POM/Gradle module identity, primary/source artifact, SHA-256 checksum, 정렬된 내부 dependency와 Material 비포함
-- Desktop visual 검증: Action Button, Checkbox와 Text Field의 Light/Dark/alternate brand normalized baseline 비교
+- Desktop visual 검증: Action Button, Checkbox, Text Field와 Surface의 Light/Dark/alternate brand normalized baseline 비교
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 

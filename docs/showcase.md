@@ -75,7 +75,7 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 - `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme, component card overview와 실제 Action Button/Checkbox/Text Field/Surface detail을 포함한 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
-- Compose Web Catalog: Active. Card/detail source 변경은 다음 Pages workflow 성공 전까지 배포 URL에서 확인되지 않을 수 있음
+- Compose Web Catalog: Active. Component card overview와 detail navigation이 Pages에 배포되어 있음
 - Stable 문서 사이트: 미정
 
 배포 HTML은 `html`과 `body`를 viewport 크기로 고정한다. Compose `ComposeViewport`가 문서의 콘텐츠 높이를 viewport로 오인하지 않도록 하는 Web/Wasm 런타임 전제다.

@@ -216,13 +216,13 @@ Shadow의 antialiasing과 blur는 rendering backend에 따라 소폭 다를 수 
 
 ### Automated
 
-- [ ] Flat/Raised/Floating token mapping (test added, remote run pending)
-- [ ] content rendering (test added, remote run pending)
-- [ ] role과 click action을 암묵적으로 추가하지 않음 (test added, remote run pending)
-- [ ] 부모 constraint 존중 (test added, remote run pending)
-- [ ] RTL과 확대 font scale content 전달 (test added, remote run pending)
-- [ ] Light/Dark/Test Brand Catalog scenario (test added, remote run pending)
-- [ ] Light/Dark/alternate brand Desktop visual baseline
+- [x] Flat/Raised/Floating token mapping
+- [x] content rendering
+- [x] role과 click action을 암묵적으로 추가하지 않음
+- [x] 부모 constraint 존중
+- [x] RTL과 확대 font scale content 전달
+- [x] Light/Dark/Test Brand Catalog scenario
+- [x] Light/Dark/alternate brand Desktop visual baseline
 
 ### Manual / platform follow-up
 
@@ -246,10 +246,10 @@ Shadow의 antialiasing과 blur는 rendering backend에 따라 소폭 다를 수 
 - Content color를 암묵적으로 제공하지 않는다.
 - Interactive Card API를 제공하지 않는다.
 - 실제 플랫폼 shadow와 보조기술 grouping 검증은 완료되지 않았다.
-- Desktop visual baseline은 CI rendering 결과를 기록하기 전까지 pending이다.
 
 ## Change history
 
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
 | 2026-08-03 | 최초 neutral Surface 명세와 commonMain 구현 | 초기 범위의 네 번째 component vertical slice 정의 |
+| 2026-08-03 | 공통 UI/Wasm test와 Desktop visual baseline 검증 | Experimental vertical slice의 자동 검증 완료 |
