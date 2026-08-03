@@ -28,6 +28,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.performTouchInput
 import androidx.compose.ui.test.pressKey
 import androidx.compose.ui.test.requestFocus
 import androidx.compose.ui.test.v2.runComposeUiTest
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.foundation.BeezTheme
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @OptIn(ExperimentalTestApi::class)
@@ -67,11 +69,13 @@ class BeezCheckboxUiTest {
 
     @Test
     fun disabledCheckboxKeepsItsCheckedAndDisabledSemantics() = runComposeUiTest {
+        var changes = 0
+
         setContent {
             BeezTheme {
                 BeezCheckbox(
                     checked = true,
-                    onCheckedChange = {},
+                    onCheckedChange = { changes += 1 },
                     label = "Required option",
                     enabled = false,
                 )
@@ -81,6 +85,9 @@ class BeezCheckboxUiTest {
         onNodeWithText("Required option")
             .assertIsOn()
             .assertIsNotEnabled()
+            .performTouchInput { click() }
+
+        assertEquals(0, changes)
     }
 
     @Test

@@ -217,14 +217,14 @@ Checkbox label 안에 별도 클릭 link를 넣지 않는다. 약관 link와 동
 
 ### Automated
 
-- [ ] unchecked/checked rendering과 checkbox role
-- [ ] click callback과 state hoisting
-- [ ] disabled callback 차단과 semantics
-- [ ] minimum touch target
-- [ ] keyboard focus와 Space toggle
-- [ ] Light/Dark/Test Brand Catalog scenario
-- [ ] Light/Dark/alternate brand Desktop visual baseline
-- [ ] 긴 label, 확대 font scale과 RTL layout
+- [x] unchecked/checked rendering과 checkbox role
+- [x] click callback과 state hoisting
+- [x] disabled callback 차단과 semantics
+- [x] minimum touch target
+- [x] keyboard focus와 Space toggle
+- [x] Light/Dark/Test Brand Catalog scenario
+- [x] Light/Dark/alternate brand Desktop visual baseline
+- [x] 긴 label, 확대 font scale과 RTL layout
 
 ### Manual / platform follow-up
 
@@ -240,6 +240,8 @@ Checkbox label 안에 별도 클릭 link를 넣지 않는다. 약관 link와 동
 - Long label / RTL
 - Light, Dark와 Test Brand theme
 
+`BeezCheckboxTest`는 semantic color와 focus mapping을 확인한다. `BeezCheckboxUiTest`는 role, checked/disabled semantics, state hoisting, pointer/keyboard 입력, minimum touch target과 RTL 확대 font scale을 검증한다. Desktop visual test는 Light/Dark/alternate brand의 focused checked와 enabled/disabled 상태를 비교하며, Catalog 공통 UI 테스트는 실제 Web/Wasm scroll과 callback 재구성을 확인한다.
+
 ## Known limitations
 
 - Indeterminate tri-state API는 제공하지 않는다.
@@ -251,3 +253,4 @@ Checkbox label 안에 별도 클릭 link를 넣지 않는다. 약관 link와 동
 | 날짜 | 변경 | 이유 |
 | --- | --- | --- |
 | 2026-08-03 | 최초 binary Checkbox 명세 | 초기 범위의 세 번째 component vertical slice 정의 |
+| 2026-08-03 | commonMain 구현, 자동화 및 Catalog scenario 추가 | Experimental vertical slice 검증 |
