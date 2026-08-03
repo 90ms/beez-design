@@ -39,6 +39,10 @@ beez-tokens는 다음 public 타입을 commonMain에서 제공한다.
 - token module이 Compose Foundation의 shape 구현에 결합되지 않는다.
 - generator 도입 전에는 JSON과 Kotlin provisional 값을 함께 검토해야 한다.
 
+## ADR-0012와의 관계
+
+[ADR-0012](0012-token-generation-pipeline.md)는 이 문서의 public scheme 계약을 유지하면서 DTCG JSON에서 기본 Light/Dark 값과 Catalog 전용 Test Brand override를 생성하는 방식을 결정한다. 생성 파이프라인 도입 후에도 scheme type과 extension API는 사람이 관리하며, generator는 새로운 public token API를 임의로 만들지 않는다.
+
 ## 대안
 
 ### Foundation에 theme과 token을 함께 두기

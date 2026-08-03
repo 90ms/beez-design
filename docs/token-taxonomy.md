@@ -534,6 +534,8 @@ specification/tokens/
 
 ## 13. 후속 결정
 
+Compose Kotlin 생성물의 ownership, public/internal 경계와 CI drift 검사는 [ADR-0012](decisions/0012-token-generation-pipeline.md)를 따른다.
+
 다음 항목은 별도 문서 또는 ADR에서 결정한다.
 
 - Scale token의 실제 값과 단계
@@ -542,5 +544,5 @@ specification/tokens/
 - Typography scale과 시스템 폰트 정책
 - DTCG subset JSON Schema
 - 테마 상속 또는 copy API의 Kotlin 형태
-- 생성 코드의 package와 public/internal 경계
+- Kotlin 이외 platform 생성물과 token metadata export 범위
 - Figma variable naming과 token path 매핑
