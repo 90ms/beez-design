@@ -5,6 +5,7 @@ import {
   expectedBeezDependency,
   expectedMainArtifactExtension,
   expectedPublicationNames,
+  isValidRootModuleRedirect,
   selectPublicationFileNames,
 } from "./validate-publications.mjs";
 
@@ -65,4 +66,29 @@ test("selects timestamped Maven snapshot publication files", () => {
     source: `${prefix}-sources.jar`,
     artifact: `${prefix}.jar`,
   });
+});
+
+test("accepts logical and physical KMP root module redirects", () => {
+  const root = "beez-components";
+  const version = "0.1.0-SNAPSHOT";
+  const physical = "beez-components-0.1.0-20260803.062950-1.module";
+
+  assert.equal(isValidRootModuleRedirect(
+    `../../${root}/${version}/${root}-${version}.module`,
+    root,
+    version,
+    physical,
+  ), true);
+  assert.equal(isValidRootModuleRedirect(
+    `../../${root}/${version}/${physical}`,
+    root,
+    version,
+    physical,
+  ), true);
+  assert.equal(isValidRootModuleRedirect(
+    `../../beez-foundation/${version}/${physical}`,
+    root,
+    version,
+    physical,
+  ), false);
 });

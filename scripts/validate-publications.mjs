@@ -54,6 +54,14 @@ export function containsForbiddenMaterialDependency(metadata) {
   return forbiddenMaterialDependency.test(metadata);
 }
 
+export function isValidRootModuleRedirect(url, rootPublication, version, rootModuleFileName) {
+  const redirectRoot = `../../${rootPublication}/${version}/`;
+  return new Set([
+    `${redirectRoot}${rootPublication}-${version}.module`,
+    `${redirectRoot}${rootModuleFileName}`,
+  ]).has(url);
+}
+
 export function selectPublicationFileNames(fileNames, publication) {
   const selectOne = (label, predicate) => {
     const matches = fileNames.filter(predicate);
@@ -137,8 +145,12 @@ function verifyModule(moduleMetadata, publication, version, rootModuleFileName) 
   });
 
   if (publication !== rootPublication) {
-    const expectedUrl = `../../${rootPublication}/${version}/${rootModuleFileName}`;
-    if (module.component?.url !== expectedUrl) {
+    if (!isValidRootModuleRedirect(
+      module.component?.url,
+      rootPublication,
+      version,
+      rootModuleFileName,
+    )) {
       throw new Error(`Gradle module root redirect mismatch for ${publication}`);
     }
   }
