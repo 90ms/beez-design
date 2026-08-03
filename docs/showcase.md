@@ -15,10 +15,12 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 
 ## 페이지 구성
 
+Components의 card-to-detail 탐색은 [SEED Design Components](https://seed-design.io/components)의 overview와 상세 guide 흐름을 참고한다. 시각 스타일이나 문서 원본을 복제하지 않고 BEEZ token, 실제 Compose component와 `docs/components` 명세로 구성한다.
+
 - Overview: BEEZ 원칙, 지원 플랫폼, 현재 maturity
 - Foundations: color, typography, spacing, shape, elevation, motion
 - Themes: Light, Dark, BEEZ, Test Brand 전환
-- Components: Action Button variant, size, state matrix와 callback preview; Checkbox playground, state, theme와 RTL preview; Text Field playground, state, slot, theme와 RTL preview
+- Components: 실제 component preview를 포함한 card overview와 component별 detail 화면. Detail은 Playground, Anatomy, Properties, Guidelines와 Accessibility를 공통 순서로 제공
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
 ## 언어와 locale
@@ -49,6 +51,9 @@ Test Brand 색상 override도 `specification/tokens/themes/test-brand.theme.json
 
 Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한다.
 
+- Components overview에서 Action Button, Checkbox, Text Field와 Surface의 실제 preview card
+- Card 선택 후 별도 component detail destination으로 이동하고 목록으로 복귀하는 navigation
+- 각 detail의 Playground, Anatomy, Properties, Guidelines와 Accessibility 문서 구조
 - 브랜드 accent와 semantic foreground/background 조합
 - Light/Dark theme 대비
 - 상단 Light/Dark toggle과 Themes Appearance/Brand mapping 전환
@@ -59,6 +64,7 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Checkbox unchecked/checked/disabled state와 RTL 긴 label matrix
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
+- Surface Flat/Raised/Floating 전환, elevation matrix와 RTL 긴 content
 - 긴 label, narrow viewport와 responsive layout
 
 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다. 공통 UI 테스트는 GitHub Actions의 Wasm browser test로 실행한다.
@@ -67,9 +73,9 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 ## 배포 상태
 
-- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Checkbox/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
+- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme, component card overview와 실제 Action Button/Checkbox/Text Field/Surface detail을 포함한 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
-- Compose Web Catalog: Active (initial vertical slice)
+- Compose Web Catalog: Active. Card/detail source 변경은 다음 Pages workflow 성공 전까지 배포 URL에서 확인되지 않을 수 있음
 - Stable 문서 사이트: 미정
 
 배포 HTML은 `html`과 `body`를 viewport 크기로 고정한다. Compose `ComposeViewport`가 문서의 콘텐츠 높이를 viewport로 오인하지 않도록 하는 Web/Wasm 런타임 전제다.
@@ -81,6 +87,7 @@ GitHub repository Settings에서 Pages의 publishing source를 GitHub Actions로
 ## 기여 규칙
 
 - 새 component를 추가할 때 명세, showcase scenario와 문서 링크를 함께 추가한다.
+- 새 component는 Components overview card와 공통 detail 정보 구조를 함께 제공한다.
 - token 값을 HTML, CSS, JavaScript에 직접 복사하지 않는다.
 - Catalog에서만 가능한 시각 표현은 실제 component API와 semantics를 기준으로 유지한다.
 - component API나 token 역할을 바꾸면 관련 ADR과 showcase를 같은 변경 단위로 갱신한다.

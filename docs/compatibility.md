@@ -25,6 +25,8 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 
 `Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, semantic color contrast, token source와 생성물 drift, Action Button/Checkbox/Text Field 공통 UI 테스트, Desktop visual baseline, 전체 KMP staging publication, artifact audit와 독립 Android/Desktop consumer compile을 포함한 현재 원격 `main` 기준의 library validation은 [Run #30790461653](https://github.com/90ms/beez-design/actions/runs/30790461653)에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30790461775](https://github.com/90ms/beez-design/actions/runs/30790461775)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다. `0.1.0-alpha.1` 좌표의 versioned staging dry-run과 artifact 보관은 [Run #30789231140](https://github.com/90ms/beez-design/actions/runs/30789231140)에서 성공했다.
 
+Surface 구현과 component card/detail Catalog 변경은 위 성공 실행 이후의 작업이며 아직 원격 target build, Wasm browser test와 Desktop visual baseline을 통과했다고 기록하지 않는다.
+
 ## 2.1 GitHub Actions 검증
 
 - workflow: `.github/workflows/library-validation.yml`

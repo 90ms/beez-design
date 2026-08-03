@@ -9,6 +9,8 @@ This file records consumer-visible BEEZ changes. Versions remain unreleased unti
 - DTCG token sources, generated Kotlin schemes, Light and Dark themes, and an alternate test brand.
 - Semantic color contrast validation for registered text and non-text pairs.
 - Experimental Action Button, Text Field, and binary Checkbox components with shared Compose implementations, accessibility behavior, tests, visual baselines, catalog scenarios, and specifications.
+- Experimental non-interactive Surface with Flat/Raised/Floating semantic elevation, shared tests, specification, and Catalog scenarios; Desktop visual baselines remain pending.
+- Card-based component overview and guided component detail screens in the Compose Catalog.
 - Compose Multiplatform Web/Wasm catalog and GitHub Pages deployment.
 - Repository-local Maven staging publication for the aligned `beez-tokens`, `beez-foundation`, and `beez-components` modules.
 - Standalone Android and Desktop KMP consumer fixture that resolves the published Components artifact and its transitive dependencies without Material.

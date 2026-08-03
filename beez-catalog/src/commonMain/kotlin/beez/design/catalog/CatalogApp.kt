@@ -15,13 +15,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,18 +28,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
-import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
-import beez.design.components.BeezActionButtonSize
 import beez.design.components.BeezActionButtonVariant
-import beez.design.components.BeezCheckbox
-import beez.design.components.BeezTextField
 import beez.design.foundation.BeezTheme
 import beez.design.tokens.BeezTokenScheme
 import beez.design.tokens.BeezTokenSchemes
@@ -73,7 +66,8 @@ private enum class CatalogSection {
     Accessibility,
 }
 
-private data class CatalogCopy(
+internal data class CatalogCopy(
+    val locale: CatalogLocale,
     val designSystem: String,
     val explore: String,
     val overview: String,
@@ -99,6 +93,14 @@ private data class CatalogCopy(
     val actionButton: String,
     val checkbox: String,
     val textField: String,
+    val surface: String,
+    val componentOverviewBody: String,
+    val componentDetails: String,
+    val backToComponents: String,
+    val anatomy: String,
+    val properties: String,
+    val guidelinesTitle: String,
+    val accessibilityGuide: String,
     val email: String,
     val placeholder: String,
     val supporting: String,
@@ -112,6 +114,7 @@ private data class CatalogCopy(
 
 private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
     CatalogLocale.Korean -> CatalogCopy(
+        locale = CatalogLocale.Korean,
         designSystem = "디자인 시스템",
         explore = "탐색",
         overview = "Overview",
@@ -137,6 +140,14 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         actionButton = "Action Button",
         checkbox = "Checkbox",
         textField = "Text Field",
+        surface = "Surface",
+        componentOverviewBody = "컴포넌트 카드를 선택해 실제 동작, 속성, 사용 가이드와 접근성 계약을 확인하세요.",
+        componentDetails = "컴포넌트 상세",
+        backToComponents = "컴포넌트 목록",
+        anatomy = "구조",
+        properties = "속성",
+        guidelinesTitle = "사용 가이드",
+        accessibilityGuide = "접근성",
         email = "이메일 주소",
         placeholder = "name@example.com",
         supporting = "확인할 수 있는 주소를 입력하세요.",
@@ -149,6 +160,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
     )
 
     CatalogLocale.English -> CatalogCopy(
+        locale = CatalogLocale.English,
         designSystem = "Design System",
         explore = "Explore",
         overview = "Overview",
@@ -174,6 +186,14 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         actionButton = "Action Button",
         checkbox = "Checkbox",
         textField = "Text Field",
+        surface = "Surface",
+        componentOverviewBody = "Choose a component card to inspect its behavior, properties, usage guidance, and accessibility contract.",
+        componentDetails = "Component details",
+        backToComponents = "All components",
+        anatomy = "Anatomy",
+        properties = "Properties",
+        guidelinesTitle = "Guidelines",
+        accessibilityGuide = "Accessibility",
         email = "Email address",
         placeholder = "name@example.com",
         supporting = "Use an address you can access.",
@@ -194,6 +214,7 @@ public fun CatalogApp(initialLocale: CatalogLocale = defaultCatalogLocale()) {
     var appearance by remember { mutableStateOf(CatalogAppearance.Light) }
     var brand by remember { mutableStateOf(CatalogBrand.Beez) }
     var section by remember { mutableStateOf(CatalogSection.Overview) }
+    var component by remember { mutableStateOf<CatalogComponent?>(null) }
     val copy = copyFor(locale)
     val scheme = catalogScheme(appearance, brand)
 
@@ -202,7 +223,10 @@ public fun CatalogApp(initialLocale: CatalogLocale = defaultCatalogLocale()) {
             CatalogSidebar(
                 copy = copy,
                 selected = section,
-                onSelect = { section = it },
+                onSelect = {
+                    section = it
+                    component = null
+                },
             )
 
             Column(modifier = Modifier.fillMaxSize()) {
@@ -237,7 +261,12 @@ public fun CatalogApp(initialLocale: CatalogLocale = defaultCatalogLocale()) {
                             onAppearanceChange = { appearance = it },
                             onBrandChange = { brand = it },
                         )
-                        CatalogSection.Components -> ComponentsSection(copy)
+                        CatalogSection.Components -> ComponentsSection(
+                            copy = copy,
+                            selected = component,
+                            onSelect = { component = it },
+                            onBack = { component = null },
+                        )
                         CatalogSection.Accessibility -> AccessibilitySection(copy)
                     }
                 }
@@ -357,7 +386,7 @@ private fun CatalogTopBar(
 }
 
 @Composable
-private fun CatalogChoice(
+internal fun CatalogChoice(
     label: String,
     selected: Boolean,
     onClick: () -> Unit,
@@ -473,226 +502,6 @@ private fun ThemesSection(
 }
 
 @Composable
-private fun ComponentsSection(copy: CatalogCopy) {
-    CatalogSectionHeader(
-        eyebrow = "04 / COMPONENTS",
-        title = copy.componentsTitle,
-        body = "These previews call the actual BEEZ commonMain APIs.",
-    )
-    var email by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf(false) }
-    var readOnly by remember { mutableStateOf(false) }
-    var disabled by remember { mutableStateOf(false) }
-    var buttonClicks by remember { mutableStateOf(0) }
-    var buttonDisabled by remember { mutableStateOf(false) }
-    var buttonLoading by remember { mutableStateOf(false) }
-    var checkboxChecked by remember { mutableStateOf(false) }
-    var checkboxDisabled by remember { mutableStateOf(false) }
-
-    CatalogCard(title = copy.actionButton, body = copy.experimental) {
-        BasicText(
-            text = "Playground · Clicks: $buttonClicks",
-            style = BeezTheme.typography.label,
-        )
-        BeezActionButton(
-            label = "Continue",
-            onClick = { buttonClicks += 1 },
-            enabled = !buttonDisabled,
-            loading = buttonLoading,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice("Button disabled", buttonDisabled, { buttonDisabled = !buttonDisabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice("Button loading", buttonLoading, { buttonLoading = !buttonLoading }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice("Button reset", false, {
-                buttonClicks = 0
-                buttonDisabled = false
-                buttonLoading = false
-            }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-        }
-
-        BasicText(text = "Variants", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Brand solid", onClick = {}, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Neutral", onClick = {}, variant = BeezActionButtonVariant.Neutral, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Outline", onClick = {}, variant = BeezActionButtonVariant.Outline, modifier = Modifier.weight(1f))
-        }
-
-        BasicText(text = "Sizes", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Small", onClick = {}, size = BeezActionButtonSize.Small, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Medium", onClick = {}, size = BeezActionButtonSize.Medium, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Large", onClick = {}, size = BeezActionButtonSize.Large, modifier = Modifier.weight(1f))
-        }
-
-        BasicText(text = "States", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Enabled", onClick = {}, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Disabled", onClick = {}, enabled = false, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Loading", onClick = {}, loading = true, modifier = Modifier.weight(1f))
-        }
-
-        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            BeezActionButton(
-                label = "متابعة إلى الخطوة التالية",
-                onClick = {},
-                modifier = Modifier.fillMaxWidth(),
-            )
-        }
-    }
-
-    CatalogCard(title = copy.checkbox, body = copy.experimental) {
-        BasicText(
-            text = "Playground · Checked: $checkboxChecked",
-            style = BeezTheme.typography.label,
-        )
-        BeezCheckbox(
-            checked = checkboxChecked,
-            onCheckedChange = { checkboxChecked = it },
-            label = "Receive product updates",
-            enabled = !checkboxDisabled,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice(
-                "Checkbox disabled",
-                checkboxDisabled,
-                { checkboxDisabled = !checkboxDisabled },
-                BeezTheme.colors.backgroundBrand,
-                BeezTheme.colors.foregroundPrimary,
-            )
-            CatalogChoice(
-                "Checkbox reset",
-                false,
-                {
-                    checkboxChecked = false
-                    checkboxDisabled = false
-                },
-                BeezTheme.colors.backgroundBrand,
-                BeezTheme.colors.foregroundPrimary,
-            )
-        }
-
-        BasicText(text = "States", style = BeezTheme.typography.label)
-        BeezCheckbox(checked = false, onCheckedChange = {}, label = "Unchecked option")
-        BeezCheckbox(checked = true, onCheckedChange = {}, label = "Checked option")
-        BeezCheckbox(
-            checked = false,
-            onCheckedChange = {},
-            label = "Disabled unchecked option",
-            enabled = false,
-        )
-        BeezCheckbox(
-            checked = true,
-            onCheckedChange = {},
-            label = "Disabled checked option",
-            enabled = false,
-        )
-
-        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
-                BeezCheckbox(
-                    checked = true,
-                    onCheckedChange = {},
-                    label = "أوافق على تلقي تحديثات مفصلة حول هذا الخيار",
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
-    }
-
-    CatalogCard(title = copy.textField, body = copy.experimental) {
-        BasicText(text = "Playground", style = BeezTheme.typography.label)
-        BeezTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = copy.email,
-            placeholder = copy.placeholder,
-            supportingText = if (error) "Please enter a valid email address." else copy.supporting,
-            enabled = !disabled,
-            readOnly = readOnly,
-            isError = error,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice(copy.error, error, { error = !error }, BeezTheme.colors.backgroundCritical, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice(copy.readOnly, readOnly, { readOnly = !readOnly }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice(copy.disabled, disabled, { disabled = !disabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice(copy.reset, false, {
-                email = ""
-                error = false
-                readOnly = false
-                disabled = false
-            }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-        }
-        BasicText(text = if (email.isEmpty()) copy.ready else "Value changed", style = BeezTheme.typography.caption)
-
-        BasicText(text = "States", style = BeezTheme.typography.label)
-        BeezTextField(
-            value = "",
-            onValueChange = {},
-            label = "Empty field",
-            placeholder = "Placeholder",
-            supportingText = "Supporting text",
-            modifier = Modifier.fillMaxWidth(),
-        )
-        BeezTextField(
-            value = "Filled value",
-            onValueChange = {},
-            label = "Filled field",
-            modifier = Modifier.fillMaxWidth(),
-        )
-        BeezTextField(
-            value = "Read-only value",
-            onValueChange = {},
-            label = "Read-only field",
-            readOnly = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        BeezTextField(
-            value = "Disabled value",
-            onValueChange = {},
-            label = "Disabled field",
-            enabled = false,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        BeezTextField(
-            value = "Invalid value",
-            onValueChange = {},
-            label = "Error field",
-            supportingText = "Resolve this error before continuing.",
-            isError = true,
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        BasicText(text = "Leading · trailing slots", style = BeezTheme.typography.label)
-        BeezTextField(
-            value = "account",
-            onValueChange = {},
-            label = "Slotted field",
-            leadingContent = { BasicText("@", style = BeezTheme.typography.body) },
-            trailingContent = { BasicText("✓", style = BeezTheme.typography.body) },
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        BasicText(text = "Long content · RTL", style = BeezTheme.typography.label)
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
-                BeezTextField(
-                    value = "قيمة طويلة للاختبار",
-                    onValueChange = {},
-                    label = "عنوان حقل طويل للتحقق من التخطيط",
-                    supportingText = "نص مساعد يظل مرئيًا في العرض الضيق",
-                    modifier = Modifier.fillMaxWidth(),
-                )
-            }
-        }
-    }
-}
-
-@Composable
 private fun AccessibilitySection(copy: CatalogCopy) {
     CatalogSectionHeader(
         eyebrow = "05 / ACCESSIBILITY",
@@ -710,7 +519,7 @@ private fun AccessibilitySection(copy: CatalogCopy) {
 }
 
 @Composable
-private fun CatalogSectionHeader(eyebrow: String, title: String, body: String) {
+internal fun CatalogSectionHeader(eyebrow: String, title: String, body: String) {
     Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
         BasicText(text = eyebrow, style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary))
         BasicText(text = title, style = BeezTheme.typography.display.copy(color = BeezTheme.colors.foregroundPrimary))
@@ -719,7 +528,7 @@ private fun CatalogSectionHeader(eyebrow: String, title: String, body: String) {
 }
 
 @Composable
-private fun CatalogCard(
+internal fun CatalogCard(
     title: String,
     body: String,
     modifier: Modifier = Modifier.fillMaxWidth(),

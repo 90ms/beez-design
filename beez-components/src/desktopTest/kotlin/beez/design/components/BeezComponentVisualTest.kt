@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.text.BasicText
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
@@ -132,6 +133,36 @@ class BeezComponentVisualTest {
         layoutDirection = LayoutDirection.Rtl,
     ) {
         TextFieldVisualScenario(readOnly = true)
+    }
+
+    @Test
+    fun surfaceLight() = verifyVisual(
+        name = "surface-light",
+        scheme = BeezTokenSchemes.light,
+        expected = SURFACE_LIGHT,
+        height = 264.dp,
+    ) {
+        SurfaceVisualScenario()
+    }
+
+    @Test
+    fun surfaceDark() = verifyVisual(
+        name = "surface-dark",
+        scheme = BeezTokenSchemes.dark,
+        expected = SURFACE_DARK,
+        height = 264.dp,
+    ) {
+        SurfaceVisualScenario()
+    }
+
+    @Test
+    fun surfaceAlternateBrand() = verifyVisual(
+        name = "surface-alternate-brand",
+        scheme = alternateBrandScheme(BeezTokenSchemes.light),
+        expected = SURFACE_ALTERNATE_BRAND,
+        height = 264.dp,
+    ) {
+        SurfaceVisualScenario()
     }
 }
 
@@ -287,6 +318,45 @@ private fun TextFieldVisualScenario(
     )
 }
 
+@Composable
+private fun SurfaceVisualScenario() {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        BeezSurface(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = BeezSurfaceElevation.Flat,
+        ) {
+            BasicText(
+                text = "Flat surface",
+                style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundPrimary),
+                modifier = Modifier.padding(BeezTheme.spacing.contentStackGap),
+            )
+        }
+        BeezSurface(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = BeezSurfaceElevation.Raised,
+        ) {
+            BasicText(
+                text = "Raised surface",
+                style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundPrimary),
+                modifier = Modifier.padding(BeezTheme.spacing.contentStackGap),
+            )
+        }
+        BeezSurface(
+            modifier = Modifier.fillMaxWidth(),
+            elevation = BeezSurfaceElevation.Floating,
+        ) {
+            BasicText(
+                text = "Floating surface",
+                style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundPrimary),
+                modifier = Modifier.padding(BeezTheme.spacing.contentStackGap),
+            )
+        }
+    }
+}
+
 private fun alternateBrandScheme(base: BeezTokenScheme): BeezTokenScheme = base.copy(
     colors = base.colors.copy(
         backgroundBrand = base.colors.backgroundCritical,
@@ -405,3 +475,6 @@ private const val CHECKBOX_ALTERNATE_BRAND = "H4sIAAAAAAAAA+1XW46DMBC7EiSBhOMkM5
 private const val TEXT_FIELD_LIGHT = "H4sIAAAAAAAAA+1WW47DIAy8UqBA4DiJH/c/wo69kESV9qPSRm12M6PWMuB2UMhgVZmlSFPVCCZVWUFGPoMVOSEXH198PICPff7doJUqT6ocSLkgJ1o4IF+5MXRTo5ksLlTJ1gsRR+wnSZTybvV/ABmnJvdzQ9eJQzc+2ePVMHSnvo+rYegecXXuePW5PNefjSf9HI3wF9D8aC3g7H4Ew0FMoK0rnN2nCmjzFWzmX+ChnqsRcQJDz9uJ+kGZDnE2Qk8GoReqXTc79nlOoNU343e9XRP4lh799yQbz9P/I8T5eUgH/7niPVS6busH4vv9/GX/77qvDnn0Pibo5M9hAemQRwn23smE9xB9mzSpYj75AK3fq+gAF93Oo/eDy2F+9H+jzu7NXzyvQz/+NVsfuuVDd8JIcf3i+sc+um64DEnY9wu/YYm69bVDN9axrRv7uXHjxo0bN/4vvgDnP1S4ABIAAA=="
 private const val TEXT_FIELD_DARK_ERROR = "H4sIAAAAAAAAA+2WUY6kMAxEr0RslxOOEwi+/xG23N0srZXmozXTw7bE11NwCGUHlxxh0KotQkVmWSNM1NQjuFIhdVM+4fNJVXHb13PfLV4jylqWEuexNsygjqoAqLMOrOgRPlkz5tUKNgw+X7BgJjt6EqLM6Xz9n05ZxYX11FX5h3wOd92yCKSdX8eX6/7QLeOex9l6Xtb/0P2XUwm25BGfpcrywnn/vP/b+tHoP8nA8JK+VL2mD7mr05+8e3XmA0UBfdRnRjIuCKfudC1sZIWB94rJNgjZeXL6cthAeZ9+c7P0S6sGm4/v+Uql40nHat22J307BVP6L+MLkee49eM89t2ib6z/l/u3MuQH6/bj+j/cf/Z54Gw/f5kP3WfX8btEMzXLPuSkxrVW/llJ4w2xT20w4+zfco8bpzilH1nTptmfzvkv+31hf67pQ+xbv8XnjGu5z4Xv0m+cPvP7mOk/uM2bJe/HunZNvzSbrBxr2x756H1+2/PBoO567IebGAuxz7dn39PFixcvXrz4//AP9YDxJQASAAA="
 private const val TEXT_FIELD_ALTERNATE_BRAND_RTL = "H4sIAAAAAAAAA+1WW5KEIAy8Eio+OA4k4f5H2E4mrO7X+sFaaxXd5aQAwY5IT2p9HDMYEXfwQJzAxdobriokRRhR8Bt8fEa7SBaqlYkLV+sP2v80ZJUo0E2ViKGbF54YuompMPRwZZb50h9ppmy6s+rm2fuJEofn9XfHit1cbX+K7s9bYtONa7X4NjTd0fN4G5ruv9bPxvsoxt/RST8nUP1hBw+P8AfelJCjUN8L4ATfWED4J1xkUr+hHTys/WMc/lTVX8wvMZ8KSL7u3lG/v14WJWIGi+V1cPL8kj0/k/YH19XmLXBE+KhMoOaTlOe4zJ9+rGbryQZ21H8bYuyHePGfreO6T2Fz3ef/87/w9dv+77oHHP4dWn2j5yuIviP96MWi12V2rrU+O2QX+JbVc3p+d5xLbcfveiDr/a1Os/eu8xJmlst4L4TPc+Aaon4BNavWaaYbqUjgKstZn8kCX1GdGYrIfCupf8HESI853Iyl5R/Mn4LEc50WBwYGBgYG3ocvPLEBgAASAAA="
+private const val SURFACE_LIGHT = PENDING_BASELINE
+private const val SURFACE_DARK = PENDING_BASELINE
+private const val SURFACE_ALTERNATE_BRAND = PENDING_BASELINE

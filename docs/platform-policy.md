@@ -123,6 +123,7 @@ BEEZ는 Compose Multiplatform을 통해 하나의 component API와 구현을 여
 | Action Button | Experimental | Experimental | Experimental | Experimental | Experimental |
 | Checkbox | Experimental | Experimental | Experimental | Experimental | Experimental |
 | Text Field | Experimental | Experimental | Experimental | Experimental | Experimental |
+| Surface | Experimental | In Progress | In Progress | In Progress | In Progress |
 
 ## 8. 차이 관리
 

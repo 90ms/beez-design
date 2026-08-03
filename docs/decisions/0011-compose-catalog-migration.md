@@ -60,3 +60,5 @@ ADR-0010의 정적 Showcase 우선 결정은 초기 visual feedback을 위한 �
 ## 현재 결과
 
 Compose Catalog의 Wasm distribution과 GitHub Pages 배포가 GitHub Actions에서 성공한 뒤 기존 `showcase/` HTML, CSS와 JavaScript 파일을 제거했다. 현재 Pages의 기본 Showcase는 `beez-catalog` artifact를 사용한다.
+
+초기 migration 이후 Components 정보 구조는 실제 component preview를 포함한 card overview와 개별 detail destination으로 발전했다. Detail은 명세를 별도 원본으로 복제하지 않고 Playground, Anatomy, Properties, Guidelines와 Accessibility 관점으로 현재 `docs/components` 계약을 설명한다. 이 변경은 Compose Catalog와 `beez-components` 직접 소비라는 기존 결정을 유지한다.
