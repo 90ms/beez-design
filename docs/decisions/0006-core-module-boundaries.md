@@ -99,7 +99,7 @@ beez-components → beez-foundation
 - `beez-icons`
 - `beez-material3-adapter`
 - `beez-catalog`
-- Token generator 및 Gradle plugin
+- Token generator용 별도 Gradle module 또는 plugin
 - Documentation website
 - Aggregate artifact
 
@@ -147,6 +147,8 @@ Publication task를 구성할 수는 있지만 외부 저장소 배포는 별도
 - 너무 작은 코드에서도 module 간 public/internal API를 구분해야 한다.
 
 ## 후속 방향
+
+ADR-0012에 따라 repository-local Node.js token generator를 추가했지만 별도 Gradle module이나 plugin은 만들지 않았다. 생성된 Kotlin은 기존 `beez-tokens`와 `beez-catalog` source set에 속하므로 이 문서의 module dependency 방향은 바뀌지 않는다.
 
 반복되는 Gradle 설정이 안정되면 convention plugin을 검토한다. 실제 반복이 확인되기 전에 build logic abstraction을 만들지 않는다.
 

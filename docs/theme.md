@@ -1,7 +1,7 @@
 # BEEZ Theme Guide
 
 - 상태: Draft
-- 기준일: 2026-07-31
+- 기준일: 2026-08-03
 
 BEEZ theme은 semantic token scheme을 Compose Multiplatform tree에 제공한다. 제품 코드는 원시 색상이나 spacing 값을 직접 반복하지 않고 BEEZ theme을 읽는다.
 

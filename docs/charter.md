@@ -215,7 +215,7 @@ BEEZ의 성공은 컴포넌트 개수보다 실제 재사용성과 신뢰도로 
 
 다음 항목은 후속 문서와 Architecture Decision Record에서 결정한다.
 
-- Kotlin 이외 token 생성 대상과 도구 확장 범위 (DTCG 형식과 Kotlin 생성 경계는 token taxonomy 및 ADR-0012에서 결정)
+- Kotlin 이외 token 생성 대상과 도구 확장 범위 (DTCG 형식과 Kotlin 생성 경계는 [token taxonomy](token-taxonomy.md) 및 [ADR-0012](decisions/0012-token-generation-pipeline.md)에서 결정)
 - 아이콘 제공 및 배포 방식
 - 카탈로그 및 문서 사이트의 후속 문서 사이트 기술 스택 (Showcase는 ADR-0011에 따라 Compose Multiplatform Catalog로 운영)
 - 스크린샷 테스트와 접근성 테스트 전략

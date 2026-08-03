@@ -117,3 +117,11 @@ ADR-0008에서 검토한 것처럼 runtime parsing, 오류 처리와 dependency 
 ### 기존 Kotlin 값을 계속 수동 관리
 
 추가 도구가 필요 없지만 source of truth가 실질적으로 둘이 되고 Catalog fixture까지 drift할 수 있다. 채택하지 않는다.
+
+## 현재 결과
+
+- `scripts/generate-tokens.mjs`가 BEEZ Light/Dark 기본 Scheme과 Catalog Test Brand override를 생성한다.
+- `BeezTokenSchemes.generated.kt`는 기존 `BeezTokenSchemes.light/dark` public API를 유지한다.
+- `CatalogTestBrandTokens.generated.kt`는 Showcase module 내부에서만 사용한다.
+- token source validator, Node.js tooling test와 `--check` drift 검사를 library validation workflow에서 실행한다.
+- 첫 생성 전환에서 원본과 달랐던 provisional `containerRadius`를 `12dp`로 정렬하고 Regular typography weight를 명시했다.

@@ -488,6 +488,17 @@ specification/tokens/
 
 첫 생성 전환에서 provisional Kotlin 구현과 원본을 대조한 결과, `shape.semantic.container`는 원본 alias에 따라 `12dp`로 정렬하고 `body`와 `caption`의 Regular(400) font weight를 생성 결과에 명시했다. 토큰 원본 자체의 값이나 경로는 변경하지 않았다.
 
+### 생성 및 검증
+
+```bash
+node scripts/validate-tokens.mjs
+node --test scripts/token-tools.test.mjs scripts/token-kotlin.test.mjs
+node scripts/generate-tokens.mjs
+node scripts/generate-tokens.mjs --check
+```
+
+원본을 변경한 기여자는 generator를 실행해 두 Kotlin 생성물을 함께 commit한다. `--check`는 파일을 수정하지 않고 현재 원본과 commit된 결과를 비교한다.
+
 ## 10. 사용 규칙
 
 ### 제품 코드

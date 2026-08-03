@@ -29,7 +29,7 @@ beez-tokens는 다음 public 타입을 commonMain에서 제공한다.
 - public token 타입은 Compose Runtime과 UI에서 제공하는 공통 타입만 사용한다.
 - Shape는 token module에서 구체적인 UI Shape 객체를 만들지 않고 semantic radius를 제공한다. 실제 Shape 변환은 foundation이 담당한다.
 - token source of truth는 specification/tokens의 DTCG JSON이다.
-- 현재 Kotlin 값은 generator가 도입되기 전의 명시적 provisional implementation이다. 생성 파이프라인 도입 시 JSON을 원본으로 유지하고 Kotlin 결과를 교체한다.
+- 기본 Kotlin scheme 값은 ADR-0012의 generator가 DTCG JSON 원본에서 만들며 commit된 생성 결과를 CI에서 검증한다.
 - 원시 token은 public product API로 권장하지 않으며 component와 제품은 semantic scheme을 사용한다.
 
 ## 결과
