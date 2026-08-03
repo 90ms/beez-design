@@ -161,7 +161,7 @@ PR/main validation → local staging publish → 독립 consumer compile
 - API compatibility validator와 changelog 자동화 도구
 - GitHub Packages pre-release workflow의 tag 규칙과 retention
 
-이 항목들은 첫 publication wiring 단계에서 결정하며, 결정이 장기 규칙이 되면 ADR을 추가한다.
+첫 GitHub Packages alpha에 필요한 선택지와 제안은 [ADR-0014](decisions/0014-first-alpha-release-pipeline.md)에 정리했다. 이 ADR이 Accepted되고 license 및 공개 metadata 방향이 정해지기 전에는 외부 publish workflow와 package를 만들지 않는다.
 
 ## 공식 참고
 
