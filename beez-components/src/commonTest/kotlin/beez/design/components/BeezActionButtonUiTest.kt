@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
@@ -17,10 +18,14 @@ import androidx.compose.ui.test.assert
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.assertHeightIsAtLeast
 import androidx.compose.ui.test.assertIsEnabled
+import androidx.compose.ui.test.assertIsFocused
 import androidx.compose.ui.test.assertIsNotEnabled
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performKeyInput
+import androidx.compose.ui.test.pressKey
+import androidx.compose.ui.test.requestFocus
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -129,5 +134,28 @@ class BeezActionButtonUiTest {
         }
 
         onNodeWithTag("rtl-long-label").assertHasClickAction()
+    }
+
+    @Test
+    fun focusedButtonRunsEnterAndSpaceActions() = runComposeUiTest {
+        var clicks = 0
+
+        setContent {
+            BeezTheme {
+                BeezActionButton(
+                    label = "Keyboard action",
+                    onClick = { clicks += 1 },
+                    modifier = Modifier.testTag("keyboard-button"),
+                )
+            }
+        }
+
+        val button = onNodeWithTag("keyboard-button").requestFocus().assertIsFocused()
+        button.performKeyInput {
+            pressKey(Key.Enter)
+            pressKey(Key.Spacebar)
+        }
+
+        assertEquals(2, clicks)
     }
 }

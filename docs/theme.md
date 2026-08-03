@@ -60,9 +60,10 @@ BeezTheme.Provide(productScheme) {
 - 색상·간격·typography는 BeezTheme의 semantic scheme을 사용한다.
 - MaterialTheme 또는 Material color/type을 BEEZ core API에 연결하지 않는다.
 - 브랜드 scheme은 Light와 Dark 각각의 전경·배경 조합을 검토한다.
+- Repository theme fixture는 ADR-0013의 명시적 text/non-text pair 대비 검증을 통과해야 한다.
 - theme 변경은 component screenshot, 접근성 대비, font scale과 상태 표현에 영향을 줄 수 있다.
 - 새 semantic role이 필요하면 [토큰 분류](token-taxonomy.md)와 ADR을 먼저 갱신한다.
 
 ## 현재 상태
 
-현재 default scheme 값은 `specification/tokens`의 DTCG 원본에서 생성하며 provider API는 provisional이다. Compose compile과 실제 target 검증이 완료되기 전에는 Stable 품질을 주장하지 않는다.
+현재 default scheme 값은 `specification/tokens`의 DTCG 원본에서 생성하며 provider API는 provisional이다. `node scripts/validate-tokens.mjs`는 Light, Dark와 Test Brand의 등록된 semantic color pair를 WCAG 2.2 AA 기준으로 검사한다. Validator 통과는 component에서 실제로 인접하는 색상, 플랫폼 focus indicator와 보조기술 검증을 대체하지 않는다. Compose compile과 실제 target 검증이 완료되기 전에는 Stable 품질을 주장하지 않는다.

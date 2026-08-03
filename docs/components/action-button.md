@@ -81,7 +81,7 @@ leading/trailing slot은 decorative content를 기본으로 하며, 별도의 �
 | --- | --- | --- | --- | --- |
 | Enabled | 기본 조건 | variant token 적용 | 허용 | button role과 label |
 | Pressed | pointer/touch/keyboard 실행 중 | pressed feedback | 진행 중 | button action |
-| Focused | keyboard 또는 accessibility focus | focus stroke 표시 | 허용 | focus 전달 |
+| Focused | keyboard 또는 accessibility focus | variant container와 대비되는 focus stroke 표시 | 허용 | focus 전달 |
 | Disabled | enabled=false | muted semantic color | 차단 | disabled 상태 |
 | Loading | loading=true | progress indicator와 label 유지 | 중복 실행 차단 | 진행 상태 전달 |
 
@@ -147,7 +147,7 @@ Loading은 enabled가 true여도 click을 차단한다. Focused와 Pressed는 di
 ### Visual
 
 - semantic foreground/background 쌍을 사용한다.
-- focus를 색상만으로 전달하지 않고 stroke로 함께 표시한다.
+- focus를 색상만으로 전달하지 않고 인접 container 대비 3:1 이상인 stroke로 함께 표시한다.
 - font scale 증가 시 label이 잘리지 않는다.
 
 ## Token mapping
@@ -161,14 +161,15 @@ Loading은 enabled가 true여도 click을 차단한다. Focused와 Pressed는 di
 | Outline | Enabled | root | Background | transparent platform value |
 | Outline | Enabled | root | Border | color.semantic.stroke.neutral |
 | Outline | Enabled | label | Foreground | color.semantic.foreground.primary |
-| All | Focused | root | Focus stroke | color.semantic.stroke.focus |
+| BrandSolid | Focused | root | Focus stroke | color.semantic.foreground.onBrand |
+| Neutral / Outline | Focused | root | Focus stroke | color.semantic.stroke.focus |
 | All | All | label | Typography | typography.semantic.label |
 | All | All | root | Shape | shape.semantic.control |
 | All | All | root | Content gap | spacing.semantic.control.contentGap |
 | All | All | root | Height/inset | spacing.semantic.control.* |
 | All | Disabled | label/root | Muted role | color.semantic.foreground.secondary / background.neutral |
 
-Transparent은 구조상 필요한 platform-independent 값이며, 브랜드 색상이나 component identity를 표현하는 token으로 사용하지 않는다.
+BrandSolid의 focus stroke는 brand container 안쪽에 그려지므로 동일 container에서 검증된 `foreground.onBrand`를 사용한다. Neutral과 Outline은 neutral surface 위에서 `stroke.focus`를 사용한다. 별도의 public on-brand stroke role은 추가하지 않는다. Transparent은 구조상 필요한 platform-independent 값이며, 브랜드 색상이나 component identity를 표현하는 token으로 사용하지 않는다.
 
 ## Compose API
 
@@ -218,11 +219,11 @@ BeezTheme {
 - [x] enabled=false의 disabled semantics와 loading progress semantics
 - [x] Light/Dark와 test brand theme에서 Catalog matrix 렌더링
 - [x] LTR/RTL, 긴 label과 확대 font scale 렌더링
-- [ ] keyboard focus와 Enter/Space action
+- [x] keyboard focus와 Enter/Space action
 
 ### Visual
 
-- [x] Light/Dark/alternate brand에서 BrandSolid, Outline, disabled, loading screenshot
+- [x] Light/Dark/alternate brand에서 focused BrandSolid, Outline, disabled, loading screenshot
 - [ ] Neutral variant와 size 전체 조합 screenshot
 - [ ] 좁은 constraint와 긴 label
 
@@ -233,7 +234,7 @@ BeezTheme {
 - [ ] Desktop keyboard
 - [ ] Web keyboard와 browser semantics
 
-`BeezActionButtonUiTest`는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증한다. Desktop visual test는 Light/Dark/alternate brand의 대표 variant와 state를 24×24 normalized signature로 비교하고 실패 candidate를 Gradle report artifact로 보존한다. Catalog 공통 UI 테스트는 variant, size, state matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기, keyboard focus와 전체 size screenshot 검증은 아직 남아 있다.
+`BeezActionButtonUiTest`는 role, callback, disabled/loading semantics, 최소 touch target, keyboard focus와 Enter/Space 실행, RTL 확대 font scale 렌더링을 검증한다. Desktop visual test는 Light/Dark/alternate brand의 focused BrandSolid와 대표 variant/state를 24×24 normalized signature로 비교하고 실패 candidate를 Gradle report artifact로 보존한다. Catalog 공통 UI 테스트는 variant, size, state matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기와 전체 size screenshot 검증은 아직 남아 있다.
 
 ## Catalog scenarios
 
@@ -259,3 +260,4 @@ BeezTheme {
 | 2026-07-31 | disabled semantics를 명시하고 loading progress semantics 계약을 기록 | 보조기술에 상태를 일관되게 전달 |
 | 2026-08-03 | Compose UI semantics와 Catalog variant/size/state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |
 | 2026-08-03 | Desktop Light/Dark/alternate brand visual baseline 추가 | 대표 variant와 state의 시각 회귀 감지 |
+| 2026-08-03 | BrandSolid focus 대비 수정과 keyboard/contrast 검증 추가 | 보이지 않던 focus border 결함 해소 |

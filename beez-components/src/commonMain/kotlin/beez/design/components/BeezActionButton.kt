@@ -78,16 +78,12 @@ public fun BeezActionButton(
     val shape = RoundedCornerShape(BeezTheme.shapes.controlRadius)
     val interactive = isActionButtonInteractive(enabled = enabled, loading = loading)
     var focused by remember { mutableStateOf(false) }
-    val borderWidth = when {
-        focused && interactive -> 2.dp
-        variant == BeezActionButtonVariant.Outline -> 1.dp
-        else -> 0.dp
-    }
-    val borderColor = when {
-        focused && interactive -> BeezTheme.colors.strokeFocus
-        variant == BeezActionButtonVariant.Outline -> BeezTheme.colors.strokeNeutral
-        else -> Color.Transparent
-    }
+    val border = resolveBorder(
+        variant = variant,
+        focused = focused,
+        interactive = interactive,
+        scheme = BeezTheme.colors,
+    )
     val minHeight = if (sizeTokens.height < BeezTheme.spacing.minimumTouchTarget) {
         BeezTheme.spacing.minimumTouchTarget
     } else {
@@ -100,7 +96,7 @@ public fun BeezActionButton(
             .defaultMinSize(minHeight = minHeight)
             .clip(shape)
             .background(colors.container)
-            .border(width = borderWidth, color = borderColor, shape = shape)
+            .border(width = border.width, color = border.color, shape = shape)
             .onFocusChanged { focused = it.isFocused }
             .semantics(mergeDescendants = true) {
                 role = Role.Button
@@ -158,6 +154,38 @@ internal data class BeezActionButtonSizeTokens(
     val horizontalInset: Dp,
     val verticalInset: Dp,
 )
+
+@Immutable
+internal data class BeezActionButtonBorder(
+    val width: Dp,
+    val color: Color,
+)
+
+internal fun resolveBorder(
+    variant: BeezActionButtonVariant,
+    focused: Boolean,
+    interactive: Boolean,
+    scheme: BeezColorScheme,
+): BeezActionButtonBorder = when {
+    focused && interactive -> BeezActionButtonBorder(
+        width = 2.dp,
+        color = if (variant == BeezActionButtonVariant.BrandSolid) {
+            scheme.foregroundOnBrand
+        } else {
+            scheme.strokeFocus
+        },
+    )
+
+    variant == BeezActionButtonVariant.Outline -> BeezActionButtonBorder(
+        width = 1.dp,
+        color = scheme.strokeNeutral,
+    )
+
+    else -> BeezActionButtonBorder(
+        width = 0.dp,
+        color = Color.Transparent,
+    )
+}
 
 internal fun resolveColors(
     variant: BeezActionButtonVariant,

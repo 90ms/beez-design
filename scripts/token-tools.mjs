@@ -12,6 +12,51 @@ const SUPPORTED_TYPES = new Set([
 
 const TOKEN_SEGMENT = /^[a-z][A-Za-z0-9]*$/;
 
+export const SEMANTIC_COLOR_CONTRAST_PAIRS = Object.freeze([
+  {
+    foreground: "color.semantic.foreground.primary",
+    background: "color.semantic.background.neutral",
+    minimum: 4.5,
+    kind: "text",
+  },
+  {
+    foreground: "color.semantic.foreground.secondary",
+    background: "color.semantic.background.neutral",
+    minimum: 4.5,
+    kind: "text",
+  },
+  {
+    foreground: "color.semantic.foreground.critical",
+    background: "color.semantic.background.neutral",
+    minimum: 4.5,
+    kind: "text",
+  },
+  {
+    foreground: "color.semantic.foreground.onBrand",
+    background: "color.semantic.background.brand",
+    minimum: 4.5,
+    kind: "text",
+  },
+  {
+    foreground: "color.semantic.stroke.neutral",
+    background: "color.semantic.background.neutral",
+    minimum: 3,
+    kind: "non-text",
+  },
+  {
+    foreground: "color.semantic.stroke.focus",
+    background: "color.semantic.background.neutral",
+    minimum: 3,
+    kind: "non-text",
+  },
+  {
+    foreground: "color.semantic.stroke.critical",
+    background: "color.semantic.background.neutral",
+    minimum: 3,
+    kind: "non-text",
+  },
+]);
+
 export const findJsonFiles = (directory) => readdirSync(directory, { withFileTypes: true })
   .flatMap((entry) => {
     const path = join(directory, entry.name);
@@ -173,6 +218,55 @@ const validateColor = (value, tokenPath) => {
     throw new Error(`Color alpha out of range for ${tokenPath}: ${value.alpha}`);
   }
 };
+
+const requireOpaqueColor = (value, label) => {
+  validateColor(value, label);
+  if (value.alpha !== 1) {
+    throw new Error(`Contrast pair color must be opaque: ${label} (alpha ${value.alpha})`);
+  }
+};
+
+const linearizeSrgbComponent = (component) => component <= 0.04045
+  ? component / 12.92
+  : ((component + 0.055) / 1.055) ** 2.4;
+
+export const relativeLuminance = (color, label = "color") => {
+  requireOpaqueColor(color, label);
+  const [red, green, blue] = color.components.map(linearizeSrgbComponent);
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+
+export const contrastRatio = (foreground, background) => {
+  const foregroundLuminance = relativeLuminance(foreground, "foreground");
+  const backgroundLuminance = relativeLuminance(background, "background");
+  const lighter = Math.max(foregroundLuminance, backgroundLuminance);
+  const darker = Math.min(foregroundLuminance, backgroundLuminance);
+  return (lighter + 0.05) / (darker + 0.05);
+};
+
+export const validateColorContrastPairs = (
+  table,
+  context,
+  pairs = SEMANTIC_COLOR_CONTRAST_PAIRS,
+) => pairs.map((pair) => {
+  const foreground = resolveToken(pair.foreground, table);
+  const background = resolveToken(pair.background, table);
+  if (foreground.type !== "color" || background.type !== "color") {
+    throw new Error(`Contrast pair must reference color tokens: ${pair.foreground} on ${pair.background}`);
+  }
+
+  requireOpaqueColor(foreground.value, pair.foreground);
+  requireOpaqueColor(background.value, pair.background);
+  const ratio = contrastRatio(foreground.value, background.value);
+  if (ratio < pair.minimum) {
+    throw new Error(
+      `Color contrast failure in ${context}: ${pair.foreground} on ${pair.background} ` +
+      `is ${ratio.toFixed(2)}:1; ${pair.kind} requires at least ${pair.minimum}:1`,
+    );
+  }
+
+  return { ...pair, ratio };
+});
 
 const validateDimension = (value, tokenPath, allowedUnits = new Set(["dp", "sp"])) => {
   if (!value || typeof value !== "object" || Array.isArray(value)) {
@@ -338,8 +432,14 @@ export const validateTokenRepository = (tokenRoot) => {
   validateTokenTable(dark);
   validateTokenTable(test);
   validateSemanticContracts(light, dark);
+  const contrast = {
+    light: validateColorContrastPairs(light, "light"),
+    dark: validateColorContrastPairs(dark, "dark"),
+    test: validateColorContrastPairs(test, "test-brand"),
+  };
 
   return {
+    contrast,
     documents,
     contexts: { light, dark, test },
     overrides: { testBrand: testBrandOverrides },

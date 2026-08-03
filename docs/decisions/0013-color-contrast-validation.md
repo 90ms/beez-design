@@ -1,7 +1,7 @@
 # ADR-0013: Semantic color contrast validation
 
-- 상태: Proposed
-- 제안일: 2026-08-03
+- 상태: Accepted
+- 결정일: 2026-08-03
 
 ## 문맥
 
@@ -39,7 +39,7 @@ WCAG 2.x sRGB relative luminance 공식을 원본 DTCG 값에 적용한 결과�
 
 Token pair와 별개로 Action Button의 현재 focus border는 모든 variant에서 `stroke.focus`를 사용한다. BrandSolid에서는 `stroke.focus`와 `background.brand`가 기본 Light/Dark 및 Test Brand에서 같은 값이므로 내부 border가 시각적으로 구분되지 않는다. 대비 validator 구현 단계에서 BrandSolid의 focus indicator를 variant-aware mapping으로 수정하고 keyboard/visual test를 추가해야 한다.
 
-## 제안
+## 결정
 
 BEEZ token validation에 WCAG 2.2 Level AA 기반의 명시적 semantic pair registry를 추가한다.
 
@@ -52,9 +52,9 @@ BEEZ token validation에 WCAG 2.2 Level AA 기반의 명시적 semantic pair reg
 7. Light, Dark와 repository에 포함된 모든 theme fixture에 같은 registry를 적용한다.
 8. validator 통과는 실제 component adjacency, focus indicator, disabled 표현과 플랫폼 렌더링 검증을 대체하지 않는다.
 
-## 구현 계획
+## 구현
 
-승인 후 한 단계로 다음을 반영한다.
+다음 항목을 한 단계로 반영한다.
 
 - `scripts/token-tools.mjs`에 relative luminance, contrast ratio와 pair validator를 추가한다.
 - Text 4개와 non-text 3개 pair를 코드에 명시하고 Light/Dark/Test Brand에서 검증한다.
@@ -78,8 +78,11 @@ BEEZ token validation에 WCAG 2.2 Level AA 기반의 명시적 semantic pair reg
 
 ### APCA를 단독 기준으로 사용
 
-향후 더 발전된 perceptual contrast 평가를 검토할 수 있으나, 초기 공개 기준은 현재 명세와 도구 생태계에서 널리 검증 가능한 WCAG 2.2 Level AA로 두는 것을 제안한다. APCA 도입은 기준 변경 ADR로 별도 검토한다.
+향후 더 발전된 perceptual contrast 평가를 검토할 수 있으나, 초기 공개 기준은 현재 명세와 도구 생태계에서 널리 검증 가능한 WCAG 2.2 Level AA로 둔다. APCA 도입은 기준 변경 ADR로 별도 검토한다.
 
-## 결정 요청
+## 결과
 
-이 제안은 접근성 기준과 테마 검증 계약이라는 장기 규칙을 만든다. 구현 전에 WCAG 2.2 AA 기준과 명시적 pair registry 채택 여부에 대한 사용자 승인이 필요하다.
+- 기본 theme과 Test Brand의 의도된 semantic pair가 token source 변경 때마다 자동 검증된다.
+- 새 theme fixture는 기존 semantic contract뿐 아니라 동일한 대비 기준도 통과해야 한다.
+- pair registry에 없는 임의 조합을 안전하다고 주장하지 않으며 component adjacency 검토는 계속 필요하다.
+- 대비 기준이나 pair 분류를 바꾸는 경우 이 ADR을 대체하는 결정을 작성한다.

@@ -65,10 +65,11 @@ Token validation과 generation check는 최소한 다음을 확인한다.
 - Light/Dark semantic contract 일치
 - Test Brand override path 유효성
 - 생성 Kotlin identifier 충돌
+- ADR-0013의 semantic foreground/background 및 non-text contrast pair
 - 생성 결과의 결정성
 - commit된 생성물과 현재 source의 일치
 
-전경과 배경의 접근성 대비 기준, deprecated metadata와 전체 DTCG JSON Schema는 별도 결정이 완료될 때까지 현재 미검증 범위로 문서화한다.
+접근성 대비 기준과 명시적 pair registry는 [ADR-0013](0013-color-contrast-validation.md)을 따른다. Deprecated metadata와 전체 DTCG JSON Schema는 별도 결정이 완료될 때까지 현재 미검증 범위로 문서화한다.
 
 ## 변경 및 검토 흐름
 
@@ -124,4 +125,5 @@ ADR-0008에서 검토한 것처럼 runtime parsing, 오류 처리와 dependency 
 - `BeezTokenSchemes.generated.kt`는 기존 `BeezTokenSchemes.light/dark` public API를 유지한다.
 - `CatalogTestBrandTokens.generated.kt`는 Showcase module 내부에서만 사용한다.
 - token source validator, Node.js tooling test와 `--check` drift 검사를 library validation workflow에서 실행한다.
+- token source validator가 Light, Dark와 Test Brand에서 ADR-0013의 semantic color contrast pair를 검사한다.
 - 첫 생성 전환에서 원본과 달랐던 provisional `containerRadius`를 `12dp`로 정렬하고 Regular typography weight를 명시했다.

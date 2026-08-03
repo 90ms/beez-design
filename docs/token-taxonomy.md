@@ -545,6 +545,16 @@ node scripts/generate-tokens.mjs --check
 - deprecated token의 대체 정보
 - Color 전경 및 배경 조합의 접근성 기준
 
+Color 대비 검증은 [ADR-0013](decisions/0013-color-contrast-validation.md)을 따른다.
+
+- 일반 크기에서 재사용하는 text pair는 WCAG 2.2 Level AA 4.5:1 이상이어야 한다.
+- UI component와 상태를 식별하는 필수 non-text pair는 인접 배경 대비 3:1 이상이어야 한다.
+- 판정은 반올림하지 않으며 Light, Dark와 모든 repository theme fixture에 적용한다.
+- 모든 color role의 곱이 아니라 실제 사용 계약에 등록한 semantic pair만 검사한다.
+- 합성 규칙이 없는 alpha color는 등록 pair에 사용할 수 없다.
+
+현재 registry는 neutral background 위의 primary, secondary, critical foreground와 neutral, focus, critical stroke, 그리고 brand background 위의 onBrand foreground를 포함한다. 새로운 component가 다른 인접 조합을 사용하면 component 명세와 registry를 함께 갱신한다.
+
 ## 13. 후속 결정
 
 Compose Kotlin 생성물의 ownership, public/internal 경계와 CI drift 검사는 [ADR-0012](decisions/0012-token-generation-pipeline.md)를 따른다.
@@ -552,7 +562,7 @@ Compose Kotlin 생성물의 ownership, public/internal 경계와 CI drift 검사
 다음 항목은 별도 문서 또는 ADR에서 결정한다.
 
 - Scale token의 실제 값과 단계
-- Color space와 접근성 대비 기준
+- sRGB 이외 color space의 지원과 대비 계산 방식
 - 논리적 dimension의 기준 단위와 플랫폼 변환 규칙
 - Typography scale과 시스템 폰트 정책
 - DTCG subset JSON Schema

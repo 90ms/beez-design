@@ -58,4 +58,35 @@ class BeezActionButtonTest {
         assertFalse(isActionButtonInteractive(enabled = false, loading = false))
         assertTrue(isActionButtonInteractive(enabled = true, loading = false))
     }
+
+    @Test
+    fun focusedBrandButtonUsesItsContrastingContentColor() {
+        val colors = BeezTokenSchemes.light.colors
+        val border = resolveBorder(
+            variant = BeezActionButtonVariant.BrandSolid,
+            focused = true,
+            interactive = true,
+            scheme = colors,
+        )
+
+        assertEquals(2.dp, border.width)
+        assertEquals(colors.foregroundOnBrand, border.color)
+        assertNotEquals(colors.backgroundBrand, border.color)
+    }
+
+    @Test
+    fun focusedNeutralAndOutlineButtonsUseFocusStroke() {
+        val colors = BeezTokenSchemes.dark.colors
+
+        for (variant in listOf(BeezActionButtonVariant.Neutral, BeezActionButtonVariant.Outline)) {
+            val border = resolveBorder(
+                variant = variant,
+                focused = true,
+                interactive = true,
+                scheme = colors,
+            )
+            assertEquals(2.dp, border.width)
+            assertEquals(colors.strokeFocus, border.color)
+        }
+    }
 }
