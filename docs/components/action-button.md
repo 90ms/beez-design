@@ -9,7 +9,7 @@
 | Platforms | Android / iOS / Desktop / Web |
 | Replaces | 없음 |
 | Related | Text, Icon |
-| Last reviewed | 2026-07-31 |
+| Last reviewed | 2026-08-03 |
 
 ## Summary
 
@@ -212,13 +212,13 @@ BeezTheme {
 
 ### Automated
 
-- [x] 기본 rendering API와 callback parameter가 compile-verified 상태다
-- [ ] variant와 size matrix
+- [x] 기본 rendering, button role, click callback
+- [x] variant와 size matrix
 - [x] disabled/loading state의 중복 입력 차단 로직
-- [x] enabled=false의 disabled semantics와 loading progress semantics 계약을 commonMain 구현에 반영
-- [ ] Light/Dark와 test brand theme
-- [ ] LTR/RTL, 긴 label과 font scale
-- [ ] button semantics와 focus action
+- [x] enabled=false의 disabled semantics와 loading progress semantics
+- [x] Light/Dark와 test brand theme에서 Catalog matrix 렌더링
+- [x] LTR/RTL, 긴 label과 확대 font scale 렌더링
+- [ ] keyboard focus와 Enter/Space action
 
 ### Visual
 
@@ -232,7 +232,7 @@ BeezTheme {
 - [ ] Desktop keyboard
 - [ ] Web keyboard와 browser semantics
 
-GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트가 통과했다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기 검증과 UI screenshot 검증은 아직 남아 있다.
+`BeezActionButtonUiTest`는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증한다. Catalog 공통 UI 테스트는 variant, size, state matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기, keyboard focus와 UI screenshot 검증은 아직 남아 있다.
 
 ## Catalog scenarios
 
@@ -256,3 +256,4 @@ GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와
 | 2026-07-31 | 최초 제안 | 첫 공통 component vertical slice |
 | 2026-07-31 | CI compile/test와 loading interaction 로직 검증 | 공통 library build baseline 확보 |
 | 2026-07-31 | disabled semantics를 명시하고 loading progress semantics 계약을 기록 | 보조기술에 상태를 일관되게 전달 |
+| 2026-08-03 | Compose UI semantics와 Catalog variant/size/state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |

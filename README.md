@@ -29,7 +29,7 @@ beez-components → beez-foundation → beez-tokens
 - `beez-components`: 공개 BEEZ 컴포넌트 API와 구현
 - `beez-catalog`: 실제 BEEZ 컴포넌트를 사용하는 Compose Web/Wasm 쇼케이스 애플리케이션
 
-첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. GitHub Actions에서 library build와 공통 테스트가 통과했으며, API는 아직 Experimental입니다.
+첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. 공통 UI 테스트는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증하고, Catalog는 variant, size와 state matrix를 제공합니다. API는 아직 Experimental입니다.
 
 두 번째 컴포넌트로 단일 행 Text Field 명세와 provisional implementation을 Experimental 상태로 추가했습니다. value state, 오류/읽기 전용 상태와 접근성 semantics를 정의했으며 오류 전용 semantic color token도 추가했습니다. GitHub Actions에서 Android/Desktop/Wasm compile, 공통 테스트와 Compose UI semantics 테스트가 통과했습니다.
 
@@ -98,7 +98,7 @@ beez-components → beez-foundation → beez-tokens
 - `beez-components`: public BEEZ component APIs and implementations
 - `beez-catalog`: Compose Web/Wasm Showcase application consuming the actual BEEZ components
 
-The first Action Button specification and provisional implementation are present. The library build and common tests pass on GitHub Actions, but the API remains Experimental.
+The first Action Button specification and provisional implementation are present. Shared UI tests cover its role, callback, disabled/loading semantics, minimum touch target, and RTL rendering at an enlarged font scale, while the Catalog provides variant, size, and state matrices. The API remains Experimental.
 
 The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Its value state, error/read-only behavior, and accessibility semantics are defined, with dedicated critical semantic color roles added. Android/Desktop/Wasm compilation, common tests, and Compose UI semantics tests pass in GitHub Actions.
 

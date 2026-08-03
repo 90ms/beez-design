@@ -1,6 +1,7 @@
 package beez.design.catalog
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertExists
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -44,5 +45,30 @@ class CatalogUiTest {
         field.performTextInput("user@example.com")
 
         field.assertTextEquals("user@example.com")
+    }
+
+    @Test
+    fun actionButtonCatalogProvidesPlaygroundAndMatrices() = runComposeUiTest {
+        setContent {
+            CatalogApp(initialLocale = CatalogLocale.English)
+        }
+
+        onNodeWithText("Themes").performClick()
+        onNodeWithText("Dark").performClick()
+        onNodeWithText("Test Brand").performClick()
+        onNodeWithText("Components").performClick()
+        onNodeWithText("Continue").performClick()
+
+        onNodeWithText("Playground · Clicks: 1").assertExists()
+        onNodeWithText("Brand solid").assertExists()
+        onNodeWithText("Neutral").assertExists()
+        onNodeWithText("Outline").assertExists()
+        onNodeWithText("Small").assertExists()
+        onNodeWithText("Medium").assertExists()
+        onNodeWithText("Large").assertExists()
+        onNodeWithText("Enabled").assertExists()
+        onNodeWithText("Disabled").assertExists()
+        onNodeWithText("Loading").assertExists()
+        onNodeWithText("متابعة إلى الخطوة التالية").assertExists()
     }
 }

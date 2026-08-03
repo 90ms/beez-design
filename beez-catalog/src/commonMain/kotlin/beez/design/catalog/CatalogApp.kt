@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,12 +29,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
+import beez.design.components.BeezActionButtonSize
 import beez.design.components.BeezActionButtonVariant
 import beez.design.components.BeezTextField
 import beez.design.foundation.BeezTheme
@@ -474,11 +478,60 @@ private fun ComponentsSection(copy: CatalogCopy) {
     var error by remember { mutableStateOf(false) }
     var readOnly by remember { mutableStateOf(false) }
     var disabled by remember { mutableStateOf(false) }
+    var buttonClicks by remember { mutableStateOf(0) }
+    var buttonDisabled by remember { mutableStateOf(false) }
+    var buttonLoading by remember { mutableStateOf(false) }
 
     CatalogCard(title = copy.actionButton, body = copy.experimental) {
+        BasicText(
+            text = "Playground · Clicks: $buttonClicks",
+            style = BeezTheme.typography.label,
+        )
+        BeezActionButton(
+            label = "Continue",
+            onClick = { buttonClicks += 1 },
+            enabled = !buttonDisabled,
+            loading = buttonLoading,
+            modifier = Modifier.fillMaxWidth(),
+        )
         Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Continue", onClick = {}, modifier = Modifier.weight(1f))
+            CatalogChoice("Button disabled", buttonDisabled, { buttonDisabled = !buttonDisabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            CatalogChoice("Button loading", buttonLoading, { buttonLoading = !buttonLoading }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+            CatalogChoice("Button reset", false, {
+                buttonClicks = 0
+                buttonDisabled = false
+                buttonLoading = false
+            }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+        }
+
+        BasicText(text = "Variants", style = BeezTheme.typography.label)
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            BeezActionButton(label = "Brand solid", onClick = {}, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Neutral", onClick = {}, variant = BeezActionButtonVariant.Neutral, modifier = Modifier.weight(1f))
             BeezActionButton(label = "Outline", onClick = {}, variant = BeezActionButtonVariant.Outline, modifier = Modifier.weight(1f))
+        }
+
+        BasicText(text = "Sizes", style = BeezTheme.typography.label)
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            BeezActionButton(label = "Small", onClick = {}, size = BeezActionButtonSize.Small, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Medium", onClick = {}, size = BeezActionButtonSize.Medium, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Large", onClick = {}, size = BeezActionButtonSize.Large, modifier = Modifier.weight(1f))
+        }
+
+        BasicText(text = "States", style = BeezTheme.typography.label)
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            BeezActionButton(label = "Enabled", onClick = {}, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Disabled", onClick = {}, enabled = false, modifier = Modifier.weight(1f))
+            BeezActionButton(label = "Loading", onClick = {}, loading = true, modifier = Modifier.weight(1f))
+        }
+
+        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            BeezActionButton(
+                label = "متابعة إلى الخطوة التالية",
+                onClick = {},
+                modifier = Modifier.fillMaxWidth(),
+            )
         }
     }
 

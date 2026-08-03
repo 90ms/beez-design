@@ -1,7 +1,7 @@
 # BEEZ Platform Policy
 
 - 상태: Draft
-- 최종 수정일: 2026-07-30
+- 최종 수정일: 2026-08-03
 
 ## 1. 목적
 
@@ -120,7 +120,7 @@ BEEZ는 Compose Multiplatform을 통해 하나의 component API와 구현을 여
 
 | Component | Maturity | Android | iOS | Desktop | Web |
 | --- | --- | --- | --- | --- | --- |
-| Action Button | Experimental | Ready | Experimental | Experimental | Planned |
+| Action Button | Experimental | Experimental | Experimental | Experimental | Experimental |
 | Text Field | Experimental | Experimental | Experimental | Experimental | Experimental |
 
 ## 8. 차이 관리
