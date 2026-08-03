@@ -11,6 +11,7 @@ on:
       - "gradle/**"
       - "gradle/libs.versions.toml"
       - "beez-*/**"
+      - "samples/published-consumer/**"
       - "specification/**"
       - "scripts/**"
       - ".github/workflows/library-validation.yml"
@@ -22,6 +23,7 @@ on:
       - "gradle/**"
       - "gradle/libs.versions.toml"
       - "beez-*/**"
+      - "samples/published-consumer/**"
       - "specification/**"
       - "scripts/**"
       - ".github/workflows/library-validation.yml"
@@ -68,6 +70,13 @@ jobs:
 
       - name: Compile and test
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" gradle --no-daemon --stacktrace build
+
+      - name: Publish libraries to staging repository
+        run: gradle --no-daemon --stacktrace publishLibrariesToStagingRepository
+
+      - name: Verify published artifact consumer
+        working-directory: samples/published-consumer
+        run: gradle --no-daemon --stacktrace build
 
       - name: Upload Gradle reports
         if: always()

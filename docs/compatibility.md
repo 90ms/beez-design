@@ -35,6 +35,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override, Kotlin identifier와 Light/Dark/Test Brand의 등록된 semantic color contrast pair
 - Token generation 검증: Node.js tooling test와 commit된 Kotlin 생성물 drift 검사
 - Library 검증: 모든 library target의 `build` task
+- Publication 검증: 세 공개 모듈을 repository-local Maven staging 경로에 publish하고 독립 consumer fixture에서 Android 및 Desktop compile (첫 CI 실행 대기)
 - Desktop visual 검증: Action Button, Checkbox와 Text Field의 Light/Dark/alternate brand normalized baseline 비교
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
@@ -118,7 +119,8 @@ Toolchain 또는 플랫폼 기준을 바꿀 때 다음을 확인한다.
 4. Common test와 가능한 platform test를 실행한다.
 5. Catalog target의 build 또는 run smoke test를 수행한다.
 6. 생성 metadata와 publication artifact를 확인한다.
-7. 이 문서의 상태와 알려진 문제를 갱신한다.
+7. 독립 consumer fixture에서 공개 artifact와 전이 dependency를 resolve한다.
+8. 이 문서의 상태와 알려진 문제를 갱신한다.
 
 ## 8. 소비자 호환성
 

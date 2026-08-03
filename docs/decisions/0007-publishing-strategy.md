@@ -22,7 +22,7 @@ BEEZ는 여러 Compose Multiplatform 프로젝트에서 dependency로 소비되�
 - 로컬 소비자 검증의 기본 채널로 사용한다.
 - publish 명령은 개발자가 필요할 때 실행하며, 기본 버전은 0.1.0-SNAPSHOT 같은 snapshot이다.
 - 로컬 Maven repository에만 저장되므로 팀이나 외부 소비자에게 안정적인 배포 경로로 간주하지 않는다.
-- 현재 Gradle scaffold는 compile/publish 검증 전 상태다. 실제 명령은 toolchain과 publication 설정을 검증한 뒤 실행한다.
+- repository-local staging publication과 독립 consumer fixture로 실제 Maven metadata 및 전이 dependency를 외부 업로드 전에 검증한다.
 
 ### GitHub Packages — 팀 및 pre-release
 
@@ -131,7 +131,7 @@ dependencies {
 
 ## 참고 자료
 
-- [Kotlin Multiplatform library publishing](https://kotlinlang.org/docs/multiplatform/multiplatform-publish-lib-setup.html)
-- [Publish Kotlin Multiplatform libraries to Maven Central](https://kotlinlang.org/docs/multiplatform/multiplatform-publish-libraries.html)
+- [Kotlin Multiplatform library publishing](https://kotlinlang.org/docs/multiplatform-publish-lib.html)
+- [Publish Kotlin Multiplatform libraries to Maven Central](https://kotlinlang.org/docs/multiplatform/multiplatform-publish-libraries-to-maven.html)
 - [Gradle Maven Publish Plugin](https://docs.gradle.org/current/userguide/publishing_maven.html)
 - [GitHub Packages Gradle registry](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-gradle-registry)

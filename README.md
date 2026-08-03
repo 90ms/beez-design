@@ -16,6 +16,8 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 Gradle 프로젝트 골격은 생성되어 있으며, 컴파일과 테스트는 Synology 로컬이 아닌 GitHub Actions에서 검증합니다. 첫 library validation workflow가 성공했으며, iOS Simulator 테스트는 Linux runner 제약으로 건너뜁니다.
 
+세 공개 모듈은 repository-local Maven staging 경로에 publish할 수 있습니다. 독립된 [published artifact consumer](samples/published-consumer/)가 project dependency 없이 `beez-components`와 전이 dependency를 Android 및 Desktop target에서 검증하도록 CI에 구성되어 있으며, 외부 pre-release artifact는 아직 발행하지 않았습니다.
+
 ### 모듈
 
 ```text
@@ -66,6 +68,7 @@ Token validator는 WCAG 2.2 AA 기준으로 등록된 semantic text/non-text col
 - [플랫폼 정책](docs/platform-policy.md)
 - [호환성](docs/compatibility.md)
 - [배포 가이드](docs/publishing.md)
+- [변경 이력](CHANGELOG.md)
 - [테마 가이드](docs/theme.md)
 - [토큰 원본](specification/tokens/)
 - [Action Button 명세](docs/components/action-button.md)
@@ -90,6 +93,8 @@ BEEZ is currently in its initial architecture and foundation stage. A DTCG seman
 Showcase: [90ms.github.io/beez-design](https://90ms.github.io/beez-design/)
 
 The Gradle project skeleton is present, and compile/test validation runs on GitHub Actions instead of the Synology host. The first library validation workflow passed; iOS Simulator tests are skipped because the runner is Linux.
+
+The three public modules can be published to a repository-local Maven staging directory. CI is configured to build an independent [published artifact consumer](samples/published-consumer/) against `beez-components` and its transitive dependencies for Android and Desktop without project dependencies. No external pre-release artifact has been published yet.
 
 ### Modules
 
@@ -141,6 +146,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Platform policy](docs/platform-policy.md)
 - [Compatibility](docs/compatibility.md)
 - [Publishing guide](docs/publishing.md)
+- [Changelog](CHANGELOG.md)
 - [Theme guide](docs/theme.md)
 - [Token sources](specification/tokens/)
 - [Action Button specification](docs/components/action-button.md)
