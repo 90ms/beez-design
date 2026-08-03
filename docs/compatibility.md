@@ -23,7 +23,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
 | Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, token source 검증, 생성물 drift 검사, 공통 component UI 테스트와 Desktop visual baseline을 포함한 현재 원격 `main` 기준의 library validation은 [Run #30784226175](https://github.com/90ms/beez-design/actions/runs/30784226175)에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30784226198](https://github.com/90ms/beez-design/actions/runs/30784226198)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, semantic color contrast, token source와 생성물 drift, 공통 component UI 테스트와 Desktop visual baseline을 포함한 현재 원격 `main` 기준의 library validation은 [Run #30785830563](https://github.com/90ms/beez-design/actions/runs/30785830563)에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30785830564](https://github.com/90ms/beez-design/actions/runs/30785830564)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다.
 
 ## 2.1 GitHub Actions 검증
 
@@ -32,10 +32,10 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - GitHub-hosted action runtime: Node.js 24 기반 action major 사용
 - runtime JDK: Temurin 17
 - Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
-- Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override와 Kotlin identifier
+- Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override, Kotlin identifier와 Light/Dark/Test Brand의 등록된 7개 semantic color contrast pair
 - Token generation 검증: Node.js tooling test와 commit된 Kotlin 생성물 drift 검사
 - Library 검증: 모든 library target의 `build` task
-- Desktop visual 검증: Action Button과 Text Field의 Light/Dark/alternate brand normalized baseline 비교
+- Desktop visual 검증: focused BrandSolid를 포함한 Action Button과 Text Field의 Light/Dark/alternate brand normalized baseline 비교
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 
