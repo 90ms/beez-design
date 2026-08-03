@@ -40,6 +40,11 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v6
 
+      - name: Validate Catalog font coverage
+        run: |
+          node --test scripts/catalog-font.test.mjs
+          node scripts/validate-catalog-font.mjs
+
       - name: Build Compose Web/Wasm Catalog
         run: gradle --no-daemon :beez-catalog:wasmJsBrowserDistribution
 

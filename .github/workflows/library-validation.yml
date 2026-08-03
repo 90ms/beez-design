@@ -68,6 +68,11 @@ jobs:
       - name: Validate token sources
         run: node scripts/validate-tokens.mjs
 
+      - name: Validate Catalog font coverage
+        run: |
+          node --test scripts/catalog-font.test.mjs
+          node scripts/validate-catalog-font.mjs
+
       - name: Verify token generation
         run: |
           node --test scripts/token-tools.test.mjs scripts/token-kotlin.test.mjs

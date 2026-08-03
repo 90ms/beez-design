@@ -32,7 +32,16 @@ Components의 card-to-detail 탐색은 [SEED Design Components](https://seed-des
 - 상단의 언어 전환 버튼으로 즉시 변경할 수 있다.
 - 번역되지 않은 token key와 API 예시는 원본 식별자를 보존해 문서와 구현을 대조할 수 있도록 한다.
 
-Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)을 만나도 Compose 텍스트 locale 초기화가 실패하지 않도록 배포 HTML에서 locale을 정규화한다. 또한 브라우저 시스템 폰트에 한글 글리프가 없어도 동일하게 보이도록 Catalog 전용 Noto Sans KR subset을 함께 번들한다. 폰트는 SIL Open Font License 1.1을 따른다([라이선스](licenses/NOTO_SANS_KR_OFL.txt)).
+Wasm 런타임이 브라우저의 비표준 locale 문자열(`en-US@posix` 등)을 만나도 Compose 텍스트 locale 초기화가 실패하지 않도록 배포 HTML에서 locale을 정규화한다. 또한 브라우저 시스템 폰트에 한글 글리프가 없어도 동일하게 보이도록 Catalog 전용 Noto Sans KR Regular subset을 함께 번들한다. 폰트는 SIL Open Font License 1.1을 따른다([라이선스](licenses/NOTO_SANS_KR_OFL.txt)).
+
+### Catalog 폰트 관리
+
+Subset은 `beez-catalog/src/commonMain/kotlin`의 현재 문자열을 기준으로 생성한다. `node scripts/validate-catalog-font.mjs`는 Catalog source에 사용된 모든 한글 글리프가 번들 폰트에 있는지 확인하며, library validation과 Pages 배포가 이 검사를 선행한다. 새 한국어 문구를 추가한 뒤 검사가 실패하면 폰트를 함께 재생성해야 한다.
+
+- 원본: Google Fonts `NotoSansKR[wght].ttf`, commit [`4efc2774`](https://github.com/google/fonts/commit/4efc2774c63917927efe769ca845def6bd6debae)
+- 원본 SHA-256: `194018e6b2b293a7964f037b25c0249ce1418bc9ab3c971060a03aa57861e252`
+- 생성 도구: fontTools `4.59.0`
+- 생성 명령: `node scripts/subset-catalog-font.mjs <NotoSansKR-variable-font.ttf>`
 
 ## Source of truth
 
