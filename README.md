@@ -10,7 +10,7 @@ Material 3 컴포넌트에 핵심 구현을 의존하지 않고, BEEZ만의 토�
 
 ### 현재 상태
 
-현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. provisional semantic token source, Kotlin scheme API와 Compose Multiplatform Web/Wasm Catalog 초기 화면을 추가했습니다. 기존 JavaScript Showcase는 Compose Catalog로 전환되어 제거되었으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
+현재는 초기 아키텍처와 Foundation을 정리하는 단계입니다. DTCG semantic token source, 여기서 생성한 Kotlin scheme API와 Compose Multiplatform Web/Wasm Catalog 초기 화면을 추가했습니다. 기존 JavaScript Showcase는 Compose Catalog로 전환되어 제거되었으며, 아직 Stable 컴포넌트 artifact를 배포하지 않았습니다.
 
 쇼케이스: [90ms.github.io/beez-design](https://90ms.github.io/beez-design/)
 
@@ -79,7 +79,7 @@ The core does not depend on Material 3 components. BEEZ defines its own tokens, 
 
 ### Status
 
-BEEZ is currently in its initial architecture and foundation stage. A provisional semantic token source, Kotlin scheme API, and an initial Compose Multiplatform Web/Wasm Catalog are present. The legacy JavaScript Showcase has been replaced and removed, and no stable component artifact has been released yet.
+BEEZ is currently in its initial architecture and foundation stage. A DTCG semantic token source, its generated Kotlin scheme API, and an initial Compose Multiplatform Web/Wasm Catalog are present. The legacy JavaScript Showcase has been replaced and removed, and no stable component artifact has been released yet.
 
 Showcase: [90ms.github.io/beez-design](https://90ms.github.io/beez-design/)
 

@@ -37,7 +37,7 @@ beez-tokens는 다음 public 타입을 commonMain에서 제공한다.
 - foundation과 components가 동일한 semantic 계약을 공유한다.
 - Light/Dark와 브랜드 변경이 component API 변경 없이 가능하다.
 - token module이 Compose Foundation의 shape 구현에 결합되지 않는다.
-- generator 도입 전에는 JSON과 Kotlin provisional 값을 함께 검토해야 한다.
+- DTCG JSON과 생성된 Kotlin scheme diff를 함께 검토하고 CI drift 검사를 통과해야 한다.
 
 ## ADR-0012와의 관계
 

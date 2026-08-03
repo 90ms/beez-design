@@ -65,4 +65,4 @@ BeezTheme.Provide(productScheme) {
 
 ## 현재 상태
 
-현재 default scheme과 provider API는 provisional이다. Compose compile과 실제 target 검증이 완료되기 전에는 Stable 품질을 주장하지 않는다.
+현재 default scheme 값은 `specification/tokens`의 DTCG 원본에서 생성하며 provider API는 provisional이다. Compose compile과 실제 target 검증이 완료되기 전에는 Stable 품질을 주장하지 않는다.

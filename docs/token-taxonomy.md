@@ -1,7 +1,7 @@
 # BEEZ Token Taxonomy
 
 - 상태: Draft
-- 최종 수정일: 2026-07-31
+- 최종 수정일: 2026-08-03
 
 ## 1. 목적
 
@@ -484,7 +484,9 @@ specification/tokens/
 
 실제 파일에서는 scale과 semantic mode 파일을 분리하며, 빌드 과정에서 alias를 해석하고 스키마를 검증한다.
 
-현재 repository에는 이 구조의 provisional 원본이 specification/tokens/에 추가되어 있다. Compose public token 계약은 beez-tokens/src/commonMain의 scheme 타입으로 제공하며, token generator가 도입되기 전까지 JSON 원본과 Kotlin 값을 같은 변경 단위로 검토한다.
+현재 repository는 이 구조의 원본을 `specification/tokens/`에 두고 `node scripts/generate-tokens.mjs`로 Compose 기본 Scheme을 생성한다. Compose public token 계약은 `beez-tokens/src/commonMain`의 사람이 관리하는 scheme 타입과 생성된 `BeezTokenSchemes.generated.kt`로 제공한다. `node scripts/generate-tokens.mjs --check`는 commit된 생성물이 원본과 일치하는지 확인한다.
+
+첫 생성 전환에서 provisional Kotlin 구현과 원본을 대조한 결과, `shape.semantic.container`는 원본 alias에 따라 `12dp`로 정렬하고 `body`와 `caption`의 Regular(400) font weight를 생성 결과에 명시했다. 토큰 원본 자체의 값이나 경로는 변경하지 않았다.
 
 ## 10. 사용 규칙
 

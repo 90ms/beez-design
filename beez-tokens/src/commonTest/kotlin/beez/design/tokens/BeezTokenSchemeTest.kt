@@ -1,6 +1,8 @@
 package beez.design.tokens
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
@@ -41,5 +43,14 @@ class BeezTokenSchemeTest {
         assertEquals(productBrand, themed.colors)
         assertEquals(BeezTokenSchemes.light.typography, themed.typography)
         assertEquals(BeezTokenSchemes.light.spacing, themed.spacing)
+    }
+
+    @Test
+    fun generatedSchemeMatchesSemanticShapeAndTypographySources() {
+        val scheme = BeezTokenSchemes.light
+
+        assertEquals(12.dp, scheme.shapes.containerRadius)
+        assertEquals(FontWeight.Normal, scheme.typography.body.fontWeight)
+        assertEquals(FontWeight.Normal, scheme.typography.caption.fontWeight)
     }
 }
