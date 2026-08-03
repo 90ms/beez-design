@@ -66,6 +66,8 @@ gradle --no-daemon -p samples/published-consumer build -PbeezVersion=0.1.0-alpha
 
 독립 fixture는 Gradle project dependency를 사용하지 않는다. staging repository의 `beez-components`를 resolve하고, 공개 metadata를 따라 `beez-foundation`과 `beez-tokens`를 전이적으로 가져온다. BEEZ artifact는 이 검증에서 Material dependency 없이 Android와 Desktop target을 compile해야 한다.
 
+`Validate BEEZ Libraries` workflow를 수동 실행하면 `beez_version` 입력으로 release candidate 좌표를 지정할 수 있다. workflow는 ADR-0007의 version 형식을 검사하고, 외부 repository 대신 staging publish와 consumer compile을 수행한 뒤 결과 repository를 7일간 Actions artifact로 보관한다. push와 pull request 검증은 기본 `0.1.0-SNAPSHOT`을 사용하며 staging artifact를 업로드하지 않는다.
+
 ## GitHub Packages
 
 pre-release를 소비하는 프로젝트에만 GitHub Packages repository를 추가한다.

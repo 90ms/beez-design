@@ -12,6 +12,7 @@ This file records consumer-visible BEEZ changes. Versions remain unreleased unti
 - Compose Multiplatform Web/Wasm catalog and GitHub Pages deployment.
 - Repository-local Maven staging publication for the aligned `beez-tokens`, `beez-foundation`, and `beez-components` modules.
 - Standalone Android and Desktop KMP consumer fixture that resolves the published Components artifact and its transitive dependencies without Material.
+- CI validation for supported snapshot, pre-release, and stable version formats, with manually requested staging repositories retained for seven days.
 
 ### Release readiness
 

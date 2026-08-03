@@ -28,6 +28,12 @@ on:
       - "scripts/**"
       - ".github/workflows/library-validation.yml"
   workflow_dispatch:
+    inputs:
+      beez_version:
+        description: Version to use for staging publication validation
+        required: true
+        default: 0.1.0-alpha.1
+        type: string
 
 permissions:
   contents: read
@@ -41,6 +47,8 @@ jobs:
     name: Compile and test libraries
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    env:
+      BEEZ_VERSION: ${{ inputs.beez_version || '0.1.0-SNAPSHOT' }}
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -65,18 +73,32 @@ jobs:
           node --test scripts/token-tools.test.mjs scripts/token-kotlin.test.mjs
           node scripts/generate-tokens.mjs --check
 
+      - name: Validate build version
+        run: |
+          node --test scripts/release-version.test.mjs
+          node scripts/release-version.mjs "$BEEZ_VERSION"
+
       - name: Show toolchain
         run: gradle --version
 
       - name: Compile and test
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" gradle --no-daemon --stacktrace build
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x1024x24" gradle --no-daemon --stacktrace build -PbeezVersion="$BEEZ_VERSION"
 
       - name: Publish libraries to staging repository
-        run: gradle --no-daemon --stacktrace publishLibrariesToStagingRepository
+        run: gradle --no-daemon --stacktrace publishLibrariesToStagingRepository -PbeezVersion="$BEEZ_VERSION"
 
       - name: Verify published artifact consumer
         working-directory: samples/published-consumer
-        run: gradle --no-daemon --stacktrace build
+        run: gradle --no-daemon --stacktrace build -PbeezVersion="$BEEZ_VERSION"
+
+      - name: Upload staging repository
+        if: github.event_name == 'workflow_dispatch'
+        uses: actions/upload-artifact@v7
+        with:
+          name: beez-staging-${{ inputs.beez_version }}
+          path: build/staging-repository/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Upload Gradle reports
         if: always()
