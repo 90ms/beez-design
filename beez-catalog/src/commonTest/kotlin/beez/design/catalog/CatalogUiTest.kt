@@ -1,6 +1,9 @@
 package beez.design.catalog
 
 import androidx.compose.ui.test.ExperimentalTestApi
+import androidx.compose.ui.test.assertIsNotEnabled
+import androidx.compose.ui.test.assertIsOff
+import androidx.compose.ui.test.assertIsOn
 import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
@@ -89,5 +92,25 @@ class CatalogUiTest {
         onNodeWithContentDescription("Error field").assertTextEquals("Invalid value")
         onNodeWithContentDescription("Slotted field").assertTextEquals("account")
         onNodeWithContentDescription("عنوان حقل طويل للتحقق من التخطيط").assertExists()
+    }
+
+    @Test
+    fun checkboxCatalogProvidesPlaygroundStateAndRtlScenarios() = runComposeUiTest {
+        setContent {
+            CatalogApp(initialLocale = CatalogLocale.English)
+        }
+
+        onNodeWithText("Components").performClick()
+        onNodeWithText("Receive product updates")
+            .assertIsOff()
+            .performClick()
+            .assertIsOn()
+
+        onNodeWithText("Playground · Checked: true").assertExists()
+        onNodeWithText("Unchecked option").assertIsOff()
+        onNodeWithText("Checked option").assertIsOn()
+        onNodeWithText("Disabled unchecked option").assertIsNotEnabled().assertIsOff()
+        onNodeWithText("Disabled checked option").assertIsNotEnabled().assertIsOn()
+        onNodeWithText("أوافق على تلقي تحديثات مفصلة حول هذا الخيار").assertIsOn()
     }
 }

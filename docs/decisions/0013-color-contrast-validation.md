@@ -57,7 +57,7 @@ BEEZ token validation에 WCAG 2.2 Level AA 기반의 명시적 semantic pair reg
 다음 항목을 한 단계로 반영한다.
 
 - `scripts/token-tools.mjs`에 relative luminance, contrast ratio와 pair validator를 추가한다.
-- Text 4개와 non-text 3개 pair를 코드에 명시하고 Light/Dark/Test Brand에서 검증한다.
+- 초기 구현은 Text 4개와 non-text 3개 pair로 시작한다. 새 component가 실제로 사용하는 인접 조합은 component 명세와 함께 registry에 추가하고 Light/Dark/Test Brand에서 검증한다.
 - 경계값, 실패 pair, alpha와 현재 repository context를 Node.js test로 검증한다.
 - `validate-tokens.mjs` 출력에 검사한 pair와 최소 비율을 표시한다.
 - Action Button의 BrandSolid focus indicator를 인접 container와 구분되는 variant-aware color로 수정하고 keyboard 및 visual test를 추가한다.
@@ -84,5 +84,6 @@ BEEZ token validation에 WCAG 2.2 Level AA 기반의 명시적 semantic pair reg
 
 - 기본 theme과 Test Brand의 의도된 semantic pair가 token source 변경 때마다 자동 검증된다.
 - 새 theme fixture는 기존 semantic contract뿐 아니라 동일한 대비 기준도 통과해야 한다.
+- Checkbox는 실제 인접 조합인 `background.brand` on `background.neutral` non-text pair를 registry에 추가한다.
 - pair registry에 없는 임의 조합을 안전하다고 주장하지 않으며 component adjacency 검토는 계속 필요하다.
 - 대비 기준이나 pair 분류를 바꾸는 경우 이 ADR을 대체하는 결정을 작성한다.

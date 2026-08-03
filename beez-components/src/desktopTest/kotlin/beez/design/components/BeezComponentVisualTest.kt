@@ -74,6 +74,36 @@ class BeezComponentVisualTest {
     }
 
     @Test
+    fun checkboxLight() = verifyVisual(
+        name = "checkbox-light",
+        scheme = BeezTokenSchemes.light,
+        expected = CHECKBOX_LIGHT,
+        height = 264.dp,
+    ) {
+        CheckboxVisualScenario()
+    }
+
+    @Test
+    fun checkboxDark() = verifyVisual(
+        name = "checkbox-dark",
+        scheme = BeezTokenSchemes.dark,
+        expected = CHECKBOX_DARK,
+        height = 264.dp,
+    ) {
+        CheckboxVisualScenario()
+    }
+
+    @Test
+    fun checkboxAlternateBrand() = verifyVisual(
+        name = "checkbox-alternate-brand",
+        scheme = alternateBrandScheme(BeezTokenSchemes.light),
+        expected = CHECKBOX_ALTERNATE_BRAND,
+        height = 264.dp,
+    ) {
+        CheckboxVisualScenario()
+    }
+
+    @Test
     fun textFieldLight() = verifyVisual(
         name = "text-field-light",
         scheme = BeezTokenSchemes.light,
@@ -192,6 +222,48 @@ private fun ActionButtonVisualScenario() {
                 modifier = Modifier.weight(1f),
             )
         }
+    }
+}
+
+@Composable
+private fun CheckboxVisualScenario() {
+    val focusRequester = remember { FocusRequester() }
+    LaunchedEffect(focusRequester) {
+        focusRequester.requestFocus()
+    }
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+    ) {
+        BeezCheckbox(
+            checked = true,
+            onCheckedChange = {},
+            label = "Checked focused",
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
+        )
+        BeezCheckbox(
+            checked = false,
+            onCheckedChange = {},
+            label = "Unchecked",
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezCheckbox(
+            checked = false,
+            onCheckedChange = {},
+            label = "Disabled unchecked",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezCheckbox(
+            checked = true,
+            onCheckedChange = {},
+            label = "Disabled checked",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 
@@ -327,6 +399,9 @@ private const val PENDING_BASELINE = "pending"
 private const val ACTION_BUTTON_LIGHT = "H4sIAAAAAAAAA+1WR3IDMQz7knp5jsTy/ycEVNaxJ7m4aC+ZBQ6Y9YGCSIq0KslofaqOWXpOW3SYSuNMCqRFFZIpDJ0gbVAVEYTvkkPsqm0E8W6fUuihBRyQF/fjiNspSUR+ek3djoO2gIv1mb3dC0lNYdz1af+uSZUj/+bfLaoMEPXmYVTL4nciy+LzOOL++OecI1v9q8umvXCG/9EK5QaV2ko5/PnX/eOjCuJQAxGXiCahDwiNZX0mxfi+/+398zv/u3HEnbHWstP/jM6jEbngIc/z/SvpAPdBlEFcAJFpxV+65s+OuXPoei11o+9/CiHuHNd78AV5m9pcGZ8r9xnHK+/9TUypXFDnPmKyd7FNNYqXh4Nu/XT0Ky5q/Kuv+u81ZORrOBzr74r0VZ8f/Nh3sX0aydPz97iBJ+osa68spYE5rWtOd8Zc4cSB2wf+O/Z8WRqXNuzHZGmpav2AJUPV9kJstaLfZsMe6s/7X9u4rDrkVYegXuNDXW6/v+u/ZRfNV8L/JHev/wgpB7tPTDX0VR8XnO3RXON4wf9JmFzJ9vYp/c/n+5fJjcMxf+bG+dNmGGfsxQsXLly4cOF0fAHO8f6SABIAAA=="
 private const val ACTION_BUTTON_DARK = "H4sIAAAAAAAAA+2WS5bjIAxFtwT6AcsRv/0voR9JXJXqDDrJIdUTT3yPjI94EkLynClp5DhnlVREtjAvSmEhnZOUmDLYqNIEO1UOG1goU5+zpZyx3RzqwcI+5qKTK/YR6E9zxhYr0rSNh9/muSpedC2s6Ztt5K4M24oo8tdT0cWn9Xcj7t/550CDcQBcOHPD+TRxGbCFiQ3fZUpUX9B/83vob/2qt/YcxMGR44XLLiCltOpiwNAnzutBf2Nn6LVqxfDe1MigW4fW5Q+rl7je0O9L//b6aT/1f6R+4NclBaGN+rkMXXnOkml+vv6JY49t2dGjbaDBPxjXTogjjtgpXvvPlr5zkInI9ufl11mRt/EBfzeKshHO1zPmA2wvyXcwBeXVn7fr/ysOb6mu+YIOxlY3ktztrn7I0CnQJylE1BYYKZA88tU4asmy+jL2y3bPjmtS7vS0Gi62O+7+83Ec+2iQodCnEKmIy5LJWsczLn9a1LS/r3+EUtXvOBwTAGFwCWu9aVapl36epa/wiq05+qx+TD9b8++Lxz0/7Bfn44N+Ll2v+i73YKpXuw4uN7mdy2LytupiuK/fp3/r/3T9j9Q+Uv+M+NMv9B/jtP4Tt/efqMJv1MPJkydPnjz5//kHAuGHZgASAAA="
 private const val ACTION_BUTTON_ALTERNATE_BRAND = "H4sIAAAAAAAAA+1WQY7DIAz8UoDEwHOMjf//hDXgRN1qD2lLVGmVmcOERMKDMSYiuWwCi0gUl1yep+QRMIrI2imVaqmsWpQ0QaXWqtNn79AVEYxOOVEZPHgNsHXOh82bncZLquigxT10NS2mNPS0fzLbLfvtYemUikrNF2OjtCyORELnedi8h3/zm8A0/h5HNv9tDK/7r1GpcSgpW30RFdI6IC0sFanQ+L7/6fXznP/Z2P1DSCFP9L0NLSEtyV3vv67VVY2jx5q1LD/X9tTmBzu31Dn6z4y+Y9pPS7wgL/8NnlfW/s9rXKL2Hw6jzXyqdcOM+Xr77IFA97ug3jM4UXVi/9iv9nqyem2FLOUPfRGkt3u731FGXNXc46cnP9EU7PvJdRx5Kpy59nulK6H2ael9OnPb95U9pw/8O/Pvhj+kodn8pmJq68t8bh0HWrcAGX2j7YMXJ+FhX/b37/oPI16S8b9SvPlYbD37vgQb5xf9XwQt0wLlkvrf/BX3yjMcBw4X9J8VE75Rzzdu3Lhx48b38QM5tTZhABIAAA=="
+private const val CHECKBOX_LIGHT = PENDING_BASELINE
+private const val CHECKBOX_DARK = PENDING_BASELINE
+private const val CHECKBOX_ALTERNATE_BRAND = PENDING_BASELINE
 private const val TEXT_FIELD_LIGHT = "H4sIAAAAAAAAA+1WW47DIAy8UqBA4DiJH/c/wo69kESV9qPSRm12M6PWMuB2UMhgVZmlSFPVCCZVWUFGPoMVOSEXH198PICPff7doJUqT6ocSLkgJ1o4IF+5MXRTo5ksLlTJ1gsRR+wnSZTybvV/ABmnJvdzQ9eJQzc+2ePVMHSnvo+rYegecXXuePW5PNefjSf9HI3wF9D8aC3g7H4Ew0FMoK0rnN2nCmjzFWzmX+ChnqsRcQJDz9uJ+kGZDnE2Qk8GoReqXTc79nlOoNU343e9XRP4lh799yQbz9P/I8T5eUgH/7niPVS6busH4vv9/GX/77qvDnn0Pibo5M9hAemQRwn23smE9xB9mzSpYj75AK3fq+gAF93Oo/eDy2F+9H+jzu7NXzyvQz/+NVsfuuVDd8JIcf3i+sc+um64DEnY9wu/YYm69bVDN9axrRv7uXHjxo0bN/4vvgDnP1S4ABIAAA=="
 private const val TEXT_FIELD_DARK_ERROR = "H4sIAAAAAAAAA+2WUY6kMAxEr0RslxOOEwi+/xG23N0srZXmozXTw7bE11NwCGUHlxxh0KotQkVmWSNM1NQjuFIhdVM+4fNJVXHb13PfLV4jylqWEuexNsygjqoAqLMOrOgRPlkz5tUKNgw+X7BgJjt6EqLM6Xz9n05ZxYX11FX5h3wOd92yCKSdX8eX6/7QLeOex9l6Xtb/0P2XUwm25BGfpcrywnn/vP/b+tHoP8nA8JK+VL2mD7mr05+8e3XmA0UBfdRnRjIuCKfudC1sZIWB94rJNgjZeXL6cthAeZ9+c7P0S6sGm4/v+Uql40nHat22J307BVP6L+MLkee49eM89t2ib6z/l/u3MuQH6/bj+j/cf/Z54Gw/f5kP3WfX8btEMzXLPuSkxrVW/llJ4w2xT20w4+zfco8bpzilH1nTptmfzvkv+31hf67pQ+xbv8XnjGu5z4Xv0m+cPvP7mOk/uM2bJe/HunZNvzSbrBxr2x756H1+2/PBoO567IebGAuxz7dn39PFixcvXrz4//AP9YDxJQASAAA="
 private const val TEXT_FIELD_ALTERNATE_BRAND_RTL = "H4sIAAAAAAAAA+1WW5KEIAy8Eio+OA4k4f5H2E4mrO7X+sFaaxXd5aQAwY5IT2p9HDMYEXfwQJzAxdobriokRRhR8Bt8fEa7SBaqlYkLV+sP2v80ZJUo0E2ViKGbF54YuompMPRwZZb50h9ppmy6s+rm2fuJEofn9XfHit1cbX+K7s9bYtONa7X4NjTd0fN4G5ruv9bPxvsoxt/RST8nUP1hBw+P8AfelJCjUN8L4ATfWED4J1xkUr+hHTys/WMc/lTVX8wvMZ8KSL7u3lG/v14WJWIGi+V1cPL8kj0/k/YH19XmLXBE+KhMoOaTlOe4zJ9+rGbryQZ21H8bYuyHePGfreO6T2Fz3ef/87/w9dv+77oHHP4dWn2j5yuIviP96MWi12V2rrU+O2QX+JbVc3p+d5xLbcfveiDr/a1Os/eu8xJmlst4L4TPc+Aaon4BNavWaaYbqUjgKstZn8kCX1GdGYrIfCupf8HESI853Iyl5R/Mn4LEc50WBwYGBgYG3ocvPLEBgAASAAA="

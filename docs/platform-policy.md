@@ -121,6 +121,7 @@ BEEZ는 Compose Multiplatform을 통해 하나의 component API와 구현을 여
 | Component | Maturity | Android | iOS | Desktop | Web |
 | --- | --- | --- | --- | --- | --- |
 | Action Button | Experimental | Experimental | Experimental | Experimental | Experimental |
+| Checkbox | Experimental | Experimental | Experimental | Experimental | Experimental |
 | Text Field | Experimental | Experimental | Experimental | Experimental | Experimental |
 
 ## 8. 차이 관리

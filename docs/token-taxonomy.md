@@ -553,7 +553,7 @@ Color 대비 검증은 [ADR-0013](decisions/0013-color-contrast-validation.md)�
 - 모든 color role의 곱이 아니라 실제 사용 계약에 등록한 semantic pair만 검사한다.
 - 합성 규칙이 없는 alpha color는 등록 pair에 사용할 수 없다.
 
-현재 registry는 neutral background 위의 primary, secondary, critical foreground와 neutral, focus, critical stroke, 그리고 brand background 위의 onBrand foreground를 포함한다. 새로운 component가 다른 인접 조합을 사용하면 component 명세와 registry를 함께 갱신한다.
+현재 registry는 neutral background 위의 primary, secondary, critical foreground, brand background, neutral, focus, critical stroke와 brand background 위의 onBrand foreground를 포함한다. 새로운 component가 다른 인접 조합을 사용하면 component 명세와 registry를 함께 갱신한다.
 
 ## 13. 후속 결정
 

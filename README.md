@@ -33,6 +33,8 @@ beez-components → beez-foundation → beez-tokens
 
 두 번째 컴포넌트로 단일 행 Text Field 명세와 provisional implementation을 Experimental 상태로 추가했습니다. 공통 UI 테스트는 입력 callback, 상태 semantics, keyboard/selection, RTL slot과 확대 font scale을 검증하고, Catalog는 state, slot과 theme matrix를 제공합니다. 플랫폼별 IME와 실제 clipboard 검증은 아직 남아 있습니다.
 
+세 번째 컴포넌트로 binary Checkbox 명세와 provisional implementation을 Experimental 상태로 추가했습니다. 공통 UI 테스트는 state hoisting, checked/disabled semantics, keyboard Space 실행, 최소 touch target과 RTL 확대 font scale을 검증하고, Catalog는 playground와 state/theme matrix를 제공합니다. Tri-state와 실제 플랫폼 보조기술 검증은 아직 남아 있습니다.
+
 Catalog는 실제 `beez-components`를 사용하는 Compose Multiplatform 애플리케이션으로 제공됩니다. icons, adapters와 documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
 Token validator는 WCAG 2.2 AA 기준으로 등록된 semantic text/non-text color pair를 Light, Dark와 Test Brand에서 검사합니다.
@@ -67,6 +69,7 @@ Token validator는 WCAG 2.2 AA 기준으로 등록된 semantic text/non-text col
 - [테마 가이드](docs/theme.md)
 - [토큰 원본](specification/tokens/)
 - [Action Button 명세](docs/components/action-button.md)
+- [Checkbox 명세](docs/components/checkbox.md)
 - [Text Field 명세](docs/components/text-field.md)
 - [Showcase 가이드](docs/showcase.md)
 - [시각 회귀 테스트](docs/visual-testing.md)
@@ -105,6 +108,8 @@ The first Action Button specification and provisional implementation are present
 
 The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Shared UI tests cover input callbacks, state semantics, keyboard and selection behavior, RTL slots, and enlarged font scales, while the Catalog provides state, slot, and theme matrices. Platform IME and real clipboard verification remain pending.
 
+The third component is an Experimental binary Checkbox specification and provisional implementation. Shared UI tests cover state hoisting, checked and disabled semantics, keyboard Space activation, the minimum touch target, and RTL rendering at an enlarged font scale, while the Catalog provides playground and state/theme matrices. Tri-state and real platform assistive-technology verification remain pending.
+
 The Catalog is provided as a Compose Multiplatform application that consumes the actual `beez-components` APIs. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 
 The token validator enforces registered semantic text and non-text color pairs against WCAG 2.2 AA in Light, Dark, and Test Brand contexts.
@@ -139,6 +144,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Theme guide](docs/theme.md)
 - [Token sources](specification/tokens/)
 - [Action Button specification](docs/components/action-button.md)
+- [Checkbox specification](docs/components/checkbox.md)
 - [Text Field specification](docs/components/text-field.md)
 - [Showcase guide](docs/showcase.md)
 - [Visual regression testing](docs/visual-testing.md)

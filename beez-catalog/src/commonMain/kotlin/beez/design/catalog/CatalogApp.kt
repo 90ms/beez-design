@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
 import beez.design.components.BeezActionButtonSize
 import beez.design.components.BeezActionButtonVariant
+import beez.design.components.BeezCheckbox
 import beez.design.components.BeezTextField
 import beez.design.foundation.BeezTheme
 import beez.design.tokens.BeezTokenScheme
@@ -96,6 +97,7 @@ private data class CatalogCopy(
     val componentsTitle: String,
     val accessibilityTitle: String,
     val actionButton: String,
+    val checkbox: String,
     val textField: String,
     val email: String,
     val placeholder: String,
@@ -133,6 +135,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         componentsTitle = "하나의 계약, 다양한 맥락.",
         accessibilityTitle = "품질은 형태의 일부입니다.",
         actionButton = "Action Button",
+        checkbox = "Checkbox",
         textField = "Text Field",
         email = "이메일 주소",
         placeholder = "name@example.com",
@@ -169,6 +172,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         componentsTitle = "One contract, many contexts.",
         accessibilityTitle = "Quality is part of the shape.",
         actionButton = "Action Button",
+        checkbox = "Checkbox",
         textField = "Text Field",
         email = "Email address",
         placeholder = "name@example.com",
@@ -482,6 +486,8 @@ private fun ComponentsSection(copy: CatalogCopy) {
     var buttonClicks by remember { mutableStateOf(0) }
     var buttonDisabled by remember { mutableStateOf(false) }
     var buttonLoading by remember { mutableStateOf(false) }
+    var checkboxChecked by remember { mutableStateOf(false) }
+    var checkboxDisabled by remember { mutableStateOf(false) }
 
     CatalogCard(title = copy.actionButton, body = copy.experimental) {
         BasicText(
@@ -533,6 +539,67 @@ private fun ComponentsSection(copy: CatalogCopy) {
                 onClick = {},
                 modifier = Modifier.fillMaxWidth(),
             )
+        }
+    }
+
+    CatalogCard(title = copy.checkbox, body = copy.experimental) {
+        BasicText(
+            text = "Playground · Checked: $checkboxChecked",
+            style = BeezTheme.typography.label,
+        )
+        BeezCheckbox(
+            checked = checkboxChecked,
+            onCheckedChange = { checkboxChecked = it },
+            label = "Receive product updates",
+            enabled = !checkboxDisabled,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
+            CatalogChoice(
+                "Checkbox disabled",
+                checkboxDisabled,
+                { checkboxDisabled = !checkboxDisabled },
+                BeezTheme.colors.backgroundBrand,
+                BeezTheme.colors.foregroundPrimary,
+            )
+            CatalogChoice(
+                "Checkbox reset",
+                false,
+                {
+                    checkboxChecked = false
+                    checkboxDisabled = false
+                },
+                BeezTheme.colors.backgroundBrand,
+                BeezTheme.colors.foregroundPrimary,
+            )
+        }
+
+        BasicText(text = "States", style = BeezTheme.typography.label)
+        BeezCheckbox(checked = false, onCheckedChange = {}, label = "Unchecked option")
+        BeezCheckbox(checked = true, onCheckedChange = {}, label = "Checked option")
+        BeezCheckbox(
+            checked = false,
+            onCheckedChange = {},
+            label = "Disabled unchecked option",
+            enabled = false,
+        )
+        BeezCheckbox(
+            checked = true,
+            onCheckedChange = {},
+            label = "Disabled checked option",
+            enabled = false,
+        )
+
+        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
+                BeezCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "أوافق على تلقي تحديثات مفصلة حول هذا الخيار",
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
         }
     }
 

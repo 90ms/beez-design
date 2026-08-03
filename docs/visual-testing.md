@@ -31,6 +31,7 @@ Desktop 기준은 지원 플랫폼 전체가 pixel 단위로 같다는 의미가
 ## 초기 scenario
 
 - Action Button: Light, Dark, alternate brand의 focused BrandSolid와 대표 state
+- Checkbox: Light, Dark, alternate brand의 focused checked와 checked/unchecked/disabled state
 - Text Field: Light, Dark error, alternate brand RTL/read-only
 
 각 scenario는 고정된 canvas와 BEEZ semantic token을 사용한다. Alternate brand는 테스트 내부에서 semantic color role만 교체하며 제품용 public token scheme을 추가하지 않는다.

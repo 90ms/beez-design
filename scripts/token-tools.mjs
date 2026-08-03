@@ -38,6 +38,12 @@ export const SEMANTIC_COLOR_CONTRAST_PAIRS = Object.freeze([
     kind: "text",
   },
   {
+    foreground: "color.semantic.background.brand",
+    background: "color.semantic.background.neutral",
+    minimum: 3,
+    kind: "non-text",
+  },
+  {
     foreground: "color.semantic.stroke.neutral",
     background: "color.semantic.background.neutral",
     minimum: 3,

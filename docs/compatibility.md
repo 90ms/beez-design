@@ -32,10 +32,10 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 - GitHub-hosted action runtime: Node.js 24 기반 action major 사용
 - runtime JDK: Temurin 17
 - Gradle: `gradle/actions/setup-gradle`로 9.3.1 설치
-- Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override, Kotlin identifier와 Light/Dark/Test Brand의 등록된 7개 semantic color contrast pair
+- Token source 검증: JSON layout, type, unit, alias, Light/Dark semantic contract, Test Brand override, Kotlin identifier와 Light/Dark/Test Brand의 등록된 semantic color contrast pair
 - Token generation 검증: Node.js tooling test와 commit된 Kotlin 생성물 drift 검사
 - Library 검증: 모든 library target의 `build` task
-- Desktop visual 검증: focused BrandSolid를 포함한 Action Button과 Text Field의 Light/Dark/alternate brand normalized baseline 비교
+- Desktop visual 검증: Action Button, Checkbox와 Text Field의 Light/Dark/alternate brand normalized baseline 비교
 - Catalog 검증: `beez-catalog` Wasm browser test와 production distribution 배포
 - repository mode: Kotlin/Wasm의 Node.js toolchain repository를 사용할 수 있도록 project repository를 우선
 

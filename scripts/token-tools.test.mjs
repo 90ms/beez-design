@@ -38,9 +38,9 @@ test("validates the current repository contexts", () => {
   assert.equal(result.contexts.light.size, 90);
   assert.equal(result.contexts.dark.size, 90);
   assert.equal(result.contexts.test.size, 90);
-  assert.equal(result.contrast.light.length, 7);
-  assert.equal(result.contrast.dark.length, 7);
-  assert.equal(result.contrast.test.length, 7);
+  assert.equal(result.contrast.light.length, 8);
+  assert.equal(result.contrast.dark.length, 8);
+  assert.equal(result.contrast.test.length, 8);
   assert.equal(result.documents.size, 15);
 });
 

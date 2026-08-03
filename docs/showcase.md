@@ -18,7 +18,7 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 - Overview: BEEZ 원칙, 지원 플랫폼, 현재 maturity
 - Foundations: color, typography, spacing, shape, elevation, motion
 - Themes: Light, Dark, BEEZ, Test Brand 전환
-- Components: Action Button variant, size, state matrix와 callback preview; Text Field playground, state, slot, theme와 RTL preview
+- Components: Action Button variant, size, state matrix와 callback preview; Checkbox playground, state, theme와 RTL preview; Text Field playground, state, slot, theme와 RTL preview
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
 ## 언어와 locale
@@ -55,6 +55,8 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Action Button variant와 size hierarchy
 - disabled, loading, focus 표현
 - 버튼 callback, disabled/loading 전환과 reset 동작
+- Checkbox checked/disabled 전환과 reset 동작
+- Checkbox unchecked/checked/disabled state와 RTL 긴 label matrix
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
 - 긴 label, narrow viewport와 responsive layout
@@ -65,7 +67,7 @@ Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 lo
 
 ## 배포 상태
 
-- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
+- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme와 실제 Action Button/Checkbox/Text Field를 포함한 초기 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
 - Compose Web Catalog: Active (initial vertical slice)
 - Stable 문서 사이트: 미정
