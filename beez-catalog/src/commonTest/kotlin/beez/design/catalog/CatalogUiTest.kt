@@ -104,9 +104,9 @@ class CatalogUiTest {
         onNodeWithText("Receive product updates")
             .assertIsOff()
             .performClick()
-            .assertIsOn()
 
         onNodeWithText("Playground · Checked: true").assertExists()
+        onNodeWithText("Receive product updates").assertIsOn()
         onNodeWithText("Unchecked option").assertIsOff()
         onNodeWithText("Checked option").assertIsOn()
         onNodeWithText("Disabled unchecked option").assertIsNotEnabled().assertIsOff()
