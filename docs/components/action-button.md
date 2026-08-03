@@ -222,7 +222,8 @@ BeezTheme {
 
 ### Visual
 
-- [ ] variant/size/state 기준 screenshot
+- [x] Light/Dark/alternate brand에서 BrandSolid, Outline, disabled, loading screenshot
+- [ ] Neutral variant와 size 전체 조합 screenshot
 - [ ] 좁은 constraint와 긴 label
 
 ### Manual
@@ -232,7 +233,7 @@ BeezTheme {
 - [ ] Desktop keyboard
 - [ ] Web keyboard와 browser semantics
 
-`BeezActionButtonUiTest`는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증한다. Catalog 공통 UI 테스트는 variant, size, state matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기, keyboard focus와 UI screenshot 검증은 아직 남아 있다.
+`BeezActionButtonUiTest`는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증한다. Desktop visual test는 Light/Dark/alternate brand의 대표 variant와 state를 24×24 normalized signature로 비교하고 실패 candidate를 Gradle report artifact로 보존한다. Catalog 공통 UI 테스트는 variant, size, state matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. iOS Simulator test는 Linux runner 제약으로 skip되며, 실제 플랫폼 보조기기, keyboard focus와 전체 size screenshot 검증은 아직 남아 있다.
 
 ## Catalog scenarios
 
@@ -257,3 +258,4 @@ BeezTheme {
 | 2026-07-31 | CI compile/test와 loading interaction 로직 검증 | 공통 library build baseline 확보 |
 | 2026-07-31 | disabled semantics를 명시하고 loading progress semantics 계약을 기록 | 보조기술에 상태를 일관되게 전달 |
 | 2026-08-03 | Compose UI semantics와 Catalog variant/size/state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |
+| 2026-08-03 | Desktop Light/Dark/alternate brand visual baseline 추가 | 대표 variant와 state의 시각 회귀 감지 |

@@ -23,7 +23,7 @@ Desktop 기준은 지원 플랫폼 전체가 pixel 단위로 같다는 의미가
 
 1. 전체 이미지를 `build/reports/visual-candidates/*.ppm`에 기록한다.
 2. 이미지를 24×24 cell의 평균 RGBA 값으로 정규화한다.
-3. 정규화한 signature를 test source의 baseline으로 보관한다.
+3. 정규화한 signature를 gzip/Base64로 압축해 test source의 baseline으로 보관한다.
 4. 평균 channel delta와 크게 달라진 cell 비율이 허용 범위를 넘으면 테스트를 실패시킨다.
 
 정규화는 font antialiasing과 runner의 작은 raster 차이로 인한 불안정성을 줄이면서 component의 크기, 배치, semantic color와 주요 state 변화는 감지하기 위한 절충이다. 전체 PPM candidate는 실패 시 Gradle report artifact에서 내려받아 시각적으로 검토한다.

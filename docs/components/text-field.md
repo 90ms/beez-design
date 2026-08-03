@@ -289,9 +289,10 @@ BeezTextField(
 
 ### Visual
 
-- [ ] enabled, focused, readOnly, disabled, error screenshot
+- [x] enabled, readOnly와 error 대표 screenshot
+- [ ] focused와 disabled screenshot
 - [ ] 긴 label와 supportingText가 있는 좁은 layout
-- [ ] Light/Dark와 test brand 비교
+- [x] Light/Dark와 alternate brand RTL 비교
 
 ### Manual
 
@@ -300,7 +301,7 @@ BeezTextField(
 - [ ] Desktop keyboard, selection과 paste
 - [ ] Web keyboard와 browser semantics
 
-`BeezTextFieldUiTest`는 입력 callback, placeholder/supporting text, disabled/error/read-only semantics, selection replacement, keyboard focus와 Backspace, RTL slot 순서, 좁은 폭의 확대 font scale 렌더링을 검증한다. Catalog 공통 UI 테스트는 state와 slot matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. Desktop Compose UI test는 Linux runner의 `xvfb-run` 가상 디스플레이에서 실행하며, 실제 clipboard, 플랫폼 IME, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하다. Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
+`BeezTextFieldUiTest`는 입력 callback, placeholder/supporting text, disabled/error/read-only semantics, selection replacement, keyboard focus와 Backspace, RTL slot 순서, 좁은 폭의 확대 font scale 렌더링을 검증한다. Desktop visual test는 Light enabled, Dark error와 alternate brand RTL/read-only 시나리오를 24×24 normalized signature로 비교하고 실패 candidate를 Gradle report artifact로 보존한다. Catalog 공통 UI 테스트는 state와 slot matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. Desktop Compose UI test는 Linux runner의 `xvfb-run` 가상 디스플레이에서 실행하며, 실제 clipboard, 플랫폼 IME, 보조기기와 전체 state screenshot 검증은 각 플랫폼 환경이 필요하다. Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
 
 ## Catalog scenarios
 
@@ -327,3 +328,4 @@ BeezTextField(
 | 2026-07-31 | GitHub Actions library validation 통과 | Android/Desktop/Wasm compile과 공통 상태 테스트 확인 |
 | 2026-07-31 | Compose UI test와 Desktop runtime 검증 통과 | 입력, disabled, read-only, error semantics 확인 |
 | 2026-08-03 | Keyboard, selection, RTL, 확대 font scale과 Catalog state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |
+| 2026-08-03 | Desktop Light/Dark/alternate brand visual baseline 추가 | 대표 state와 RTL 배치의 시각 회귀 감지 |
