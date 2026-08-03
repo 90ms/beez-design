@@ -9,7 +9,7 @@
 | Platforms | Android / iOS / Desktop / Web |
 | Replaces | 없음 |
 | Related | Text, Action Button, Form validation pattern |
-| Last reviewed | 2026-07-31 |
+| Last reviewed | 2026-08-03 |
 
 ## Summary
 
@@ -278,14 +278,14 @@ BeezTextField(
 ### Automated
 
 - [x] value/onValueChange 입력, recomposition과 상태 색상 매핑의 CI UI/common test
-- [ ] placeholder, supportingText와 label
+- [x] placeholder, supportingText와 label
 - [x] enabled, readOnly, isError state와 disabled/error semantics
-- [ ] Light/Dark와 test brand theme
-- [ ] 긴 label/value, 좁은 constraint와 font scale
-- [ ] LTR/RTL slot 방향과 text alignment
+- [x] Light/Dark와 test brand theme에서 Catalog state matrix 렌더링
+- [x] 긴 label/value, 좁은 constraint와 확대 font scale 렌더링
+- [x] LTR/RTL slot 방향
 - [x] label, value, error와 disabled/read-only semantics
 - [ ] 플랫폼별 text field role과 IME semantics
-- [ ] keyboard focus, selection과 callback
+- [x] keyboard focus, Backspace, selection replacement와 callback
 
 ### Visual
 
@@ -300,7 +300,7 @@ BeezTextField(
 - [ ] Desktop keyboard, selection과 paste
 - [ ] Web keyboard와 browser semantics
 
-GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. Desktop Compose UI test는 Linux runner의 `xvfb-run` 가상 디스플레이에서 실행하며, 실제 text input bridge, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하다. Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
+`BeezTextFieldUiTest`는 입력 callback, placeholder/supporting text, disabled/error/read-only semantics, selection replacement, keyboard focus와 Backspace, RTL slot 순서, 좁은 폭의 확대 font scale 렌더링을 검증한다. Catalog 공통 UI 테스트는 state와 slot matrix가 Light/Dark와 Test Brand 조합에서 실제 API로 렌더링되는지 확인한다. GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와 공통 테스트를 실행한다. Desktop Compose UI test는 Linux runner의 `xvfb-run` 가상 디스플레이에서 실행하며, 실제 clipboard, 플랫폼 IME, 보조기기와 screenshot 검증은 각 플랫폼 환경이 필요하다. Linux runner에서는 iOS Simulator 검증을 수행하지 않는다.
 
 ## Catalog scenarios
 
@@ -326,3 +326,4 @@ GitHub Actions의 `library-validation.yml`에서 Android, Desktop, Wasm build와
 | 2026-07-31 | 오류 전용 semantic color token 연결 | 구현 전 token 계약 완성 |
 | 2026-07-31 | GitHub Actions library validation 통과 | Android/Desktop/Wasm compile과 공통 상태 테스트 확인 |
 | 2026-07-31 | Compose UI test와 Desktop runtime 검증 통과 | 입력, disabled, read-only, error semantics 확인 |
+| 2026-08-03 | Keyboard, selection, RTL, 확대 font scale과 Catalog state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |

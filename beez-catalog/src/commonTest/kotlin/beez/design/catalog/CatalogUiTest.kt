@@ -70,4 +70,24 @@ class CatalogUiTest {
         onNodeWithText("Loading").assertExists()
         onNodeWithText("متابعة إلى الخطوة التالية").assertExists()
     }
+
+    @Test
+    fun textFieldCatalogProvidesStateSlotAndRtlScenarios() = runComposeUiTest {
+        setContent {
+            CatalogApp(initialLocale = CatalogLocale.English)
+        }
+
+        onNodeWithText("Themes").performClick()
+        onNodeWithText("Dark").performClick()
+        onNodeWithText("Test Brand").performClick()
+        onNodeWithText("Components").performClick()
+
+        onNodeWithContentDescription("Empty field").assertExists()
+        onNodeWithContentDescription("Filled field").assertTextEquals("Filled value")
+        onNodeWithContentDescription("Read-only field").assertTextEquals("Read-only value")
+        onNodeWithContentDescription("Disabled field").assertTextEquals("Disabled value")
+        onNodeWithContentDescription("Error field").assertTextEquals("Invalid value")
+        onNodeWithContentDescription("Slotted field").assertTextEquals("account")
+        onNodeWithContentDescription("عنوان حقل طويل للتحقق من التخطيط").assertExists()
+    }
 }

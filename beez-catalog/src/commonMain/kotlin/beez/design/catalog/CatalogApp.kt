@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicText
@@ -536,6 +537,7 @@ private fun ComponentsSection(copy: CatalogCopy) {
     }
 
     CatalogCard(title = copy.textField, body = copy.experimental) {
+        BasicText(text = "Playground", style = BeezTheme.typography.label)
         BeezTextField(
             value = email,
             onValueChange = { email = it },
@@ -559,6 +561,67 @@ private fun ComponentsSection(copy: CatalogCopy) {
             }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
         }
         BasicText(text = if (email.isEmpty()) copy.ready else "Value changed", style = BeezTheme.typography.caption)
+
+        BasicText(text = "States", style = BeezTheme.typography.label)
+        BeezTextField(
+            value = "",
+            onValueChange = {},
+            label = "Empty field",
+            placeholder = "Placeholder",
+            supportingText = "Supporting text",
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezTextField(
+            value = "Filled value",
+            onValueChange = {},
+            label = "Filled field",
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezTextField(
+            value = "Read-only value",
+            onValueChange = {},
+            label = "Read-only field",
+            readOnly = true,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezTextField(
+            value = "Disabled value",
+            onValueChange = {},
+            label = "Disabled field",
+            enabled = false,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezTextField(
+            value = "Invalid value",
+            onValueChange = {},
+            label = "Error field",
+            supportingText = "Resolve this error before continuing.",
+            isError = true,
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        BasicText(text = "Leading · trailing slots", style = BeezTheme.typography.label)
+        BeezTextField(
+            value = "account",
+            onValueChange = {},
+            label = "Slotted field",
+            leadingContent = { BasicText("@", style = BeezTheme.typography.body) },
+            trailingContent = { BasicText("✓", style = BeezTheme.typography.body) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+
+        BasicText(text = "Long content · RTL", style = BeezTheme.typography.label)
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
+                BeezTextField(
+                    value = "قيمة طويلة للاختبار",
+                    onValueChange = {},
+                    label = "عنوان حقل طويل للتحقق من التخطيط",
+                    supportingText = "نص مساعد يظل مرئيًا في العرض الضيق",
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
     }
 }
 

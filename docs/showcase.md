@@ -18,7 +18,7 @@ BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 �
 - Overview: BEEZ 원칙, 지원 플랫폼, 현재 maturity
 - Foundations: color, typography, spacing, shape, elevation, motion
 - Themes: Light, Dark, BEEZ, Test Brand 전환
-- Components: Action Button variant, size, state matrix와 callback preview; Text Field 입력, error, read-only, disabled preview
+- Components: Action Button variant, size, state matrix와 callback preview; Text Field playground, state, slot, theme와 RTL preview
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
 ## 언어와 locale
@@ -56,6 +56,7 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - disabled, loading, focus 표현
 - 버튼 callback, disabled/loading 전환과 reset 동작
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
+- Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
 - 긴 label, narrow viewport와 responsive layout
 
 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다. 공통 UI 테스트는 GitHub Actions의 Wasm browser test로 실행한다.

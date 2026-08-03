@@ -31,7 +31,7 @@ beez-components → beez-foundation → beez-tokens
 
 첫 번째 공통 컴포넌트로 Action Button 명세와 provisional implementation을 추가했습니다. 공통 UI 테스트는 role, callback, disabled/loading semantics, 최소 touch target과 RTL 확대 font scale 렌더링을 검증하고, Catalog는 variant, size와 state matrix를 제공합니다. API는 아직 Experimental입니다.
 
-두 번째 컴포넌트로 단일 행 Text Field 명세와 provisional implementation을 Experimental 상태로 추가했습니다. value state, 오류/읽기 전용 상태와 접근성 semantics를 정의했으며 오류 전용 semantic color token도 추가했습니다. GitHub Actions에서 Android/Desktop/Wasm compile, 공통 테스트와 Compose UI semantics 테스트가 통과했습니다.
+두 번째 컴포넌트로 단일 행 Text Field 명세와 provisional implementation을 Experimental 상태로 추가했습니다. 공통 UI 테스트는 입력 callback, 상태 semantics, keyboard/selection, RTL slot과 확대 font scale을 검증하고, Catalog는 state, slot과 theme matrix를 제공합니다. 플랫폼별 IME와 실제 clipboard 검증은 아직 남아 있습니다.
 
 Catalog는 실제 `beez-components`를 사용하는 Compose Multiplatform 애플리케이션으로 제공됩니다. icons, adapters와 documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
@@ -100,7 +100,7 @@ beez-components → beez-foundation → beez-tokens
 
 The first Action Button specification and provisional implementation are present. Shared UI tests cover its role, callback, disabled/loading semantics, minimum touch target, and RTL rendering at an enlarged font scale, while the Catalog provides variant, size, and state matrices. The API remains Experimental.
 
-The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Its value state, error/read-only behavior, and accessibility semantics are defined, with dedicated critical semantic color roles added. Android/Desktop/Wasm compilation, common tests, and Compose UI semantics tests pass in GitHub Actions.
+The second component, a single-line Text Field specification and provisional implementation, is now Experimental. Shared UI tests cover input callbacks, state semantics, keyboard and selection behavior, RTL slots, and enlarged font scales, while the Catalog provides state, slot, and theme matrices. Platform IME and real clipboard verification remain pending.
 
 The Catalog is provided as a Compose Multiplatform application that consumes the actual `beez-components` APIs. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 
