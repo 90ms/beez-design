@@ -23,7 +23,7 @@ ADR은 기준을 선택한 이유를 기록하고, 이 문서는 실제로 검�
 | Gradle runtime JDK | 17 이상 | Verified in GitHub Actions |
 | Android compile SDK | API 37 | Compiles with AGP warning |
 
-`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, token source 검증, 생성물 drift 검사와 공통 component UI 테스트를 포함한 현재 원격 `main` 기준의 library validation은 [Run #30782235730](https://github.com/90ms/beez-design/actions/runs/30782235730)의 재실행에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30782235608](https://github.com/90ms/beez-design/actions/runs/30782235608)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다.
+`Selected`는 프로젝트 구성에 사용할 버전이며 아직 모든 target build가 검증되었다는 의미는 아니다. Gradle 실행은 현재 GitHub Actions workflow가 `9.3.1`을 직접 설치하는 방식으로 수행한다. 초기 기준은 [첫 성공 실행](https://github.com/90ms/beez-design/actions/runs/30609163681)이며, token source 검증, 생성물 drift 검사와 공통 component UI 테스트를 포함한 현재 원격 `main` 기준의 library validation은 [Run #30782860285](https://github.com/90ms/beez-design/actions/runs/30782860285)에서 성공했다. 같은 revision의 GitHub Pages Wasm distribution 배포는 [Run #30782860240](https://github.com/90ms/beez-design/actions/runs/30782860240)에서 성공했으며, 두 실행 모두 Node.js 24 기반 action major를 사용한다.
 
 ## 2.1 GitHub Actions 검증
 
