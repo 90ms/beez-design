@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
@@ -369,7 +370,8 @@ private fun ActionButtonDetail(copy: CatalogCopy) {
                 size = size,
                 enabled = !disabled,
                 loading = loading,
-                modifier = if (fillWidth) Modifier.fillMaxWidth() else Modifier,
+                modifier = (if (fillWidth) Modifier.fillMaxWidth() else Modifier)
+                    .testTag("action-button-playground"),
             )
         }
         Row(
