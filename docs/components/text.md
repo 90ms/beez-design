@@ -312,10 +312,10 @@ API와 의도된 동작 차이는 없다. 글꼴 fallback, 줄바꿈 지점과 g
 
 | Platform | 구현 상태 |
 | --- | --- |
-| Android | Planned |
-| iOS | Planned |
-| Desktop | Planned |
-| Web | Planned |
+| Android | In Progress |
+| iOS | In Progress |
+| Desktop | In Progress |
+| Web | In Progress |
 
 ## Test matrix
 
@@ -371,3 +371,4 @@ keyboard action은 Text에 적용되지 않는다.
 | Date | Change | Reason |
 | --- | --- | --- |
 | 2026-08-04 | 최초 Proposed 명세 | 초기 범위의 semantic typography vertical slice 정의 |
+| 2026-08-04 | commonMain 구현과 단위/UI 테스트 추가 | role, tone, layout과 비대화형 semantics 계약 검증 시작 |

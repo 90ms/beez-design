@@ -39,6 +39,8 @@ beez-components → beez-foundation → beez-tokens
 
 네 번째 컴포넌트로 비대화형 neutral Surface 명세와 provisional implementation을 추가했습니다. Surface는 container shape와 Flat/Raised/Floating semantic elevation만 담당하며 role이나 click semantics를 암묵적으로 추가하지 않습니다. 공통 단위/UI 테스트, Light/Dark/alternate brand Desktop visual baseline과 Catalog scenario가 원격 CI에서 검증되었으며 실제 플랫폼 shadow와 보조기술 검증은 아직 남아 있습니다.
 
+다섯 번째 컴포넌트로 semantic Text 명세와 commonMain 구현을 추가했습니다. 6개 typography role과 4개 foreground tone, 정렬·최대 줄·overflow를 제공하며 임의의 `Color`나 `TextStyle` override는 노출하지 않습니다. 현재 상태는 Proposed이며 Catalog와 시각 회귀 검증을 완료한 뒤 Experimental로 전환합니다.
+
 Catalog는 실제 `beez-components`를 사용하는 Compose Multiplatform 애플리케이션으로 제공됩니다. Components 화면은 대표 preview, 용도와 maturity를 갖춘 반응형 카드 overview를 제공합니다. 각 상세 화면은 Playground, Anatomy, Properties, component별 variant·state·layout 규칙, Guidelines, Accessibility와 현재 commonMain API 예제를 한국어·영어로 안내합니다. Catalog 전용 한글 폰트 subset은 현재 문구의 glyph coverage를 CI에서 검증합니다. icons, adapters와 documentation tooling은 실제 사용 사례가 확인된 뒤 추가합니다.
 
 Token validator는 WCAG 2.2 AA 기준으로 등록된 semantic text/non-text color pair를 Light, Dark와 Test Brand에서 검사합니다.
@@ -76,6 +78,7 @@ Token validator는 WCAG 2.2 AA 기준으로 등록된 semantic text/non-text col
 - [Action Button 명세](docs/components/action-button.md)
 - [Checkbox 명세](docs/components/checkbox.md)
 - [Text Field 명세](docs/components/text-field.md)
+- [Text 명세](docs/components/text.md)
 - [Surface 명세](docs/components/surface.md)
 - [Showcase 가이드](docs/showcase.md)
 - [시각 회귀 테스트](docs/visual-testing.md)
@@ -120,6 +123,8 @@ The third component is an Experimental binary Checkbox specification and provisi
 
 The fourth component is a provisional non-interactive neutral Surface. It owns container shape and Flat/Raised/Floating semantic elevation without adding implicit role or click semantics. Shared unit/UI tests, Light/Dark/alternate-brand Desktop visual baselines, and Catalog scenarios now pass remote CI; real-platform shadow and assistive-technology verification remain pending.
 
+The fifth component is a semantic Text specification and commonMain implementation. It provides six typography roles, four foreground tones, alignment, maximum-line, and overflow controls without exposing arbitrary `Color` or `TextStyle` overrides. It remains Proposed until its Catalog and visual-regression validation are complete.
+
 The Catalog is a Compose Multiplatform application that consumes the actual `beez-components` APIs. Its Components screen presents a responsive card overview with representative previews, purpose, and maturity. Each detail screen provides Playground, Anatomy, Properties, component-specific variant, state, and layout rules, Guidelines, Accessibility, and current commonMain API examples in Korean and English. CI checks that the bundled Korean font subset covers the current Catalog copy. Icons, adapters, and documentation tooling will be added when validated use cases require them.
 
 The token validator enforces registered semantic text and non-text color pairs against WCAG 2.2 AA in Light, Dark, and Test Brand contexts.
@@ -157,6 +162,7 @@ Tool versions and platform verification status are maintained in the [compatibil
 - [Action Button specification](docs/components/action-button.md)
 - [Checkbox specification](docs/components/checkbox.md)
 - [Text Field specification](docs/components/text-field.md)
+- [Text specification](docs/components/text.md)
 - [Surface specification](docs/components/surface.md)
 - [Showcase guide](docs/showcase.md)
 - [Visual regression testing](docs/visual-testing.md)
