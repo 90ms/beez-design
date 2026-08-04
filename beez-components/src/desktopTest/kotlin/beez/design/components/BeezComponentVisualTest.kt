@@ -21,6 +21,7 @@ import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.graphics.toPixelMap
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.ExperimentalTestApi
@@ -28,6 +29,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.v2.runComposeUiTest
 import androidx.compose.ui.unit.Dp
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.foundation.BeezTheme
@@ -164,6 +166,38 @@ class BeezComponentVisualTest {
     ) {
         SurfaceVisualScenario()
     }
+
+    @Test
+    fun textLight() = verifyVisual(
+        name = "text-light",
+        scheme = BeezTokenSchemes.light,
+        expected = TEXT_LIGHT,
+        height = 440.dp,
+    ) {
+        TextVisualScenario()
+    }
+
+    @Test
+    fun textDark() = verifyVisual(
+        name = "text-dark",
+        scheme = BeezTokenSchemes.dark,
+        expected = TEXT_DARK,
+        height = 440.dp,
+    ) {
+        TextVisualScenario()
+    }
+
+    @Test
+    fun textAlternateBrandRtlAtLargeFontScale() = verifyVisual(
+        name = "text-alternate-brand-rtl-large-font",
+        scheme = alternateTextBrandScheme(BeezTokenSchemes.light),
+        expected = TEXT_ALTERNATE_BRAND_RTL_LARGE_FONT,
+        height = 620.dp,
+        layoutDirection = LayoutDirection.Rtl,
+        fontScale = 1.5f,
+    ) {
+        TextVisualScenario(rtl = true)
+    }
 }
 
 @OptIn(ExperimentalTestApi::class)
@@ -173,10 +207,18 @@ private fun verifyVisual(
     expected: String,
     height: Dp,
     layoutDirection: LayoutDirection = LayoutDirection.Ltr,
+    fontScale: Float? = null,
     content: @Composable () -> Unit,
 ) = runComposeUiTest {
     setContent {
-        CompositionLocalProvider(LocalLayoutDirection provides layoutDirection) {
+        val currentDensity = LocalDensity.current
+        CompositionLocalProvider(
+            LocalLayoutDirection provides layoutDirection,
+            LocalDensity provides Density(
+                density = currentDensity.density,
+                fontScale = fontScale ?: currentDensity.fontScale,
+            ),
+        ) {
             BeezTheme(scheme = scheme) {
                 Box(
                     modifier = Modifier
@@ -357,10 +399,74 @@ private fun SurfaceVisualScenario() {
     }
 }
 
+@Composable
+private fun TextVisualScenario(rtl: Boolean = false) {
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+    ) {
+        BeezText(
+            text = if (rtl) "واجهة BEEZ" else "BEEZ interface",
+            role = BeezTextRole.Display,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezText(
+            text = if (rtl) "نظرة عامة على الحساب" else "Account overview",
+            role = BeezTextRole.ScreenTitle,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezText(
+            text = if (rtl) "تفاصيل الدفع" else "Payment details",
+            role = BeezTextRole.SectionTitle,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezText(
+            text = if (rtl) {
+                "نص طويل يلتف داخل المساحة المتاحة ويحافظ على ترتيب القراءة."
+            } else {
+                "Supporting body text wraps within the available width."
+            },
+            tone = BeezTextTone.Secondary,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        BeezText(
+            text = if (rtl) "تحقق من المعلومات مرة أخرى." else "Check the information again.",
+            tone = BeezTextTone.Critical,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(BeezTheme.colors.backgroundBrand)
+                .padding(BeezTheme.spacing.contentInlineGap),
+        ) {
+            BeezText(
+                text = if (rtl) "نص فوق خلفية العلامة" else "Text on a brand background",
+                role = BeezTextRole.Label,
+                tone = BeezTextTone.OnBrand,
+            )
+        }
+        BeezText(
+            text = if (rtl) "تم التحديث اليوم" else "Updated today",
+            role = BeezTextRole.Caption,
+            tone = BeezTextTone.Secondary,
+            modifier = Modifier.fillMaxWidth(),
+        )
+    }
+}
+
 private fun alternateBrandScheme(base: BeezTokenScheme): BeezTokenScheme = base.copy(
     colors = base.colors.copy(
         backgroundBrand = base.colors.backgroundCritical,
         foregroundOnBrand = base.colors.foregroundPrimary,
+        strokeFocus = base.colors.strokeCritical,
+    ),
+)
+
+private fun alternateTextBrandScheme(base: BeezTokenScheme): BeezTokenScheme = base.copy(
+    colors = base.colors.copy(
+        backgroundBrand = base.colors.backgroundCritical,
+        foregroundOnBrand = base.colors.foregroundOnBrand,
         strokeFocus = base.colors.strokeCritical,
     ),
 )
@@ -478,3 +584,6 @@ private const val TEXT_FIELD_ALTERNATE_BRAND_RTL = "H4sIAAAAAAAAA+1WW5KEIAy8Eio+
 private const val SURFACE_LIGHT = "H4sIAAAAAAAAA+2XURKDIAxEr9SCWj2OkOT+R+hmFe342xnbzLDvI4D5iIpLNOv6D0kC2awKUDPNmhRzWUFBnMGC6wVUzD1RkLc4v64eGshRrz2I6dNBHMGE60B9fXCQN5KurpgSgg1N4sZoutRNn0kYZGI2kcOXjnV3G6zrDJaP9Rbb+7xZzdeLFXX7rC8HcQTumy+ZxOdDzRV+KRkMe958RqVuLDz6/qkknq7fb9u3UWLUuq/1FxJP1/sILv+I5XH6ZZ03P2RfneiX7K/RdWbvO1v/TN8t7LtrlTP/dl/Yz6vWF+vk7P39iroWB3lPkM5+GuPEedr+F5C9nWt3vdcfnZdfqz2f1icsJE5cSVfXF3oDrs34JwASAAA="
 private const val SURFACE_DARK = "H4sIAAAAAAAAA+2WTbKDQAiErzQDDepx5o/7H+G1MUaXb5XEJBs/B7GqKbEhItdc8ojIjXdxIe66r67/fjaYmEd4su4MaOiARKChgHmWMIxnG9Y8MV4wozHPFTq/vh4pskg/9GqSUOXZAVCfdm1YdSsyjBQkgO81qfJG3+Ey/LD+vyzPdVyB9cGP6h+kzS/pQrO0GyepJ1Y6FPPFxWShH010znKK3/0rj9wlP78e61Zpi+Hdq69sXnwcRKAbE312d+pm9mLU68t23uOcBqrT7z/+t+5P0f/ja/nqfvjW/t/9cza3cvJD9ex2xHmFzcfeiQUTOBc8G3NvHL7u15OZcT5IliR4Xj2PuXTf+7VppazHnNr9X0KGrs/Htk9Ll6brXp23uvjWousc67lJev53uAzP/d/fwD++xXd+fCP+AbVfpe8AEgAA"
 private const val SURFACE_ALTERNATE_BRAND = "H4sIAAAAAAAAA+2XURKDIAxEr9SCWj2OkOT+R+hmFe342xnbzLDvI4D5iIpLNOv6D0kC2awKUDPNmhRzWUFBnMGC6wVUzD1RkLc4v64eGshRrz2I6dNBHMGE60B9fXCQN5KurpgSgg1N4sZoutRNn0kYZGI2kcOXjnV3G6zrDJaP9Rbb+7xZzdeLFXX7rC8HcQTumy+ZxOdDzRV+KRkMe958RqVuLDz6/qkknq7fb9u3UWLUuq/1FxJP1/sILv+I5XH6ZZ03P2RfneiX7K/RdWbvO1v/TN8t7LtrlTP/dl/Yz6vWF+vk7P39iroWB3lPkM5+GuPEedr+F5C9nWt3vdcfnZdfqz2f1icsJE5cSVfXF3oDrs34JwASAAA="
+private const val TEXT_LIGHT = PENDING_BASELINE
+private const val TEXT_DARK = PENDING_BASELINE
+private const val TEXT_ALTERNATE_BRAND_RTL_LARGE_FONT = PENDING_BASELINE
