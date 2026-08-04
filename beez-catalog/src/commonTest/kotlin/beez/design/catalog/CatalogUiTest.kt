@@ -65,7 +65,7 @@ class CatalogUiTest {
         onNodeWithText("Test Brand").performClick()
         onNodeWithText("Components").performClick()
         onNodeWithText("Action Button").performClick()
-        onNodeWithText("Continue").performClick()
+        onAllNodesWithText("Continue")[0].performClick()
 
         onNodeWithText("Clicks: 1").assertExists()
         onNodeWithText("One highest-priority action").assertExists()
@@ -169,7 +169,7 @@ class CatalogUiTest {
         onNodeWithText("Surface").performClick()
         onNodeWithText("Elevation Floating").performClick()
 
-        onNodeWithText("Floating Surface").assertExists()
+        onAllNodesWithText("Floating Surface").assertCountEquals(2)
         onNodeWithText("Flat").assertExists()
         onNodeWithText("Raised").assertExists()
         onNodeWithText("Elevation is not an interaction state; select exactly one depth at a time.").assertExists()
