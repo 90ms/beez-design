@@ -8,7 +8,6 @@ import androidx.compose.ui.test.assertTextEquals
 import androidx.compose.ui.test.assertHasClickAction
 import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onAllNodesWithText
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.assertCountEquals
 import androidx.compose.ui.test.performClick
@@ -66,7 +65,7 @@ class CatalogUiTest {
         onNodeWithText("Test Brand").performClick()
         onNodeWithText("Components").performClick()
         onNodeWithText("Action Button").performClick()
-        onNodeWithTag("action-button-playground").performClick()
+        onNodeWithText("Run example").performClick()
 
         onNodeWithText("Clicks: 1").assertExists()
         onNodeWithText("One highest-priority action").assertExists()

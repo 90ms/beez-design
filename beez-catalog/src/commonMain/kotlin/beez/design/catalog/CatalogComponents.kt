@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLayoutDirection
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
@@ -364,14 +363,13 @@ private fun ActionButtonDetail(copy: CatalogCopy) {
         )
         CatalogExampleCanvas {
             BeezActionButton(
-                label = localized(copy.locale, "계속하기", "Continue"),
+                label = localized(copy.locale, "예제 실행", "Run example"),
                 onClick = { clicks += 1 },
                 variant = variant,
                 size = size,
                 enabled = !disabled,
                 loading = loading,
-                modifier = (if (fillWidth) Modifier.fillMaxWidth() else Modifier)
-                    .testTag("action-button-playground"),
+                modifier = if (fillWidth) Modifier.fillMaxWidth() else Modifier,
             )
         }
         Row(
