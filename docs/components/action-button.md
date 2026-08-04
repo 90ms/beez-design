@@ -9,7 +9,7 @@
 | Platforms | Android / iOS / Desktop / Web |
 | Replaces | 없음 |
 | Related | Text, Icon |
-| Last reviewed | 2026-08-03 |
+| Last reviewed | 2026-08-04 |
 
 ## Summary
 
@@ -54,6 +54,7 @@ leading/trailing slot은 decorative content를 기본으로 하며, 별도의 �
 | size | Small / Medium / Large | Medium | control 높이와 inset |
 | enabled | true / false | true | 사용자 action 허용 여부 |
 | loading | true / false | false | 중복 실행을 막고 진행 상태를 전달 |
+| modifier width | Hug / Fill / constrained | Hug | 부모 layout에서 너비를 명시적으로 선택 |
 
 공개 API는 label, onClick, modifier, 위 property와 두 개의 optional slot을 제공한다. 스타일 내부 색상이나 padding을 직접 받지 않는다.
 
@@ -114,6 +115,10 @@ Loading은 enabled가 true여도 click을 차단한다. Focused와 Pressed는 di
 
 ## Layout
 
+- 별도 width modifier가 없으면 label과 slot 콘텐츠에 맞춘 Hug 너비를 사용한다.
+- 화면이나 container의 주 CTA처럼 전체 행을 하나의 action이 차지해야 할 때만 호출자가 `Modifier.fillMaxWidth()`로 Fill 너비를 선택한다.
+- toolbar, inline action과 여러 action을 나란히 배치하는 경우에는 Hug 너비를 우선한다.
+- Fill은 variant나 size에 포함되는 시각 속성이 아니라 부모 layout이 결정하는 배치 규칙이다.
 - label이 길어지면 한 줄에 고정하지 않고 부모 constraint에 맞춰 처리한다.
 - leading/trailing slot은 label과 semantic control content gap을 사용한다.
 - 좁은 폭에서 content를 임의로 잘라내지 않는다.
@@ -121,13 +126,28 @@ Loading은 enabled가 true여도 click을 차단한다. Focused와 Pressed는 di
 
 ## Responsive and adaptive behavior
 
-모든 지원 환경에서 같은 API와 semantic hierarchy를 사용한다. Size는 window class가 아니라 호출자 선택으로 바꾸며, pointer 환경은 hover를 추가할 수 있지만 click semantics는 변경하지 않는다.
+모든 지원 환경에서 같은 API와 semantic hierarchy를 사용한다. Size는 window class가 아니라 호출자 선택으로 바꾸며, pointer 환경은 hover를 추가할 수 있지만 click semantics는 변경하지 않는다. 여러 action을 가로로 배치했을 때 번역된 label이나 확대 font scale이 사용 가능한 너비를 넘으면 호출자가 세로 stack으로 전환한다. 각 버튼을 임의로 같은 Fill 너비로 만드는 것으로 overflow를 숨기지 않는다.
 
 ## Internationalization
 
 - label은 번역 후 길어질 수 있으므로 고정 폭을 가정하지 않는다.
 - CJK, RTL, 복합 문자와 font scale 증가를 지원한다.
 - icon만 제공하는 별도 API는 만들지 않으며, icon-only action은 접근성 이름을 포함한 별도 검토가 필요하다.
+
+## Content guidelines
+
+### Do
+
+- `저장하기`, `계속하기`, `삭제하기`처럼 결과를 예측할 수 있는 간결한 동사형 label을 사용한다.
+- 한 영역의 가장 중요한 action에만 BrandSolid를 사용한다.
+- 주요 action 하나가 화면 하단이나 form 행 전체를 차지할 때 Fill 너비를 사용한다.
+
+### Do not
+
+- `확인`, `다음`처럼 맥락 없이 결과가 모호한 label을 반복하지 않는다.
+- 같은 화면에서 여러 BrandSolid action으로 강조를 분산하지 않는다.
+- toolbar나 짧은 inline action을 이유 없이 Fill 너비로 늘리지 않는다.
+- leadingContent와 trailingContent를 장식 목적으로 동시에 남용하지 않는다.
 
 ## Accessibility
 
@@ -190,6 +210,8 @@ fun BeezActionButton(
 
 ## Usage
 
+### Basic — Hug width
+
 ```kotlin
 BeezTheme {
     BeezActionButton(
@@ -198,6 +220,32 @@ BeezTheme {
     )
 }
 ```
+
+기본 버튼은 콘텐츠 너비에 맞춰 배치된다. Toolbar, inline action과 여러 action을 조합할 때 사용한다.
+
+### Full-width CTA
+
+```kotlin
+BeezActionButton(
+    label = "Continue",
+    onClick = onContinue,
+    modifier = Modifier.fillMaxWidth(),
+    size = BeezActionButtonSize.Large,
+)
+```
+
+Fill 너비는 form 제출이나 화면 하단의 주요 CTA처럼 전체 행이 하나의 action일 때 사용한다. 너비를 컴포넌트 기본값으로 가정하지 않는다.
+
+### Variants and states
+
+- BrandSolid는 가장 중요한 action 하나에 사용한다.
+- Neutral은 일반 또는 보조 action에 사용한다.
+- Outline은 낮은 강조도의 secondary action에 사용한다.
+- Loading 중에는 동일 action을 중복 실행하지 않으며 label은 작업 목적을 유지한다.
+
+### Incorrect usage
+
+여러 개의 짧은 action을 모두 `fillMaxWidth()`로 배치해 hierarchy를 없애지 않는다. 가로 공간이 부족하면 각 버튼의 Hug 너비를 유지한 채 action group을 세로로 전환한다.
 
 ## Platform differences
 
@@ -239,6 +287,7 @@ BeezTheme {
 ## Catalog scenarios
 
 - Playground
+- Hug/Fill width 비교
 - Variant와 size matrix
 - Enabled, focused, disabled, loading state matrix
 - Light/Dark와 BEEZ/test brand 비교
@@ -261,3 +310,4 @@ BeezTheme {
 | 2026-08-03 | Compose UI semantics와 Catalog variant/size/state/theme matrix 검증 추가 | Experimental 자동 검증 범위 확대 |
 | 2026-08-03 | Desktop Light/Dark/alternate brand visual baseline 추가 | 대표 variant와 state의 시각 회귀 감지 |
 | 2026-08-03 | BrandSolid focus 대비 수정과 keyboard/contrast 검증 추가 | 보이지 않던 focus border 결함 해소 |
+| 2026-08-04 | Hug/Fill 너비와 action 배치 사용 규칙 명시 | Showcase의 모든 버튼이 Fill처럼 보이던 오해 방지 |

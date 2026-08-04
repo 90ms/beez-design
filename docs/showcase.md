@@ -1,7 +1,7 @@
 # BEEZ Showcase Guide
 
 - 상태: Active
-- 기준일: 2026-08-03
+- 기준일: 2026-08-04
 
 BEEZ Showcase는 token, theme, component를 실제 BEEZ API로 시각적으로 검토하는 Compose Multiplatform Catalog다. `beez-catalog` Web/Wasm 애플리케이션이 GitHub Pages의 기본 Showcase를 제공하며, 기존 HTML/CSS/JavaScript prototype은 배포 전환 후 제거되었다.
 
@@ -20,7 +20,7 @@ Components의 card-to-detail 탐색은 [SEED Design Components](https://seed-des
 - Overview: BEEZ 원칙, 지원 플랫폼, 현재 maturity
 - Foundations: color, typography, spacing, shape, elevation, motion
 - Themes: Light, Dark, BEEZ, Test Brand 전환
-- Components: 실제 component preview를 포함한 card overview와 component별 detail 화면. Detail은 Playground, Anatomy, Properties, Guidelines와 Accessibility를 공통 순서로 제공
+- Components: 실제 component preview를 포함한 card overview와 component별 detail 화면. Detail은 Overview, Playground, Anatomy, Properties, Guidelines, Accessibility와 API를 공통 순서로 제공
 - Accessibility: touch target, focus, loading, long label과 font scale 안내
 
 ## 언어와 locale
@@ -79,6 +79,32 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다. 공통 UI 테스트는 GitHub Actions의 Wasm browser test로 실행한다.
 
 Overview의 `Design with meaning.` 문구는 브랜드 메시지로 취급해 locale과 관계없이 영어로 고정한다. 나머지 설명과 control label은 브라우저 locale 또는 상단 언어 선택을 따른다.
+
+### Component overview 규칙
+
+- 넓은 화면에서는 동일한 열 너비의 grid, 좁은 화면에서는 한 열 stack으로 배치한다.
+- 각 card는 preview 영역과 정보 영역을 시각적으로 분리한다.
+- Preview는 component의 대표 enabled 상태를 사용하며, 실제 API를 읽기 전용 또는 무해한 callback으로 렌더링한다.
+- 정보 영역은 component 이름, 한 줄 목적, maturity와 탐색 affordance만 제공한다.
+- Card 높이, preview 정렬과 내부 여백을 일관되게 유지하되 component 자체를 임의로 Fill 너비로 바꾸지 않는다.
+- Card 전체를 하나의 탐색 action과 semantics node로 제공한다.
+
+### Component detail 정보 구조
+
+각 component detail은 원본 명세를 그대로 길게 복제하지 않고, 사용자가 선택과 구현에 필요한 내용을 다음 순서로 요약한다.
+
+1. Overview: 목적, maturity와 사용 시점
+2. Playground: 실제 API와 state 변경
+3. Anatomy: root와 slot 구성
+4. Properties: public property, 허용 값, 기본값과 선택 기준
+5. Variants / Sizes / States / Layout: 해당 component에 적용되는 축과 실제 비교 예제
+6. Guidelines: Do/Do not, 유사 component와의 선택 기준, content 작성법
+7. Accessibility: semantics, input, touch target, font scale와 남은 플랫폼 검증
+8. API: 현재 commonMain signature와 최소 사용 예제
+
+Example에는 현재 선택한 property와 결과를 함께 표시한다. Action Button처럼 부모 layout이 너비를 결정하는 component는 Hug 기본 예제와 명시적인 Fill 예제를 분리한다. Matrix를 맞추기 위해 모든 component에 `fillMaxWidth()`나 동일 weight를 일괄 적용하지 않는다.
+
+한국어와 영어는 설명, example label, Playground control과 상태 문구까지 같은 범위를 제공한다. API identifier, enum 값과 code sample은 실제 source와 대조할 수 있도록 영문 원형을 유지한다. 새 한국어 문구는 배포 전에 Catalog font coverage 검사를 통과해야 한다.
 
 ## 배포 상태
 
