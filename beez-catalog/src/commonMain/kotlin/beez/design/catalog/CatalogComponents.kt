@@ -48,6 +48,22 @@ internal enum class CatalogComponent {
     Surface,
 }
 
+private enum class TextFieldPlaygroundState {
+    Enabled,
+    ReadOnly,
+    Disabled,
+    Error,
+}
+
+private enum class TextFieldExampleState {
+    Empty,
+    Filled,
+    ReadOnly,
+    Disabled,
+    Error,
+    Slotted,
+}
+
 @Composable
 internal fun ComponentsSection(
     copy: CatalogCopy,
@@ -942,54 +958,157 @@ private fun CheckboxDetail(copy: CatalogCopy) {
 @Composable
 private fun TextFieldDetail(copy: CatalogCopy) {
     var email by remember { mutableStateOf("") }
-    var error by remember { mutableStateOf(false) }
-    var readOnly by remember { mutableStateOf(false) }
-    var disabled by remember { mutableStateOf(false) }
+    var playgroundState by remember { mutableStateOf(TextFieldPlaygroundState.Enabled) }
+    val isError = playgroundState == TextFieldPlaygroundState.Error
 
-    CatalogCard(title = "Playground", body = playgroundDescription(copy.locale)) {
-        BeezTextField(
-            value = email,
-            onValueChange = { email = it },
-            label = copy.email,
-            placeholder = copy.placeholder,
-            supportingText = if (error) "Please enter a valid email address." else copy.supporting,
-            enabled = !disabled,
-            readOnly = readOnly,
-            isError = error,
-            modifier = Modifier.fillMaxWidth(),
+    CatalogGuideSection(title = "Playground", body = playgroundDescription(copy.locale)) {
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "입력 상태", "state"),
+            labels = TextFieldPlaygroundState.entries.map { state ->
+                when (state) {
+                    TextFieldPlaygroundState.Enabled -> localized(copy.locale, "사용 가능", "Enabled")
+                    TextFieldPlaygroundState.ReadOnly -> localized(copy.locale, "읽기 전용", "Read only")
+                    TextFieldPlaygroundState.Disabled -> localized(copy.locale, "비활성", "Disabled")
+                    TextFieldPlaygroundState.Error -> localized(copy.locale, "오류", "Error")
+                }
+            },
+            selectedIndex = playgroundState.ordinal,
+            onSelect = { playgroundState = TextFieldPlaygroundState.entries[it] },
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice(copy.error, error, { error = !error }, BeezTheme.colors.backgroundCritical, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice(copy.readOnly, readOnly, { readOnly = !readOnly }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice(copy.disabled, disabled, { disabled = !disabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+        CatalogExampleCanvas {
+            BeezTextField(
+                value = email,
+                onValueChange = { email = it },
+                label = copy.email,
+                placeholder = copy.placeholder,
+                supportingText = if (isError) {
+                    localized(copy.locale, "올바른 이메일 주소를 입력하세요.", "Please enter a valid email address.")
+                } else {
+                    copy.supporting
+                },
+                enabled = playgroundState != TextFieldPlaygroundState.Disabled,
+                readOnly = playgroundState == TextFieldPlaygroundState.ReadOnly,
+                isError = isError,
+                modifier = Modifier.fillMaxWidth(),
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+        ) {
+            BasicText(
+                text = if (email.isEmpty()) localized(copy.locale, "값 없음", "Value empty") else localized(copy.locale, "현재 값: $email", "Current value: $email"),
+                style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+                modifier = Modifier.weight(1f),
+            )
             CatalogChoice(copy.reset, false, {
                 email = ""
-                error = false
-                readOnly = false
-                disabled = false
+                playgroundState = TextFieldPlaygroundState.Enabled
             }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
         }
-        BasicText(text = if (email.isEmpty()) copy.ready else "Value changed", style = BeezTheme.typography.caption)
     }
-    CatalogCard(title = copy.anatomy, body = localized(copy.locale, "필수 label, 단일 행 input, 선택적인 placeholder/supporting text와 leading/trailing content로 구성됩니다.", "A required label and single-line input can be supported by placeholder, supporting text, and leading or trailing content."))
-    CatalogCard(title = copy.properties, body = localized(copy.locale, "Empty, filled, read-only, disabled와 error 상태를 비교합니다.", "Compare empty, filled, read-only, disabled, and error states.")) {
-        BeezTextField(value = "", onValueChange = {}, label = "Empty field", placeholder = "Placeholder", supportingText = "Supporting text", modifier = Modifier.fillMaxWidth())
-        BeezTextField(value = "Filled value", onValueChange = {}, label = "Filled field", modifier = Modifier.fillMaxWidth())
-        BeezTextField(value = "Read-only value", onValueChange = {}, label = "Read-only field", readOnly = true, modifier = Modifier.fillMaxWidth())
-        BeezTextField(value = "Disabled value", onValueChange = {}, label = "Disabled field", enabled = false, modifier = Modifier.fillMaxWidth())
-        BeezTextField(value = "Invalid value", onValueChange = {}, label = "Error field", supportingText = "Resolve this error before continuing.", isError = true, modifier = Modifier.fillMaxWidth())
-        BasicText(text = "Leading · trailing slots", style = BeezTheme.typography.label)
-        BeezTextField(
-            value = "account",
-            onValueChange = {},
-            label = "Slotted field",
-            leadingContent = { BasicText("@", style = BeezTheme.typography.body) },
-            trailingContent = { BasicText("✓", style = BeezTheme.typography.body) },
-            modifier = Modifier.fillMaxWidth(),
+
+    CatalogGuideSection(
+        title = copy.anatomy,
+        body = localized(copy.locale, "필수 label과 단일 행 input을 중심으로 필요한 보조 content만 추가합니다.", "A required label and single-line input are supported only by the content the field needs."),
+    ) {
+        CatalogDefinitionRow("root", "Required", localized(copy.locale, "Label, input row와 supporting text를 세로로 배치합니다.", "Vertically arranges the label, input row, and supporting text."))
+        CatalogDefinitionRow("label", "Required", localized(copy.locale, "입력 목적을 계속 보여주고 접근성 이름을 제공합니다.", "Keeps the input purpose visible and provides the accessible name."))
+        CatalogDefinitionRow("input", "Required", localized(copy.locale, "값, 커서, 편집과 selection을 담당하는 단일 행 영역입니다.", "A single-line region responsible for value, cursor, editing, and selection."))
+        CatalogDefinitionRow("placeholder", "Optional", localized(copy.locale, "값이 비었을 때 형식 예시나 짧은 힌트를 제공합니다.", "Provides a format example or short hint while the value is empty."))
+        CatalogDefinitionRow("supportingText", "Optional", localized(copy.locale, "도움말 또는 원인과 해결 방법을 설명하는 오류 메시지입니다.", "Provides help or an error message that explains cause and resolution."))
+        CatalogDefinitionRow("leadingContent / trailingContent", "Optional", localized(copy.locale, "입력 의미를 보조하는 icon이나 짧은 visual을 담습니다.", "Holds an icon or short visual that supports the input meaning."))
+    }
+
+    CatalogGuideSection(
+        title = copy.properties,
+        body = localized(copy.locale, "값과 validation은 호출자가 소유하고 Text Field는 표시와 입력 규칙을 적용합니다.", "The caller owns value and validation; Text Field applies presentation and input rules."),
+    ) {
+        CatalogDefinitionRow("value", "String · required", localized(copy.locale, "호출자가 소유하는 현재 입력 값입니다.", "The current input value owned by the caller."))
+        CatalogDefinitionRow("onValueChange", "(String) -> Unit · required", localized(copy.locale, "편집 결과를 호출자에게 전달합니다.", "Delivers editing results to the caller."))
+        CatalogDefinitionRow("label", "String · required", localized(copy.locale, "입력 목적을 설명하는 영구적인 이름입니다.", "A persistent name that explains the input purpose."))
+        CatalogDefinitionRow("placeholder / supportingText", "String? · null", localized(copy.locale, "값 예시와 도움말 또는 오류 설명을 선택적으로 추가합니다.", "Optionally adds a value example and help or error explanation."))
+        CatalogDefinitionRow("enabled", "Boolean · true", localized(copy.locale, "false이면 focus와 편집을 차단합니다.", "When false, blocks focus and editing."))
+        CatalogDefinitionRow("readOnly", "Boolean · false", localized(copy.locale, "Focus와 selection은 허용하고 값 변경만 차단합니다.", "Allows focus and selection while blocking value changes."))
+        CatalogDefinitionRow("isError", "Boolean · false", localized(copy.locale, "Critical stroke와 오류 semantics를 활성화합니다.", "Activates critical stroke and error semantics."))
+        CatalogDefinitionRow("leadingContent / trailingContent", "Composable? · null", localized(copy.locale, "Interactive content를 넣으면 semantics와 focus 순서는 호출자가 책임집니다.", "When interactive content is supplied, the caller owns semantics and focus order."))
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "States", "States"),
+        body = localized(copy.locale, "Disabled > Error > Focused > ReadOnly > Enabled 우선순위로 표시하며 supporting text로 상태 의미를 보완합니다.", "Uses Disabled > Error > Focused > ReadOnly > Enabled precedence and supporting text to reinforce meaning."),
+    ) {
+        CatalogExampleGrid(items = TextFieldExampleState.entries, wideColumns = 2) { state ->
+            val label = when (state) {
+                TextFieldExampleState.Empty -> localized(copy.locale, "빈 필드", "Empty field")
+                TextFieldExampleState.Filled -> localized(copy.locale, "값이 있는 필드", "Filled field")
+                TextFieldExampleState.ReadOnly -> localized(copy.locale, "읽기 전용 필드", "Read-only field")
+                TextFieldExampleState.Disabled -> localized(copy.locale, "비활성 필드", "Disabled field")
+                TextFieldExampleState.Error -> localized(copy.locale, "오류 필드", "Error field")
+                TextFieldExampleState.Slotted -> localized(copy.locale, "슬롯이 있는 필드", "Slotted field")
+            }
+            CatalogExampleTile(
+                title = state.name,
+                body = when (state) {
+                    TextFieldExampleState.Empty -> localized(copy.locale, "Label은 유지하고 placeholder로 형식 예시", "Persistent label with a format example")
+                    TextFieldExampleState.Filled -> localized(copy.locale, "호출자가 소유하는 현재 값", "Current caller-owned value")
+                    TextFieldExampleState.ReadOnly -> localized(copy.locale, "Focus와 selection은 허용", "Focus and selection remain available")
+                    TextFieldExampleState.Disabled -> localized(copy.locale, "Focus와 편집 차단", "Focus and editing blocked")
+                    TextFieldExampleState.Error -> localized(copy.locale, "원인과 해결 방법을 함께 설명", "Cause and resolution explained together")
+                    TextFieldExampleState.Slotted -> localized(copy.locale, "논리적 시작과 끝의 보조 content", "Supporting content at logical start and end")
+                },
+            ) {
+                BeezTextField(
+                    value = when (state) {
+                        TextFieldExampleState.Empty -> ""
+                        TextFieldExampleState.Filled -> "Filled value"
+                        TextFieldExampleState.ReadOnly -> "Read-only value"
+                        TextFieldExampleState.Disabled -> "Disabled value"
+                        TextFieldExampleState.Error -> "Invalid value"
+                        TextFieldExampleState.Slotted -> "account"
+                    },
+                    onValueChange = {},
+                    label = label,
+                    placeholder = if (state == TextFieldExampleState.Empty) localized(copy.locale, "name@example.com", "Placeholder") else null,
+                    supportingText = when (state) {
+                        TextFieldExampleState.Empty -> localized(copy.locale, "형식 예시를 확인하세요.", "Supporting text")
+                        TextFieldExampleState.Error -> localized(copy.locale, "계속하기 전에 올바른 값을 입력하세요.", "Resolve this error before continuing.")
+                        else -> null
+                    },
+                    enabled = state != TextFieldExampleState.Disabled,
+                    readOnly = state == TextFieldExampleState.ReadOnly,
+                    isError = state == TextFieldExampleState.Error,
+                    leadingContent = if (state == TextFieldExampleState.Slotted) ({ BasicText("@", style = BeezTheme.typography.body) }) else null,
+                    trailingContent = if (state == TextFieldExampleState.Slotted) ({ BasicText("✓", style = BeezTheme.typography.body) }) else null,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Layout", "Layout"),
+        body = localized(copy.locale, "Text Field는 폼 행의 사용 가능한 너비를 채우고 부모가 최대 너비와 필드 간격을 결정하는 배치가 일반적입니다.", "Text Field usually fills the available form-row width while its parent sets maximum width and spacing between fields."),
+    ) {
+        CatalogDefinitionRow("Width", localized(copy.locale, "부모 제약", "Parent constrained"), localized(copy.locale, "modifier.fillMaxWidth()로 행을 채우되 읽기 편한 폼 너비는 부모에서 제한합니다.", "Fill the row with modifier.fillMaxWidth(), but constrain readable form width in the parent."))
+        CatalogDefinitionRow("Height", localized(copy.locale, "Content driven", "Content driven"), localized(copy.locale, "Font scale과 supporting text에 따라 늘어나도록 고정 높이를 지정하지 않습니다.", "Do not set a fixed height; allow font scale and supporting text to increase it."))
+        CatalogDefinitionRow("Narrow / RTL", localized(copy.locale, "Slot 유지", "Keep slots"), localized(copy.locale, "좁은 너비에서도 label을 placeholder로 대체하거나 slot을 삭제하지 않습니다.", "Do not replace the label with placeholder or remove slots at narrow widths."))
+    }
+
+    CatalogGuideSection(
+        title = copy.guidelinesTitle,
+        body = localized(copy.locale, "Label은 입력 목적을 계속 설명하고 placeholder는 형식 예시로만 사용합니다.", "Keep a persistent label for purpose and use placeholder only as a format example."),
+    ) {
+        CatalogGuidancePair(
+            doTitle = localized(copy.locale, "권장", "Do"),
+            doBody = localized(copy.locale, "구체적인 label을 사용하고 오류 원인과 해결 방법을 supporting text로 알려줍니다.", "Use a specific label and explain error cause and resolution in supporting text."),
+            dontTitle = localized(copy.locale, "피하기", "Do not"),
+            dontBody = localized(copy.locale, "Placeholder만으로 목적을 설명하거나 오류를 색상으로만 표시하지 않습니다.", "Do not rely on placeholder for purpose or communicate an error with color alone."),
         )
-    }
-    CatalogCard(title = copy.guidelinesTitle, body = localized(copy.locale, "Label은 입력 목적을 유지해서 설명하고 placeholder만으로 필드 의미를 전달하지 않습니다.", "Keep a persistent label that explains the input purpose; do not rely on placeholder text alone.")) {
-        BasicText(text = "Long content · RTL", style = BeezTheme.typography.label)
+        CatalogDefinitionRow("Text / Description", localized(copy.locale, "읽기 전용 값", "Read-only value"), localized(copy.locale, "Focus와 selection이 필요 없는 값은 일반 text로 표시합니다.", "Display a value as regular text when focus and selection are unnecessary."))
+        CatalogDefinitionRow("Picker / Checkbox", localized(copy.locale, "제한된 선택지", "Constrained choice"), localized(copy.locale, "직접 입력보다 유효한 값을 선택하는 편이 명확할 때 사용합니다.", "Use when selecting a valid value is clearer than free-form input."))
+        CatalogDefinitionRow("Long content / RTL", localized(copy.locale, "줄바꿈 · logical order", "Wrapping · logical order"), localized(copy.locale, "Label과 supporting text는 줄바꿈하고 input slot은 논리적 순서를 따릅니다.", "Labels and supporting text wrap while input slots follow logical order."))
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
                 BeezTextField(
@@ -1002,7 +1121,46 @@ private fun TextFieldDetail(copy: CatalogCopy) {
             }
         }
     }
-    CatalogCard(title = copy.accessibilityGuide, body = localized(copy.locale, "Label을 접근성 이름으로 제공하고 disabled와 error 상태를 semantics에 전달합니다. 실제 IME와 clipboard 검증은 플랫폼별로 남아 있습니다.", "Uses the label as the accessible name and exposes disabled and error state. Platform IME and clipboard verification remains pending."))
+
+    CatalogGuideSection(
+        title = copy.accessibilityGuide,
+        body = localized(copy.locale, "Label을 접근성 이름으로 사용하고 현재 값, disabled와 error 상태를 semantics에 전달합니다.", "Uses the label as accessible name and exposes current value, disabled, and error state."),
+    ) {
+        CatalogDefinitionRow("Name and value", "Label · current value", localized(copy.locale, "Label은 placeholder와 독립적인 이름이고 input은 현재 값을 제공합니다.", "Label remains independent from placeholder and input exposes its current value."))
+        CatalogDefinitionRow("State", "Editable · read-only · disabled · error", localized(copy.locale, "Interaction 규칙과 오류 설명을 상태와 함께 전달합니다.", "Exposes interaction rules and error explanation with state."))
+        CatalogDefinitionRow("Interaction", "Keyboard · selection · copy/paste", localized(copy.locale, "Compose text input primitive의 focus, 편집, selection과 clipboard 동작을 유지합니다.", "Preserves focus, editing, selection, and clipboard behavior from the Compose text input primitive."))
+        CatalogDefinitionRow("Platform verification", "IME · clipboard", localized(copy.locale, "실제 플랫폼 IME와 clipboard 통합 검증은 아직 남아 있습니다.", "Real platform IME and clipboard integration verification remains pending."))
+    }
+
+    CatalogGuideSection(
+        title = "API",
+        body = localized(copy.locale, "현재 single-line Text Field의 commonMain signature와 최소 사용 예제입니다.", "The current single-line Text Field commonMain signature and minimal usage example."),
+    ) {
+        CatalogCodeBlock(
+            """fun BeezTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    placeholder: String? = null,
+    supportingText: String? = null,
+    enabled: Boolean = true,
+    readOnly: Boolean = false,
+    isError: Boolean = false,
+    leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+)""",
+        )
+        CatalogCodeBlock(
+            """BeezTextField(
+    value = email,
+    onValueChange = { email = it },
+    label = "Email address",
+    placeholder = "name@example.com",
+    modifier = Modifier.fillMaxWidth(),
+)""",
+        )
+    }
 }
 
 @Composable

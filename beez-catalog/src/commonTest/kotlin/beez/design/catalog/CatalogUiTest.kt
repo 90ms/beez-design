@@ -96,6 +96,9 @@ class CatalogUiTest {
         onNodeWithContentDescription("Disabled field").assertTextEquals("Disabled value")
         onNodeWithContentDescription("Error field").assertTextEquals("Invalid value")
         onNodeWithContentDescription("Slotted field").assertTextEquals("account")
+        onNodeWithText("The caller owns value and validation; Text Field applies presentation and input rules.").assertExists()
+        onNodeWithText("Text Field usually fills the available form-row width while its parent sets maximum width and spacing between fields.").assertExists()
+        onNodeWithText("fun BeezTextField(", substring = true).assertExists()
         onNodeWithContentDescription("عنوان حقل طويل للتحقق من التخطيط").assertExists()
     }
 

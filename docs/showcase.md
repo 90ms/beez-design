@@ -74,6 +74,7 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Checkbox anatomy, public property, state, 유사 component 선택 기준, Do/Do not, accessibility와 commonMain API guide
 - Checkbox unchecked/checked/disabled state와 RTL 긴 label matrix
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
+- Text Field anatomy, public property, state 우선순위, form width 규칙, Do/Do not, accessibility와 commonMain API guide
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
 - Surface Flat/Raised/Floating 전환, elevation matrix와 RTL 긴 content
 - 긴 label, narrow viewport와 responsive layout
