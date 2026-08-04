@@ -29,6 +29,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
@@ -301,58 +302,483 @@ private fun ActionButtonDetail(copy: CatalogCopy) {
     var clicks by remember { mutableStateOf(0) }
     var disabled by remember { mutableStateOf(false) }
     var loading by remember { mutableStateOf(false) }
+    var variant by remember { mutableStateOf(BeezActionButtonVariant.BrandSolid) }
+    var size by remember { mutableStateOf(BeezActionButtonSize.Medium) }
+    var fillWidth by remember { mutableStateOf(false) }
 
-    CatalogCard(title = "Playground", body = playgroundDescription(copy.locale)) {
-        BasicText(text = "Playground · Clicks: $clicks", style = BeezTheme.typography.label)
-        BeezActionButton(
-            label = "Continue",
-            onClick = { clicks += 1 },
-            enabled = !disabled,
-            loading = loading,
-            modifier = Modifier.fillMaxWidth(),
+    CatalogGuideSection(
+        title = "Playground",
+        body = playgroundDescription(copy.locale),
+    ) {
+        CatalogChoiceGroup(
+            title = "variant",
+            labels = BeezActionButtonVariant.entries.map { it.name },
+            selectedIndex = BeezActionButtonVariant.entries.indexOf(variant),
+            onSelect = { variant = BeezActionButtonVariant.entries[it] },
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice("Button disabled", disabled, { disabled = !disabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice("Button loading", loading, { loading = !loading }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice("Button reset", false, {
-                clicks = 0
-                disabled = false
-                loading = false
-            }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+        CatalogChoiceGroup(
+            title = "size",
+            labels = BeezActionButtonSize.entries.map { it.name },
+            selectedIndex = BeezActionButtonSize.entries.indexOf(size),
+            onSelect = { size = BeezActionButtonSize.entries[it] },
+        )
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "너비", "width"),
+            labels = listOf("Hug", "Fill"),
+            selectedIndex = if (fillWidth) 1 else 0,
+            onSelect = { fillWidth = it == 1 },
+        )
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "상태", "state"),
+            labels = listOf(
+                localized(copy.locale, "기본", "Enabled"),
+                localized(copy.locale, "비활성", "Disabled"),
+                localized(copy.locale, "로딩", "Loading"),
+            ),
+            selectedIndex = when {
+                disabled -> 1
+                loading -> 2
+                else -> 0
+            },
+            onSelect = {
+                disabled = it == 1
+                loading = it == 2
+            },
+        )
+        CatalogExampleCanvas {
+            BeezActionButton(
+                label = localized(copy.locale, "계속하기", "Continue"),
+                onClick = { clicks += 1 },
+                variant = variant,
+                size = size,
+                enabled = !disabled,
+                loading = loading,
+                modifier = if (fillWidth) Modifier.fillMaxWidth() else Modifier,
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+        ) {
+            BasicText(
+                text = localized(copy.locale, "실행 횟수: $clicks", "Clicks: $clicks"),
+                style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+                modifier = Modifier.weight(1f),
+            )
+            CatalogChoice(
+                label = copy.reset,
+                selected = false,
+                onClick = {
+                    clicks = 0
+                    disabled = false
+                    loading = false
+                    variant = BeezActionButtonVariant.BrandSolid
+                    size = BeezActionButtonSize.Medium
+                    fillWidth = false
+                },
+                selectedColor = BeezTheme.colors.backgroundBrand,
+                contentColor = BeezTheme.colors.foregroundPrimary,
+            )
         }
     }
 
-    CatalogCard(
+    CatalogGuideSection(
         title = copy.anatomy,
-        body = localized(copy.locale, "Container와 필수 label, 선택적인 leading/trailing content로 구성됩니다.", "A container owns the action while the required label and optional leading or trailing content communicate its purpose."),
-    )
-    CatalogCard(title = copy.properties, body = localized(copy.locale, "Variant, size와 state 조합을 비교합니다.", "Compare semantic variants, sizes, and states.")) {
-        BasicText(text = "Variants", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Brand solid", onClick = {}, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Neutral", onClick = {}, variant = BeezActionButtonVariant.Neutral, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Outline", onClick = {}, variant = BeezActionButtonVariant.Outline, modifier = Modifier.weight(1f))
-        }
-        BasicText(text = "Sizes", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Small", onClick = {}, size = BeezActionButtonSize.Small, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Medium", onClick = {}, size = BeezActionButtonSize.Medium, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Large", onClick = {}, size = BeezActionButtonSize.Large, modifier = Modifier.weight(1f))
-        }
-        BasicText(text = "States", style = BeezTheme.typography.label)
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezActionButton(label = "Enabled", onClick = {}, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Disabled", onClick = {}, enabled = false, modifier = Modifier.weight(1f))
-            BeezActionButton(label = "Loading", onClick = {}, loading = true, modifier = Modifier.weight(1f))
+        body = localized(
+            copy.locale,
+            "하나의 action root 안에서 필수 label과 선택적인 앞·뒤 content가 목적을 전달합니다.",
+            "One action root combines a required label with optional leading and trailing content.",
+        ),
+    ) {
+        CatalogDefinitionRow("root", "Required", localized(copy.locale, "전체 layout, focus, click과 button semantics를 소유합니다.", "Owns layout, focus, click, and button semantics."))
+        CatalogDefinitionRow("leadingContent", "Optional", localized(copy.locale, "Label 앞에서 action 의미를 보조하는 짧은 visual입니다.", "A short visual before the label that supports the action meaning."))
+        CatalogDefinitionRow("label", "Required", localized(copy.locale, "결과를 예측할 수 있는 action 이름이자 기본 접근성 이름입니다.", "The predictable action name and default accessible name."))
+        CatalogDefinitionRow("trailingContent", "Optional", localized(copy.locale, "Label 뒤에서 다음 단계나 방향을 보조하는 visual입니다.", "A visual after the label that supports direction or the next step."))
+    }
+
+    CatalogGuideSection(
+        title = copy.properties,
+        body = localized(copy.locale, "Public API에서 선택할 수 있는 축과 안전한 기본값입니다.", "The public API axes and their safe defaults."),
+    ) {
+        CatalogDefinitionRow("label", "String · required", localized(copy.locale, "Action의 결과를 설명합니다.", "Explains the result of the action."))
+        CatalogDefinitionRow("onClick", "() -> Unit · required", localized(copy.locale, "사용자가 실행했을 때 호출됩니다.", "Called when the user activates the action."))
+        CatalogDefinitionRow("variant", "BrandSolid · Neutral · Outline", localized(copy.locale, "기본값 BrandSolid. 화면의 강조 위계를 선택합니다.", "Defaults to BrandSolid and selects visual hierarchy."))
+        CatalogDefinitionRow("size", "Small · Medium · Large", localized(copy.locale, "기본값 Medium. 높이와 content inset을 선택합니다.", "Defaults to Medium and selects height and content insets."))
+        CatalogDefinitionRow("enabled", "Boolean · true", localized(copy.locale, "false이면 action과 callback을 차단합니다.", "When false, blocks the action and callback."))
+        CatalogDefinitionRow("loading", "Boolean · false", localized(copy.locale, "true이면 진행 상태를 알리고 중복 실행을 차단합니다.", "When true, exposes progress and blocks duplicate activation."))
+        CatalogDefinitionRow("modifier", "Modifier · empty", localized(copy.locale, "Hug가 기본이며 Fill과 constraint는 부모 layout이 명시합니다.", "Hug is the default; the parent explicitly requests Fill or constraints."))
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Variants", "Variants"),
+        body = localized(copy.locale, "색상 취향이 아니라 action의 중요도에 따라 선택합니다.", "Choose by action importance, not color preference."),
+    ) {
+        CatalogExampleGrid(items = BeezActionButtonVariant.entries) { item ->
+            val description = when (item) {
+                BeezActionButtonVariant.BrandSolid -> localized(copy.locale, "가장 중요한 action 하나", "One highest-priority action")
+                BeezActionButtonVariant.Neutral -> localized(copy.locale, "일반 또는 보조 action", "General or supporting actions")
+                BeezActionButtonVariant.Outline -> localized(copy.locale, "낮은 강조도의 secondary action", "Low-emphasis secondary actions")
+            }
+            CatalogExampleTile(title = item.name, body = description) {
+                BeezActionButton(
+                    label = when (item) {
+                        BeezActionButtonVariant.BrandSolid -> localized(copy.locale, "계속하기", "Continue")
+                        BeezActionButtonVariant.Neutral -> localized(copy.locale, "나중에", "Not now")
+                        BeezActionButtonVariant.Outline -> localized(copy.locale, "취소하기", "Cancel")
+                    },
+                    onClick = {},
+                    variant = item,
+                )
+            }
         }
     }
-    CatalogCard(title = copy.guidelinesTitle, body = localized(copy.locale, "가장 중요한 action에는 Brand Solid를 제한적으로 사용하고 label은 결과를 예측할 수 있는 동사형으로 작성합니다.", "Reserve Brand Solid for the most important action and use a concise verb-led label with a predictable result.")) {
-        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Sizes", "Sizes"),
+        body = localized(copy.locale, "화면 크기가 아니라 배치 밀도와 action 역할에 맞춥니다.", "Match layout density and action role rather than window size."),
+    ) {
+        CatalogExampleGrid(items = BeezActionButtonSize.entries) { item ->
+            val description = when (item) {
+                BeezActionButtonSize.Small -> localized(copy.locale, "Toolbar와 compact action", "Toolbars and compact actions")
+                BeezActionButtonSize.Medium -> localized(copy.locale, "대부분의 기본 action", "Most default actions")
+                BeezActionButtonSize.Large -> localized(copy.locale, "주요 CTA와 여유 있는 layout", "Primary CTAs and comfortable layouts")
+            }
+            CatalogExampleTile(title = item.name, body = description) {
+                BeezActionButton(label = localized(copy.locale, "실행하기", "Run action"), onClick = {}, size = item)
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "States", "States"),
+        body = localized(copy.locale, "상태는 호출자가 소유하며 Disabled와 Loading은 실행을 차단합니다.", "The caller owns state; Disabled and Loading block activation."),
+    ) {
+        CatalogExampleGrid(items = listOf("Enabled", "Disabled", "Loading")) { item ->
+            CatalogExampleTile(
+                title = item,
+                body = when (item) {
+                    "Disabled" -> localized(copy.locale, "현재 실행할 수 없음", "Currently unavailable")
+                    "Loading" -> localized(copy.locale, "진행 중이며 중복 실행 차단", "In progress with duplicate activation blocked")
+                    else -> localized(copy.locale, "입력과 callback 허용", "Accepts input and invokes the callback")
+                },
+            ) {
+                BeezActionButton(
+                    label = localized(copy.locale, "저장하기", "Save"),
+                    onClick = {},
+                    enabled = item != "Disabled",
+                    loading = item == "Loading",
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Width and layout", "Width and layout"),
+        body = localized(copy.locale, "Hug가 기본입니다. Fill은 전체 행이 하나의 CTA일 때만 부모가 명시합니다.", "Hug is the default. The parent requests Fill only when one CTA owns the whole row."),
+    ) {
+        CatalogExampleGrid(items = listOf("Hug", "Fill"), wideColumns = 2) { item ->
+            CatalogExampleTile(
+                title = item,
+                body = if (item == "Hug") {
+                    localized(copy.locale, "Toolbar, inline action과 action group", "Toolbars, inline actions, and action groups")
+                } else {
+                    localized(copy.locale, "Form 제출이나 화면 하단의 주요 CTA", "Form submission or a primary bottom CTA")
+                },
+            ) {
+                BeezActionButton(
+                    label = if (item == "Hug") localized(copy.locale, "저장하기", "Save") else localized(copy.locale, "검토 계속하기", "Continue to review"),
+                    onClick = {},
+                    modifier = if (item == "Fill") Modifier.fillMaxWidth() else Modifier,
+                    size = if (item == "Fill") BeezActionButtonSize.Large else BeezActionButtonSize.Medium,
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = copy.guidelinesTitle,
+        body = localized(copy.locale, "강조 위계와 예측 가능한 label을 함께 관리합니다.", "Manage visual hierarchy together with predictable labels."),
+    ) {
+        CatalogGuidancePair(
+            doTitle = localized(copy.locale, "권장", "Do"),
+            doBody = localized(copy.locale, "가장 중요한 action에 BrandSolid 하나를 사용하고 ‘저장하기’처럼 결과가 분명한 label을 씁니다.", "Use one BrandSolid action for the highest priority and a predictable label such as ‘Save changes’."),
+            dontTitle = localized(copy.locale, "피하기", "Do not"),
+            dontBody = localized(copy.locale, "여러 버튼을 모두 Fill이나 BrandSolid로 만들어 중요도를 같게 보이게 하지 않습니다.", "Do not make every button Fill or BrandSolid and flatten their hierarchy."),
+        )
+        CatalogDefinitionRow(
+            name = localized(copy.locale, "긴 label과 RTL", "Long labels and RTL"),
+            meta = localized(copy.locale, "줄바꿈 · logical order", "Wrapping · logical order"),
+            description = localized(copy.locale, "번역과 확대 글꼴로 공간이 부족하면 action group을 세로로 전환합니다.", "When translation or font scaling exceeds the row, switch the action group to a vertical stack."),
+        )
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            BeezActionButton(label = "متابعة إلى الخطوة التالية", onClick = {}, modifier = Modifier.fillMaxWidth())
+            CatalogExampleCanvas {
+                BeezActionButton(label = "متابعة إلى الخطوة التالية", onClick = {})
+            }
         }
     }
-    CatalogCard(title = copy.accessibilityGuide, body = localized(copy.locale, "Button role, 접근성 이름, disabled/loading 상태와 최소 48dp interaction target을 제공합니다.", "Provides a button role, accessible name, disabled/loading state, and a minimum 48dp interaction target."))
+
+    CatalogGuideSection(
+        title = copy.accessibilityGuide,
+        body = localized(copy.locale, "상태와 실행 가능 여부를 시각 표현뿐 아니라 semantics로 전달합니다.", "Expose state and availability through semantics as well as visuals."),
+    ) {
+        CatalogDefinitionRow("Role and name", "Button · label", localized(copy.locale, "Root는 button role을 갖고 label을 기본 접근성 이름으로 사용합니다.", "The root has button role and uses the label as its accessible name."))
+        CatalogDefinitionRow("Interaction", "Touch · pointer · Enter · Space", localized(copy.locale, "최소 48dp interaction 영역과 keyboard 실행을 제공합니다.", "Provides a minimum 48dp interaction area and keyboard activation."))
+        CatalogDefinitionRow("State", "Disabled · Loading", localized(copy.locale, "비활성과 진행 상태를 보조기술에 전달하고 callback을 차단합니다.", "Exposes disabled and progress states and blocks the callback."))
+        CatalogDefinitionRow("Content", "Font scale · CJK · RTL", localized(copy.locale, "Label을 임의로 자르지 않고 logical slot 순서를 유지합니다.", "Does not arbitrarily truncate labels and preserves logical slot order."))
+    }
+
+    CatalogGuideSection(
+        title = "API",
+        body = localized(copy.locale, "현재 commonMain public signature와 최소 사용 예제입니다.", "The current commonMain public signature and minimal usage."),
+    ) {
+        CatalogCodeBlock(
+            """fun BeezActionButton(
+    label: String,
+    onClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    variant: BeezActionButtonVariant = BrandSolid,
+    size: BeezActionButtonSize = Medium,
+    enabled: Boolean = true,
+    loading: Boolean = false,
+    leadingContent: (@Composable () -> Unit)? = null,
+    trailingContent: (@Composable () -> Unit)? = null,
+)""",
+        )
+        CatalogCodeBlock(
+            """BeezActionButton(
+    label = "Continue",
+    onClick = onContinue,
+)""",
+        )
+    }
+}
+
+@Composable
+private fun CatalogGuideSection(
+    title: String,
+    body: String,
+    content: @Composable () -> Unit,
+) {
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(1.dp)
+                .background(BeezTheme.colors.strokeNeutral),
+        )
+        BasicText(
+            text = title,
+            style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary),
+        )
+        BasicText(
+            text = body,
+            style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+        content()
+    }
+}
+
+@Composable
+private fun CatalogChoiceGroup(
+    title: String,
+    labels: List<String>,
+    selectedIndex: Int,
+    onSelect: (Int) -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap)) {
+        BasicText(
+            text = title,
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+        BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+            if (maxWidth < 560.dp) {
+                Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap)) {
+                    labels.forEachIndexed { index, label ->
+                        CatalogChoice(label, index == selectedIndex, { onSelect(index) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+                    }
+                }
+            } else {
+                Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap)) {
+                    labels.forEachIndexed { index, label ->
+                        CatalogChoice(label, index == selectedIndex, { onSelect(index) }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CatalogExampleCanvas(content: @Composable () -> Unit) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.containerRadius)
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 144.dp)
+            .clip(shape)
+            .background(BeezTheme.colors.strokeNeutral.copy(alpha = 0.12f))
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(BeezTheme.spacing.screenGutter),
+        contentAlignment = Alignment.Center,
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun CatalogDefinitionRow(name: String, meta: String, description: String) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.controlRadius)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(BeezTheme.spacing.contentStackGap),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap),
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+        ) {
+            BasicText(
+                text = name,
+                style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundPrimary),
+                modifier = Modifier.weight(1f),
+            )
+            BasicText(
+                text = meta,
+                style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+            )
+        }
+        BasicText(
+            text = description,
+            style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+    }
+}
+
+@Composable
+private fun <T> CatalogExampleGrid(
+    items: List<T>,
+    wideColumns: Int = 3,
+    content: @Composable (T) -> Unit,
+) {
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        val columns = if (maxWidth < 720.dp) 1 else wideColumns
+        Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap)) {
+            items.chunked(columns).forEach { rowItems ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+                ) {
+                    rowItems.forEach { item ->
+                        Box(modifier = Modifier.weight(1f)) { content(item) }
+                    }
+                    repeat(columns - rowItems.size) {
+                        Spacer(modifier = Modifier.weight(1f))
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun CatalogExampleTile(
+    title: String,
+    body: String,
+    content: @Composable () -> Unit,
+) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.containerRadius)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .heightIn(min = 224.dp)
+            .clip(shape)
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(BeezTheme.spacing.contentStackGap),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap),
+    ) {
+        BasicText(
+            text = title,
+            style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundPrimary),
+        )
+        BasicText(
+            text = body,
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+        Box(
+            modifier = Modifier.fillMaxWidth().weight(1f),
+            contentAlignment = Alignment.Center,
+        ) {
+            content()
+        }
+    }
+}
+
+@Composable
+private fun CatalogGuidancePair(
+    doTitle: String,
+    doBody: String,
+    dontTitle: String,
+    dontBody: String,
+) {
+    BoxWithConstraints(modifier = Modifier.fillMaxWidth()) {
+        if (maxWidth < 720.dp) {
+            Column(verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap)) {
+                CatalogGuidanceCard(doTitle, doBody, BeezTheme.colors.backgroundBrand)
+                CatalogGuidanceCard(dontTitle, dontBody, BeezTheme.colors.strokeCritical)
+            }
+        } else {
+            Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap)) {
+                CatalogGuidanceCard(doTitle, doBody, BeezTheme.colors.backgroundBrand, Modifier.weight(1f))
+                CatalogGuidanceCard(dontTitle, dontBody, BeezTheme.colors.strokeCritical, Modifier.weight(1f))
+            }
+        }
+    }
+}
+
+@Composable
+private fun CatalogGuidanceCard(
+    title: String,
+    body: String,
+    accent: androidx.compose.ui.graphics.Color,
+    modifier: Modifier = Modifier.fillMaxWidth(),
+) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.containerRadius)
+    Column(
+        modifier = modifier
+            .clip(shape)
+            .border(1.dp, accent, shape)
+            .padding(BeezTheme.spacing.contentStackGap),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap),
+    ) {
+        BasicText(text = title, style = BeezTheme.typography.label.copy(color = accent))
+        BasicText(text = body, style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundPrimary))
+    }
+}
+
+@Composable
+private fun CatalogCodeBlock(code: String) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.controlRadius)
+    BasicText(
+        text = code,
+        style = BeezTheme.typography.caption.copy(
+            color = BeezTheme.colors.foregroundPrimary,
+            fontFamily = FontFamily.Monospace,
+        ),
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(BeezTheme.colors.strokeNeutral.copy(alpha = 0.12f))
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(BeezTheme.spacing.contentStackGap),
+    )
 }
 
 @Composable

@@ -66,7 +66,8 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - 브랜드 accent와 semantic foreground/background 조합
 - Light/Dark theme 대비
 - 상단 Light/Dark toggle과 Themes Appearance/Brand mapping 전환
-- Action Button variant와 size hierarchy
+- Action Button Playground의 variant, size, state와 Hug/Fill width 전환
+- Action Button Anatomy, public property, variant/size/state/layout 선택 기준, Do/Do not, accessibility와 commonMain API guide
 - disabled, loading, focus 표현
 - 버튼 callback, disabled/loading 전환과 reset 동작
 - Checkbox checked/disabled 전환과 reset 동작
