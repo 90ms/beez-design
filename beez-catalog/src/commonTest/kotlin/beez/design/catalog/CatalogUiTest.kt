@@ -172,6 +172,9 @@ class CatalogUiTest {
         onNodeWithText("Floating Surface").assertExists()
         onNodeWithText("Flat").assertExists()
         onNodeWithText("Raised").assertExists()
+        onNodeWithText("Elevation is not an interaction state; select exactly one depth at a time.").assertExists()
+        onNodeWithText("Do not add clickable to the whole Surface and create a hidden button without role, focus, or feedback.").assertExists()
+        onNodeWithText("fun BeezSurface(", substring = true).assertExists()
         onNodeWithText("محتوى طويل داخل سطح مشترك يظل مرئيًا").assertExists()
     }
 }

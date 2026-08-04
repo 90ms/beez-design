@@ -77,6 +77,7 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Text Field anatomy, public property, state 우선순위, form width 규칙, Do/Do not, accessibility와 commonMain API guide
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
 - Surface Flat/Raised/Floating 전환, elevation matrix와 RTL 긴 content
+- Surface anatomy, public property, elevation/layout 선택 기준, interactive container와의 구분, accessibility와 commonMain API guide
 - 긴 label, narrow viewport와 responsive layout
 
 Catalog는 HTML preview나 별도 CSS component를 복사하지 않고 `beez-components`의 `commonMain` API를 직접 호출한다. 공통 UI 테스트는 GitHub Actions의 Wasm browser test로 실행한다.

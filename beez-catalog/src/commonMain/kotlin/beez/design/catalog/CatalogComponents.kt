@@ -1167,24 +1167,14 @@ private fun TextFieldDetail(copy: CatalogCopy) {
 private fun SurfaceDetail(copy: CatalogCopy) {
     var elevation by remember { mutableStateOf(BeezSurfaceElevation.Raised) }
 
-    CatalogCard(title = "Playground", body = playgroundDescription(copy.locale)) {
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            BeezSurfaceElevation.entries.forEach { option ->
-                CatalogChoice(
-                    label = "Elevation ${option.name}",
-                    selected = elevation == option,
-                    onClick = { elevation = option },
-                    selectedColor = BeezTheme.colors.backgroundBrand,
-                    contentColor = BeezTheme.colors.foregroundPrimary,
-                )
-            }
-        }
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(BeezTheme.colors.backgroundBrand.copy(alpha = 0.14f))
-                .padding(BeezTheme.spacing.screenGutter),
-        ) {
+    CatalogGuideSection(title = "Playground", body = playgroundDescription(copy.locale)) {
+        CatalogChoiceGroup(
+            title = "elevation",
+            labels = BeezSurfaceElevation.entries.map { "Elevation ${it.name}" },
+            selectedIndex = elevation.ordinal,
+            onSelect = { elevation = BeezSurfaceElevation.entries[it] },
+        )
+        CatalogExampleCanvas {
             BeezSurface(
                 elevation = elevation,
                 modifier = Modifier.fillMaxWidth(),
@@ -1194,27 +1184,90 @@ private fun SurfaceDetail(copy: CatalogCopy) {
                     verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
                 ) {
                     BasicText(text = "${elevation.name} Surface", style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary))
-                    BasicText(text = localized(copy.locale, "관련 콘텐츠를 하나의 중립 영역으로 묶습니다.", "Groups related content in one neutral region."), style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary))
-                }
-            }
-        }
-    }
-    CatalogCard(title = copy.anatomy, body = localized(copy.locale, "Root가 neutral background, container shape와 elevation을 제공하고 content semantics는 그대로 유지합니다.", "The root provides a neutral background, container shape, and elevation while preserving content semantics."))
-    CatalogCard(title = copy.properties, body = localized(copy.locale, "Flat, Raised와 Floating는 깊이 관계만 표현하며 interaction state가 아닙니다.", "Flat, Raised, and Floating express depth only; they are not interaction states.")) {
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap)) {
-            BeezSurfaceElevation.entries.forEach { option ->
-                BeezSurface(elevation = option, modifier = Modifier.weight(1f)) {
                     BasicText(
-                        text = option.name,
-                        style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundPrimary),
-                        modifier = Modifier.padding(BeezTheme.spacing.contentStackGap),
+                        text = when (elevation) {
+                            BeezSurfaceElevation.Flat -> localized(copy.locale, "같은 배경 레벨의 콘텐츠를 묶습니다.", "Groups content at the same background level.")
+                            BeezSurfaceElevation.Raised -> localized(copy.locale, "주변 영역과 구분되는 작업 단위를 표시합니다.", "Separates a working region from its surroundings.")
+                            BeezSurfaceElevation.Floating -> localized(copy.locale, "다른 영역 위에 떠 있는 임시 영역을 표시합니다.", "Presents a temporary region above other surfaces.")
+                        },
+                        style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary),
                     )
                 }
             }
         }
     }
-    CatalogCard(title = copy.guidelinesTitle, body = localized(copy.locale, "관련 content를 묶는 비대화형 container로 사용합니다. 전체 영역이 action이면 목적에 맞는 interactive pattern을 사용합니다.", "Use it as a non-interactive container for related content. If the whole region is an action, use a purpose-built interactive pattern.")) {
-        BasicText(text = "Long content · RTL", style = BeezTheme.typography.label)
+
+    CatalogGuideSection(
+        title = copy.anatomy,
+        body = localized(copy.locale, "Surface는 시각적 container와 호출자가 배치하는 content 두 부분으로 구성됩니다.", "Surface consists of a visual container and caller-provided content."),
+    ) {
+        CatalogDefinitionRow("root", "Required", localized(copy.locale, "Neutral background, container shape와 semantic elevation을 적용합니다.", "Applies neutral background, container shape, and semantic elevation."))
+        CatalogDefinitionRow("content", "Required", localized(copy.locale, "독립적인 layout과 semantics를 유지하는 호출자 content입니다.", "Caller content that retains independent layout and semantics."))
+    }
+
+    CatalogGuideSection(
+        title = copy.properties,
+        body = localized(copy.locale, "Surface는 neutral container로 유지하고 깊이, 배치와 content만 조합합니다.", "Surface remains a neutral container composed through depth, layout, and content."),
+    ) {
+        CatalogDefinitionRow("elevation", "BeezSurfaceElevation · Flat", localized(copy.locale, "Flat, Raised 또는 Floating으로 주변 surface와의 깊이 관계를 선택합니다.", "Selects Flat, Raised, or Floating depth relative to surrounding surfaces."))
+        CatalogDefinitionRow("modifier", "Modifier · empty", localized(copy.locale, "부모 constraint, 크기와 외부 배치를 적용합니다.", "Applies parent constraints, size, and external placement."))
+        CatalogDefinitionRow("content", "BoxScope.() -> Unit · required", localized(copy.locale, "내부 padding과 child 간격을 semantic spacing token으로 구성합니다.", "Builds internal padding and child spacing from semantic spacing tokens."))
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Elevation", "Elevation"),
+        body = localized(copy.locale, "Elevation은 상호작 상태가 아니며 동시에 하나의 깊이만 선택합니다.", "Elevation is not an interaction state; select exactly one depth at a time."),
+    ) {
+        CatalogExampleGrid(items = BeezSurfaceElevation.entries) { option ->
+            CatalogExampleTile(
+                title = option.name,
+                body = when (option) {
+                    BeezSurfaceElevation.Flat -> localized(copy.locale, "구분이 필요하지만 높이 차이가 없는 기본 영역", "Default grouping without a height difference")
+                    BeezSurfaceElevation.Raised -> localized(copy.locale, "항상 보이는 독립적 작업 또는 정보 영역", "Persistent, distinct work or information region")
+                    BeezSurfaceElevation.Floating -> localized(copy.locale, "다른 영역 위에 일시적으로 표시되는 영역", "Temporary region displayed above other surfaces")
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(BeezTheme.colors.backgroundBrand.copy(alpha = 0.14f))
+                        .padding(BeezTheme.spacing.contentStackGap),
+                ) {
+                    BeezSurface(elevation = option, modifier = Modifier.fillMaxWidth()) {
+                        BasicText(
+                            text = "${option.name} Surface",
+                            style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundPrimary),
+                            modifier = Modifier.padding(BeezTheme.spacing.contentStackGap),
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Layout", "Layout"),
+        body = localized(copy.locale, "Surface자체는 크기와 내부 여백을 결정하지 않고 부모 constraint와 content를 따릅니다.", "Surface does not choose its own size or padding; it follows parent constraints and content."),
+    ) {
+        CatalogDefinitionRow("Size", localized(copy.locale, "부모와 content", "Parent and content"), localized(copy.locale, "고정 size variant 없이 부모 modifier와 content 크기를 존중합니다.", "Respects parent modifier and content size without fixed-size variants."))
+        CatalogDefinitionRow("Padding", localized(copy.locale, "호출자 책임", "Caller-owned"), localized(copy.locale, "Surface는 암묵적 padding을 추가하지 않으며 content가 semantic spacing token을 사용합니다.", "Surface adds no implicit padding; content uses semantic spacing tokens."))
+        CatalogDefinitionRow("Overflow", localized(copy.locale, "Shape clip", "Shape clip"), localized(copy.locale, "Content는 container shape으로 clip되고 shadow는 outline 밖에 그려집니다.", "Content clips to container shape while shadow renders outside the outline."))
+    }
+
+    CatalogGuideSection(
+        title = copy.guidelinesTitle,
+        body = localized(copy.locale, "관련 content를 묶는 비대화형 container로 사용하고 상호작이 필요하면 목적에 맞는 component를 선택합니다.", "Use as a non-interactive container for related content and choose a purpose-built component when interaction is required."),
+    ) {
+        CatalogGuidancePair(
+            doTitle = localized(copy.locale, "권장", "Do"),
+            doBody = localized(copy.locale, "하나의 주제나 task에 관련된 content를 묶고 semantic foreground와 spacing token을 사용합니다.", "Group content for one topic or task and use semantic foreground and spacing tokens."),
+            dontTitle = localized(copy.locale, "피하기", "Do not"),
+            dontBody = localized(copy.locale, "Surface 전체에 clickable을 붙여 role, focus와 feedback 없는 숨은 button으로 만들지 않습니다.", "Do not add clickable to the whole Surface and create a hidden button without role, focus, or feedback."),
+        )
+        CatalogDefinitionRow("Action Button", localized(copy.locale, "작업 실행", "Run an action"), localized(copy.locale, "명확한 action을 실행할 때 button role과 input feedback을 제공합니다.", "Provides button role and input feedback for a clear action."))
+        CatalogDefinitionRow("Interactive Card", localized(copy.locale, "전체 영역 action", "Whole-region action"), localized(copy.locale, "반복 사용 요구가 확인되면 role, focus, state와 target을 갖춘 별도 pattern을 정의합니다.", "Define a separate pattern with role, focus, state, and target when repeated demand is confirmed."))
+        CatalogDefinitionRow("Box / Column", localized(copy.locale, "단순 layout", "Layout only"), localized(copy.locale, "시각적 container 계약이 필요 없다면 Compose layout primitive를 사용합니다.", "Use a Compose layout primitive when no visual container contract is needed."))
+        CatalogDefinitionRow("Long content / RTL", localized(copy.locale, "Content 책임", "Content-owned"), localized(copy.locale, "Surface는 LayoutDirection을 전달하고 줄바꿈과 child 배치는 content가 관리합니다.", "Surface passes LayoutDirection through; content manages wrapping and child layout."))
         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
             BeezSurface(elevation = BeezSurfaceElevation.Raised, modifier = Modifier.fillMaxWidth()) {
                 BasicText(
@@ -1225,7 +1278,47 @@ private fun SurfaceDetail(copy: CatalogCopy) {
             }
         }
     }
-    CatalogCard(title = copy.accessibilityGuide, body = localized(copy.locale, "Surface는 role, name, focus 또는 click action을 추가하거나 자식 semantics를 병합하지 않습니다.", "Surface adds no role, name, focus, or click action and does not merge child semantics."))
+
+    CatalogGuideSection(
+        title = copy.accessibilityGuide,
+        body = localized(copy.locale, "Surface는 role, name, state, focus 또는 action을 추가하지 않고 자식 semantics를 병합하지 않습니다.", "Surface adds no role, name, state, focus, or action and does not merge child semantics."),
+    ) {
+        CatalogDefinitionRow("Container", "No implicit semantics", localized(copy.locale, "의미 있는 grouping이 필요하면 호출자가 화면 문맥에 맞게 semantics를 추가합니다.", "The caller adds context-appropriate semantics when meaningful grouping is needed."))
+        CatalogDefinitionRow("Children", "Independent nodes", localized(copy.locale, "내부 text와 control은 각자의 이름, 상태와 action을 유지합니다.", "Inner text and controls retain their own names, states, and actions."))
+        CatalogDefinitionRow("Interaction", "None", localized(copy.locale, "Surface 자체는 focus target이 아니며 내부 control이 각자의 input 규칙을 따릅니다.", "Surface itself is not focusable; inner controls follow their own input rules."))
+        CatalogDefinitionRow("Visual meaning", "Not elevation alone", localized(copy.locale, "Shadow가 보이지 않는 환경에서도 content 순서와 의미가 유지되어야 합니다.", "Content order and meaning must survive environments where shadow is not visible."))
+        CatalogDefinitionRow("Platform verification", "Shadow · screen reader", localized(copy.locale, "플랫폼별 shadow rendering과 보조 기술 grouping 검증은 아직 남아 있습니다.", "Platform shadow rendering and assistive-technology grouping verification remains pending."))
+    }
+
+    CatalogGuideSection(
+        title = "API",
+        body = localized(copy.locale, "현재 neutral Surface의 commonMain signature와 semantic elevation 사용 예제입니다.", "The current neutral Surface commonMain signature and semantic elevation usage example."),
+    ) {
+        CatalogCodeBlock(
+            """enum class BeezSurfaceElevation {
+    Flat,
+    Raised,
+    Floating,
+}
+
+fun BeezSurface(
+    modifier: Modifier = Modifier,
+    elevation: BeezSurfaceElevation = BeezSurfaceElevation.Flat,
+    content: @Composable BoxScope.() -> Unit,
+)""",
+        )
+        CatalogCodeBlock(
+            """BeezSurface(
+    elevation = BeezSurfaceElevation.Raised,
+) {
+    Column(
+        modifier = Modifier.padding(BeezTheme.spacing.screenGutter),
+    ) {
+        // Related content
+    }
+}""",
+        )
+    }
 }
 
 private fun componentTitle(component: CatalogComponent, copy: CatalogCopy): String = when (component) {
