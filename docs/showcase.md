@@ -70,7 +70,8 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Action Button Anatomy, public property, variant/size/state/layout 선택 기준, Do/Do not, accessibility와 commonMain API guide
 - disabled, loading, focus 표현
 - 버튼 callback, disabled/loading 전환과 reset 동작
-- Checkbox checked/disabled 전환과 reset 동작
+- Checkbox Playground의 checked/disabled 전환과 reset 동작
+- Checkbox anatomy, public property, state, 유사 component 선택 기준, Do/Do not, accessibility와 commonMain API guide
 - Checkbox unchecked/checked/disabled state와 RTL 긴 label matrix
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix

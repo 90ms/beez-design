@@ -112,13 +112,27 @@ class CatalogUiTest {
             .assertIsOff()
             .performClick()
 
-        onNodeWithText("Playground · Checked: true").assertExists()
+        onNodeWithText("Checked: true").assertExists()
         onNodeWithText("Receive product updates").assertIsOn()
         onNodeWithText("Unchecked option").assertIsOff()
         onNodeWithText("Checked option").assertIsOn()
         onNodeWithText("Disabled unchecked option").assertIsNotEnabled().assertIsOff()
         onNodeWithText("Disabled checked option").assertIsNotEnabled().assertIsOn()
         onNodeWithText("أوافق على تلقي تحديثات مفصلة حول هذا الخيار").assertIsOn()
+    }
+
+    @Test
+    fun checkboxKoreanGuideUsesLocalizedCopy() = runComposeUiTest {
+        setContent {
+            CatalogApp(initialLocale = CatalogLocale.Korean)
+        }
+
+        onNodeWithText("Components").performClick()
+        onNodeWithText("Checkbox").performClick()
+
+        onNodeWithText("서로 독립적인 옵션을 선택하거나 해제할 때 사용합니다.").assertExists()
+        onNodeWithText("제품 업데이트 받기").assertIsOff()
+        onNodeWithText("선택됨: false").assertExists()
     }
 
     @Test

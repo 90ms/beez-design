@@ -786,45 +786,157 @@ private fun CheckboxDetail(copy: CatalogCopy) {
     var checked by remember { mutableStateOf(false) }
     var disabled by remember { mutableStateOf(false) }
 
-    CatalogCard(title = "Playground", body = playgroundDescription(copy.locale)) {
-        BasicText(text = "Playground · Checked: $checked", style = BeezTheme.typography.label)
-        BeezCheckbox(
-            checked = checked,
-            onCheckedChange = { checked = it },
-            label = "Receive product updates",
-            enabled = !disabled,
-            modifier = Modifier.fillMaxWidth(),
+    CatalogGuideSection(title = "Playground", body = playgroundDescription(copy.locale)) {
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "선택 상태", "selection"),
+            labels = listOf(localized(copy.locale, "선택 안 됨", "Unchecked"), localized(copy.locale, "선택됨", "Checked")),
+            selectedIndex = if (checked) 1 else 0,
+            onSelect = { checked = it == 1 },
         )
-        Row(horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap)) {
-            CatalogChoice("Checkbox disabled", disabled, { disabled = !disabled }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
-            CatalogChoice("Checkbox reset", false, {
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "사용 가능 여부", "availability"),
+            labels = listOf(localized(copy.locale, "사용 가능", "Enabled"), localized(copy.locale, "비활성", "Disabled")),
+            selectedIndex = if (disabled) 1 else 0,
+            onSelect = { disabled = it == 1 },
+        )
+        CatalogExampleCanvas {
+            BeezCheckbox(
+                checked = checked,
+                onCheckedChange = { checked = it },
+                label = localized(copy.locale, "제품 업데이트 받기", "Receive product updates"),
+                enabled = !disabled,
+            )
+        }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+        ) {
+            BasicText(
+                text = localized(copy.locale, "선택됨: $checked", "Checked: $checked"),
+                style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+                modifier = Modifier.weight(1f),
+            )
+            CatalogChoice(copy.reset, false, {
                 checked = false
                 disabled = false
             }, BeezTheme.colors.backgroundBrand, BeezTheme.colors.foregroundPrimary)
         }
     }
-    CatalogCard(title = copy.anatomy, body = localized(copy.locale, "하나의 toggle root가 indicator와 필수 label을 묶습니다.", "One toggle root groups the indicator and required label."))
-    CatalogCard(title = copy.properties, body = localized(copy.locale, "Binary checked 상태와 enabled 상태를 호출자가 소유합니다.", "The caller owns the binary checked value and enabled state.")) {
-        BasicText(text = "States", style = BeezTheme.typography.label)
-        BeezCheckbox(checked = false, onCheckedChange = {}, label = "Unchecked option")
-        BeezCheckbox(checked = true, onCheckedChange = {}, label = "Checked option")
-        BeezCheckbox(checked = false, onCheckedChange = {}, label = "Disabled unchecked option", enabled = false)
-        BeezCheckbox(checked = true, onCheckedChange = {}, label = "Disabled checked option", enabled = false)
+
+    CatalogGuideSection(
+        title = copy.anatomy,
+        body = localized(copy.locale, "하나의 toggle root가 indicator와 필수 label을 하나의 선택 control로 묶습니다.", "One toggle root groups the indicator and required label into one selection control."),
+    ) {
+        CatalogDefinitionRow("root", "Required", localized(copy.locale, "전체 layout, focus, toggle action과 checkbox semantics를 소유합니다.", "Owns layout, focus, toggle action, and checkbox semantics."))
+        CatalogDefinitionRow("indicator", "Required", localized(copy.locale, "선택 여부를 container와 check mark로 표시합니다.", "Shows selection with a container and check mark."))
+        CatalogDefinitionRow("label", "Required", localized(copy.locale, "선택하는 조건을 설명하고 접근성 이름을 제공합니다.", "Explains the option and provides its accessible name."))
     }
-    CatalogCard(title = copy.guidelinesTitle, body = localized(copy.locale, "서로 독립적인 option에 사용하고, 즉시 실행되는 action이나 상호 배타적 선택에는 사용하지 않습니다.", "Use for independent options, not immediate actions or mutually exclusive choices.")) {
-        BasicText(text = "Long label · RTL", style = BeezTheme.typography.label)
-        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
-            Box(modifier = Modifier.fillMaxWidth().widthIn(max = 320.dp)) {
+
+    CatalogGuideSection(
+        title = copy.properties,
+        body = localized(copy.locale, "Checkbox는 크기나 variant를 선택하지 않고 값과 사용 가능 여부만 노출합니다.", "Checkbox exposes value and availability without size or variant choices."),
+    ) {
+        CatalogDefinitionRow("checked", "Boolean · required", localized(copy.locale, "현재 binary 선택 값을 호출자가 소유합니다.", "The caller owns the current binary selection value."))
+        CatalogDefinitionRow("onCheckedChange", "(Boolean) -> Unit · required", localized(copy.locale, "사용자가 전환하면 다음 값을 전달합니다.", "Receives the next value when the user toggles."))
+        CatalogDefinitionRow("label", "String · required", localized(copy.locale, "선택 대상과 조건을 짧고 구체적으로 설명합니다.", "Describes the selected option or condition concisely."))
+        CatalogDefinitionRow("enabled", "Boolean · true", localized(copy.locale, "false이면 현재 값은 유지하고 입력을 차단합니다.", "When false, preserves the value and blocks input."))
+        CatalogDefinitionRow("modifier", "Modifier · empty", localized(copy.locale, "Group의 너비와 간격은 부모 layout이 관리합니다.", "The parent layout manages group width and spacing."))
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "States", "States"),
+        body = localized(copy.locale, "Disabled 상태에서도 check mark를 유지해 색상 없이 현재 값을 구분합니다.", "Disabled states retain the check mark so the value is not communicated by color alone."),
+    ) {
+        data class CheckboxExample(val name: String, val value: Boolean, val enabled: Boolean)
+        CatalogExampleGrid(
+            items = listOf(
+                CheckboxExample("Unchecked", false, true),
+                CheckboxExample("Checked", true, true),
+                CheckboxExample("Disabled / unchecked", false, false),
+                CheckboxExample("Disabled / checked", true, false),
+            ),
+            wideColumns = 2,
+        ) { item ->
+            CatalogExampleTile(
+                title = item.name,
+                body = if (item.enabled) localized(copy.locale, "입력 허용", "Accepts input") else localized(copy.locale, "현재 값을 유지하고 입력 차단", "Preserves value and blocks input"),
+            ) {
                 BeezCheckbox(
-                    checked = true,
+                    checked = item.value,
                     onCheckedChange = {},
-                    label = "أوافق على تلقي تحديثات مفصلة حول هذا الخيار",
-                    modifier = Modifier.fillMaxWidth(),
+                    label = when (item.name) {
+                        "Unchecked" -> localized(copy.locale, "선택 안 된 옵션", "Unchecked option")
+                        "Checked" -> localized(copy.locale, "선택된 옵션", "Checked option")
+                        "Disabled / unchecked" -> localized(copy.locale, "비활성 선택 안 된 옵션", "Disabled unchecked option")
+                        else -> localized(copy.locale, "비활성 선택된 옵션", "Disabled checked option")
+                    },
+                    enabled = item.enabled,
                 )
             }
         }
     }
-    CatalogCard(title = copy.accessibilityGuide, body = localized(copy.locale, "Indicator와 label을 하나의 checkbox node로 병합하고 checked/disabled 상태와 전체 label click target을 제공합니다.", "Merges indicator and label into one checkbox node with checked/disabled state and a full-label activation target."))
+
+    CatalogGuideSection(
+        title = copy.guidelinesTitle,
+        body = localized(copy.locale, "서로 독립적인 옵션을 선택하거나 해제할 때 사용합니다.", "Use Checkbox to select or clear independent options."),
+    ) {
+        CatalogGuidancePair(
+            doTitle = localized(copy.locale, "권장", "Do"),
+            doBody = localized(copy.locale, "알림 수신이나 약관 동의처럼 각각 독립적으로 유지되는 선택에 사용합니다.", "Use for independently retained choices such as notifications or agreement."),
+            dontTitle = localized(copy.locale, "피하기", "Do not"),
+            dontBody = localized(copy.locale, "즉시 실행되는 action이나 여러 값 중 하나만 고르는 선택에 사용하지 않습니다.", "Do not use for immediate actions or a mutually exclusive choice."),
+        )
+        CatalogDefinitionRow("Action Button", localized(copy.locale, "즉시 실행", "Immediate action"), localized(copy.locale, "값을 유지하지 않고 작업을 실행할 때 사용합니다.", "Use when activating work without retaining a selection value."))
+        CatalogDefinitionRow("Radio / Segmented control", localized(copy.locale, "상호 배타 선택", "Mutually exclusive"), localized(copy.locale, "여러 값 중 하나만 선택할 때 사용합니다.", "Use when exactly one value can be selected."))
+        CatalogDefinitionRow("Switch", localized(copy.locale, "즉시 적용 설정", "Immediate setting"), localized(copy.locale, "기능의 on/off가 즉시 적용되는 설정에 사용합니다.", "Use when an on/off setting takes effect immediately."))
+        CatalogDefinitionRow(
+            name = localized(copy.locale, "긴 label과 RTL", "Long labels and RTL"),
+            meta = localized(copy.locale, "줄바꿈 · logical start", "Wrapping · logical start"),
+            description = localized(copy.locale, "Label은 잘리지 않고 줄바꿈하며 indicator는 논리적 시작 위치를 유지합니다.", "The label wraps without truncation and the indicator stays at logical start."),
+        )
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            CatalogExampleCanvas {
+                BeezCheckbox(
+                    checked = true,
+                    onCheckedChange = {},
+                    label = "أوافق على تلقي تحديثات مفصلة حول هذا الخيار",
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = copy.accessibilityGuide,
+        body = localized(copy.locale, "Indicator와 label을 하나의 checkbox node로 병합하고 상태와 전체 label click target을 제공합니다.", "Merges indicator and label into one checkbox node with state and a full-label activation target."),
+    ) {
+        CatalogDefinitionRow("Role and value", "Checkbox · on/off", localized(copy.locale, "Root가 checkbox role과 checked 값을 전달합니다.", "The root exposes checkbox role and checked value."))
+        CatalogDefinitionRow("Interaction", "Touch · pointer · Space", localized(copy.locale, "Indicator와 label을 포함한 최소 48dp 영역 전체가 toggle됩니다.", "The full minimum 48dp area, including indicator and label, toggles."))
+        CatalogDefinitionRow("Disabled", "State preserved", localized(copy.locale, "비활성 상태와 현재 on/off 값을 함께 전달합니다.", "Exposes disabled state while preserving the current on/off value."))
+        CatalogDefinitionRow("Content", "Font scale · CJK · RTL", localized(copy.locale, "긴 label을 생략하지 않고 확대 글꼴과 RTL layout을 지원합니다.", "Supports long labels, enlarged fonts, and RTL without omission."))
+    }
+
+    CatalogGuideSection(
+        title = "API",
+        body = localized(copy.locale, "현재 binary Checkbox의 commonMain signature와 상태 소유 예제입니다.", "The current binary Checkbox commonMain signature and state ownership example."),
+    ) {
+        CatalogCodeBlock(
+            """fun BeezCheckbox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    label: String,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+)""",
+        )
+        CatalogCodeBlock(
+            """BeezCheckbox(
+    checked = accepted,
+    onCheckedChange = { accepted = it },
+    label = "I agree to the terms",
+)""",
+        )
+    }
 }
 
 @Composable
