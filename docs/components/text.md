@@ -321,15 +321,15 @@ API와 의도된 동작 차이는 없다. 글꼴 fallback, 줄바꿈 지점과 g
 
 ### Automated
 
-- [ ] 기본 text rendering과 semantics
-- [ ] role 전체의 typography token mapping
-- [ ] tone 전체의 foreground token mapping
-- [ ] `textAlign`, `overflow`와 `maxLines`
-- [ ] 유효하지 않은 `maxLines` 거부
+- [x] 기본 text rendering과 semantics
+- [x] role 전체의 typography token mapping
+- [x] tone 전체의 foreground token mapping
+- [x] `textAlign`, `overflow`와 `maxLines`
+- [x] 유효하지 않은 `maxLines` 거부
 - [ ] Light/Dark와 test brand theme
-- [ ] LTR/RTL의 `Start` 정렬
-- [ ] 긴 문구, 좁은 constraint와 확대 font scale
-- [ ] interaction role/action을 암묵적으로 추가하지 않음
+- [x] LTR/RTL의 `Start` 정렬
+- [x] 긴 문구, 좁은 constraint와 확대 font scale
+- [x] interaction role/action을 암묵적으로 추가하지 않음
 
 State, callback과 상태 저장은 비대화형 stateless Text에 적용되지 않는다.
 
@@ -372,3 +372,4 @@ keyboard action은 Text에 적용되지 않는다.
 | --- | --- | --- |
 | 2026-08-04 | 최초 Proposed 명세 | 초기 범위의 semantic typography vertical slice 정의 |
 | 2026-08-04 | commonMain 구현과 단위/UI 테스트 추가 | role, tone, layout과 비대화형 semantics 계약 검증 시작 |
+| 2026-08-04 | Catalog 카드와 상세 사용 가이드 추가 | 실제 API의 role, tone, layout과 접근성 선택 기준 제공 |

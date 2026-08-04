@@ -60,7 +60,7 @@ Test Brand 색상 override도 `specification/tokens/themes/test-brand.theme.json
 
 Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한다.
 
-- Components overview에서 Action Button, Checkbox, Text Field와 Surface의 실제 preview card
+- Components overview에서 Action Button, Checkbox, Text, Text Field와 Surface의 실제 preview card
 - Card 선택 후 별도 component detail destination으로 이동하고 목록으로 복귀하는 navigation
 - 각 detail의 Playground, Anatomy, Properties, Guidelines와 Accessibility 문서 구조
 - 브랜드 accent와 semantic foreground/background 조합
@@ -73,6 +73,9 @@ Compose Catalog는 다음을 실제 BEEZ component와 Compose state로 제공한
 - Checkbox Playground의 checked/disabled 전환과 reset 동작
 - Checkbox anatomy, public property, state, 유사 component 선택 기준, Do/Do not, accessibility와 commonMain API guide
 - Checkbox unchecked/checked/disabled state와 RTL 긴 label matrix
+- Text Playground의 role, tone, 정렬, 최대 줄 수와 overflow 전환
+- Text anatomy, public property, typography/foreground/layout 선택 기준, Do/Do not, accessibility와 commonMain API guide
+- Text role/tone matrix, 긴 문구, ellipsis와 RTL layout
 - Text Field value 입력, error/read-only/disabled 전환과 reset 동작
 - Text Field anatomy, public property, state 우선순위, form width 규칙, Do/Do not, accessibility와 commonMain API guide
 - Text Field empty/filled/read-only/disabled/error state, leading/trailing slot과 RTL 긴 콘텐츠 matrix
@@ -112,9 +115,9 @@ Example에는 현재 선택한 property와 결과를 함께 표시한다. Action
 
 ## 배포 상태
 
-- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme, component card overview와 실제 Action Button/Checkbox/Text Field/Surface detail을 포함한 vertical slice 및 공통 UI 테스트
+- `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme, component card overview와 실제 Action Button/Checkbox/Text/Text Field/Surface detail을 포함한 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
-- Compose Web Catalog: Active. Component card overview와 detail navigation이 Pages에 배포되어 있음
+- Compose Web Catalog: Active. 기존 Component card overview와 detail navigation은 Pages에 배포되어 있으며 Text guide는 현재 source 반영 후 원격 검증 대기 중
 - Stable 문서 사이트: 미정
 
 배포 HTML은 `html`과 `body`를 viewport 크기로 고정한다. Compose `ComposeViewport`가 문서의 콘텐츠 높이를 viewport로 오인하지 않도록 하는 Web/Wasm 런타임 전제다.

@@ -92,6 +92,7 @@ internal data class CatalogCopy(
     val accessibilityTitle: String,
     val actionButton: String,
     val checkbox: String,
+    val text: String,
     val textField: String,
     val surface: String,
     val componentOverviewBody: String,
@@ -109,6 +110,7 @@ internal data class CatalogCopy(
     val disabled: String,
     val reset: String,
     val ready: String,
+    val proposed: String,
     val experimental: String,
 )
 
@@ -139,6 +141,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         accessibilityTitle = "품질은 형태의 일부입니다.",
         actionButton = "Action Button",
         checkbox = "Checkbox",
+        text = "Text",
         textField = "Text Field",
         surface = "Surface",
         componentOverviewBody = "컴포넌트 카드를 선택해 실제 동작, 속성, 사용 가이드와 접근성 계약을 확인하세요.",
@@ -156,6 +159,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         disabled = "비활성화",
         reset = "초기화",
         ready = "준비됨 · 값을 입력하세요",
+        proposed = "제안됨",
         experimental = "실험적",
     )
 
@@ -185,6 +189,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         accessibilityTitle = "Quality is part of the shape.",
         actionButton = "Action Button",
         checkbox = "Checkbox",
+        text = "Text",
         textField = "Text Field",
         surface = "Surface",
         componentOverviewBody = "Choose a component card to inspect its behavior, properties, usage guidance, and accessibility contract.",
@@ -202,6 +207,7 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         disabled = "Disable",
         reset = "Reset",
         ready = "Ready · enter a value",
+        proposed = "Proposed",
         experimental = "Experimental",
     )
 }

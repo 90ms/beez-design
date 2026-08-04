@@ -30,6 +30,8 @@ import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import beez.design.components.BeezActionButton
@@ -38,14 +40,33 @@ import beez.design.components.BeezActionButtonVariant
 import beez.design.components.BeezCheckbox
 import beez.design.components.BeezSurface
 import beez.design.components.BeezSurfaceElevation
+import beez.design.components.BeezText
 import beez.design.components.BeezTextField
+import beez.design.components.BeezTextRole
+import beez.design.components.BeezTextTone
 import beez.design.foundation.BeezTheme
 
 internal enum class CatalogComponent {
     ActionButton,
     Checkbox,
+    Text,
     TextField,
     Surface,
+}
+
+private enum class TextPlaygroundAlignment(val textAlign: TextAlign) {
+    Start(TextAlign.Start),
+    Center(TextAlign.Center),
+    End(TextAlign.End),
+}
+
+private enum class TextPlaygroundLayout(
+    val maxLines: Int,
+    val overflow: TextOverflow,
+) {
+    Wrap(Int.MAX_VALUE, TextOverflow.Clip),
+    TwoLines(2, TextOverflow.Clip),
+    Ellipsis(1, TextOverflow.Ellipsis),
 }
 
 private enum class TextFieldPlaygroundState {
@@ -176,7 +197,7 @@ private fun CatalogComponentCard(
                     style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary),
                     modifier = Modifier.weight(1f),
                 )
-                CatalogMaturityBadge(label = copy.experimental)
+                CatalogMaturityBadge(label = componentMaturityLabel(component, copy))
             }
             BasicText(
                 text = componentSummary(component, copy.locale),
@@ -204,6 +225,19 @@ private fun ComponentCardPreview(component: CatalogComponent, copy: CatalogCopy)
             onCheckedChange = {},
             label = if (copy.locale == CatalogLocale.Korean) "업데이트 받기" else "Receive updates",
         )
+
+        CatalogComponent.Text -> Column(
+            verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.controlContentGap),
+        ) {
+            BeezText(
+                text = if (copy.locale == CatalogLocale.Korean) "의미가 스타일을 만듭니다." else "Meaning shapes style.",
+                role = BeezTextRole.SectionTitle,
+            )
+            BeezText(
+                text = if (copy.locale == CatalogLocale.Korean) "토큰이 위계와 색상 역할을 일관되게 연결합니다." else "Tokens keep hierarchy and foreground intent consistent.",
+                tone = BeezTextTone.Secondary,
+            )
+        }
 
         CatalogComponent.TextField -> BeezTextField(
             value = "beez.design",
@@ -247,6 +281,7 @@ private fun ComponentDetail(
         when (component) {
             CatalogComponent.ActionButton -> ActionButtonDetail(copy)
             CatalogComponent.Checkbox -> CheckboxDetail(copy)
+            CatalogComponent.Text -> TextDetail(copy)
             CatalogComponent.TextField -> TextFieldDetail(copy)
             CatalogComponent.Surface -> SurfaceDetail(copy)
         }
@@ -279,7 +314,7 @@ private fun ComponentDetailHeader(copy: CatalogCopy, component: CatalogComponent
                 style = BeezTheme.typography.display.copy(color = BeezTheme.colors.foregroundPrimary),
                 modifier = Modifier.weight(1f),
             )
-            CatalogMaturityBadge(label = copy.experimental)
+            CatalogMaturityBadge(label = componentMaturityLabel(component, copy))
         }
         BasicText(
             text = componentSummary(component, copy.locale),
@@ -795,6 +830,274 @@ private fun CatalogCodeBlock(code: String) {
             .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
             .padding(BeezTheme.spacing.contentStackGap),
     )
+}
+
+@Composable
+private fun TextDetail(copy: CatalogCopy) {
+    var role by remember { mutableStateOf(BeezTextRole.Body) }
+    var tone by remember { mutableStateOf(BeezTextTone.Primary) }
+    var alignment by remember { mutableStateOf(TextPlaygroundAlignment.Start) }
+    var layout by remember { mutableStateOf(TextPlaygroundLayout.Wrap) }
+
+    CatalogGuideSection(
+        title = "Playground",
+        body = localized(
+            copy.locale,
+            "콘텐츠 위계와 인접 배경의 의미를 선택해 실제 commonMain Text를 확인하세요.",
+            "Choose content hierarchy and foreground intent to inspect the actual commonMain Text.",
+        ),
+    ) {
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "타이포그래피 역할", "typography role"),
+            labels = BeezTextRole.entries.map { it.name },
+            selectedIndex = BeezTextRole.entries.indexOf(role),
+            onSelect = { role = BeezTextRole.entries[it] },
+        )
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "전경 역할", "foreground tone"),
+            labels = BeezTextTone.entries.map { it.name },
+            selectedIndex = BeezTextTone.entries.indexOf(tone),
+            onSelect = { tone = BeezTextTone.entries[it] },
+        )
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "정렬", "alignment"),
+            labels = TextPlaygroundAlignment.entries.map { it.name },
+            selectedIndex = TextPlaygroundAlignment.entries.indexOf(alignment),
+            onSelect = { alignment = TextPlaygroundAlignment.entries[it] },
+        )
+        CatalogChoiceGroup(
+            title = localized(copy.locale, "줄바꿈과 넘침", "wrapping and overflow"),
+            labels = TextPlaygroundLayout.entries.map { option ->
+                when (option) {
+                    TextPlaygroundLayout.Wrap -> localized(copy.locale, "제한 없음", "Wrap")
+                    TextPlaygroundLayout.TwoLines -> localized(copy.locale, "최대 2줄", "Two lines")
+                    TextPlaygroundLayout.Ellipsis -> localized(copy.locale, "한 줄 말줄임", "Ellipsis")
+                }
+            },
+            selectedIndex = TextPlaygroundLayout.entries.indexOf(layout),
+            onSelect = { layout = TextPlaygroundLayout.entries[it] },
+        )
+        CatalogExampleCanvas {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .background(
+                        if (tone == BeezTextTone.OnBrand) {
+                            BeezTheme.colors.backgroundBrand
+                        } else {
+                            BeezTheme.colors.backgroundNeutral
+                        },
+                    )
+                    .padding(BeezTheme.spacing.contentStackGap),
+            ) {
+                BeezText(
+                    text = localized(
+                        copy.locale,
+                        "의미 있는 역할은 긴 문장과 다양한 화면에서도 일관된 위계를 유지합니다.",
+                        "Semantic roles keep hierarchy consistent across long copy and different screens.",
+                    ),
+                    role = role,
+                    tone = tone,
+                    textAlign = alignment.textAlign,
+                    maxLines = layout.maxLines,
+                    overflow = layout.overflow,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = copy.anatomy,
+        body = localized(
+            copy.locale,
+            "Text는 부모 constraint를 받는 root와 하나의 semantic style을 적용한 문자열로 구성됩니다.",
+            "Text consists of a parent-constrained root and one string using a single semantic style.",
+        ),
+    ) {
+        CatalogDefinitionRow("root", "Required", localized(copy.locale, "크기와 배치는 부모가 정하며 Text는 padding이나 interaction을 추가하지 않습니다.", "The parent controls size and placement; Text adds no padding or interaction."))
+        CatalogDefinitionRow("text", "String · required", localized(copy.locale, "화면에 표시하고 접근성 bridge에 전달하는 실제 문구입니다.", "The actual copy rendered on screen and exposed through the accessibility bridge."))
+    }
+
+    CatalogGuideSection(
+        title = copy.properties,
+        body = localized(
+            copy.locale,
+            "공개 속성은 의미와 layout 동작만 표현하며 임의 Color와 TextStyle override를 열지 않습니다.",
+            "Public properties express intent and layout behavior without arbitrary Color or TextStyle overrides.",
+        ),
+    ) {
+        CatalogDefinitionRow("text", "String · required", localized(copy.locale, "표시할 완료된 문자열입니다.", "The complete string to display."))
+        CatalogDefinitionRow("role", "BeezTextRole · Body", localized(copy.locale, "Display부터 Caption까지 콘텐츠 위계를 선택합니다.", "Selects content hierarchy from Display through Caption."))
+        CatalogDefinitionRow("tone", "BeezTextTone · Primary", localized(copy.locale, "Primary, Secondary, Critical 또는 OnBrand 전경 의미를 선택합니다.", "Selects Primary, Secondary, Critical, or OnBrand foreground intent."))
+        CatalogDefinitionRow("textAlign", "TextAlign · Start", localized(copy.locale, "논리적 시작점을 기준으로 줄 내부를 정렬합니다.", "Aligns each line from the logical start edge."))
+        CatalogDefinitionRow("overflow", "TextOverflow · Clip", localized(copy.locale, "제한된 줄을 넘는 문구의 시각 처리입니다.", "Controls visual treatment when copy exceeds limited lines."))
+        CatalogDefinitionRow("maxLines", "Int · unlimited", localized(copy.locale, "1 이상의 최대 줄 수입니다. 중요한 정보는 기본적으로 제한하지 않습니다.", "The positive maximum line count; important copy remains unlimited by default."))
+        CatalogDefinitionRow("modifier", "Modifier · empty", localized(copy.locale, "부모가 폭과 배치를 명시하는 확장 지점입니다.", "The extension point through which the parent sets width and placement."))
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Typography roles", "Typography roles"),
+        body = localized(
+            copy.locale,
+            "글자 크기 취향이 아니라 콘텐츠가 화면에서 맡는 위계로 role을 선택합니다.",
+            "Choose a role by the copy's hierarchy in the screen, not by a preferred font size.",
+        ),
+    ) {
+        CatalogExampleGrid(items = BeezTextRole.entries, wideColumns = 2) { item ->
+            val description = when (item) {
+                BeezTextRole.Display -> localized(copy.locale, "짧은 hero 또는 대표 메시지", "Short hero or signature message")
+                BeezTextRole.ScreenTitle -> localized(copy.locale, "화면의 목적을 나타내는 제목", "Title that names the screen purpose")
+                BeezTextRole.SectionTitle -> localized(copy.locale, "관련 콘텐츠 그룹의 제목", "Title for a related content group")
+                BeezTextRole.Body -> localized(copy.locale, "설명, 안내와 일반 콘텐츠", "Descriptions, guidance, and general content")
+                BeezTextRole.Label -> localized(copy.locale, "짧은 항목명과 metadata key", "Short item names and metadata keys")
+                BeezTextRole.Caption -> localized(copy.locale, "출처, 시간과 보조 정보", "Sources, time, and supporting information")
+            }
+            CatalogExampleTile(title = item.name, body = description) {
+                BeezText(
+                    text = when (item) {
+                        BeezTextRole.Display -> localized(copy.locale, "대표 메시지", "Signature message")
+                        BeezTextRole.ScreenTitle -> localized(copy.locale, "계정 개요", "Account overview")
+                        BeezTextRole.SectionTitle -> localized(copy.locale, "결제 정보", "Payment details")
+                        BeezTextRole.Body -> localized(copy.locale, "일반적인 설명 문구", "General explanatory copy")
+                        BeezTextRole.Label -> localized(copy.locale, "배송 주소", "Delivery address")
+                        BeezTextRole.Caption -> localized(copy.locale, "오늘 업데이트됨", "Updated today")
+                    },
+                    role = item,
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Foreground tones", "Foreground tones"),
+        body = localized(
+            copy.locale,
+            "Tone은 장식 색상이 아니라 문구의 강조와 인접 배경 관계를 나타냅니다.",
+            "Tone describes emphasis and the adjacent background relationship, not a decorative color.",
+        ),
+    ) {
+        CatalogExampleGrid(items = BeezTextTone.entries, wideColumns = 2) { item ->
+            val onBrand = item == BeezTextTone.OnBrand
+            CatalogExampleTile(
+                title = item.name,
+                body = when (item) {
+                    BeezTextTone.Primary -> localized(copy.locale, "일반 배경의 핵심 정보", "Core information on a neutral background")
+                    BeezTextTone.Secondary -> localized(copy.locale, "보조 설명과 metadata", "Supporting descriptions and metadata")
+                    BeezTextTone.Critical -> localized(copy.locale, "오류 또는 위험을 설명하는 문구", "Copy that explains an error or risk")
+                    BeezTextTone.OnBrand -> localized(copy.locale, "검증된 brand 배경 위 전경", "Foreground on a verified brand background")
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(if (onBrand) BeezTheme.colors.backgroundBrand else BeezTheme.colors.backgroundNeutral)
+                        .padding(BeezTheme.spacing.contentStackGap),
+                ) {
+                    BeezText(
+                        text = when (item) {
+                            BeezTextTone.Primary -> localized(copy.locale, "주문이 접수되었습니다.", "Your order was received.")
+                            BeezTextTone.Secondary -> localized(copy.locale, "오늘 오후 3시에 업데이트됨", "Updated today at 3 PM")
+                            BeezTextTone.Critical -> localized(copy.locale, "카드 번호를 다시 확인해 주세요.", "Check the card number and try again.")
+                            BeezTextTone.OnBrand -> localized(copy.locale, "브랜드 영역의 문구", "Text on the brand area")
+                        },
+                        tone = item,
+                    )
+                }
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = localized(copy.locale, "Wrapping and layout", "Wrapping and layout"),
+        body = localized(
+            copy.locale,
+            "줄 수를 제한하지 않는 것이 기본이며 ellipsis는 정보 손실을 감수할 수 있는 보조 문구에만 사용합니다.",
+            "Unlimited wrapping is the default; use ellipsis only for supporting copy where truncation is acceptable.",
+        ),
+    ) {
+        CatalogExampleGrid(items = TextPlaygroundLayout.entries, wideColumns = 3) { item ->
+            CatalogExampleTile(
+                title = item.name,
+                body = when (item) {
+                    TextPlaygroundLayout.Wrap -> localized(copy.locale, "번역과 확대 글꼴을 위해 자연스럽게 줄바꿈", "Natural wrapping for translation and font scaling")
+                    TextPlaygroundLayout.TwoLines -> localized(copy.locale, "카드의 보조 설명처럼 제한된 영역", "A bounded region such as supporting card copy")
+                    TextPlaygroundLayout.Ellipsis -> localized(copy.locale, "대체 경로가 있는 낮은 중요도 정보", "Low-priority information with another access path")
+                },
+            ) {
+                BeezText(
+                    text = localized(copy.locale, "길어진 번역 문구는 좁은 화면에서 여러 줄로 자연스럽게 배치됩니다.", "Translated copy wraps naturally when the available width becomes narrow."),
+                    maxLines = item.maxLines,
+                    overflow = item.overflow,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = copy.guidelinesTitle,
+        body = localized(copy.locale, "콘텐츠 위계와 읽을 수 있는 의미를 함께 유지합니다.", "Preserve content hierarchy together with readable meaning."),
+    ) {
+        CatalogGuidancePair(
+            doTitle = localized(copy.locale, "권장", "Do"),
+            doBody = localized(copy.locale, "화면 목적에는 ScreenTitle, 설명에는 Body처럼 문구의 역할로 선택합니다.", "Use ScreenTitle for the screen purpose and Body for explanations."),
+            dontTitle = localized(copy.locale, "피하기", "Do not"),
+            dontBody = localized(copy.locale, "글자가 커 보이게 하려고 모든 문구에 Display를 사용하거나 OnBrand를 강조색처럼 사용하지 않습니다.", "Do not use Display everywhere to make copy look larger or treat OnBrand as an accent color."),
+        )
+        CatalogDefinitionRow(
+            localized(copy.locale, "Critical", "Critical"),
+            localized(copy.locale, "색상 + 설명", "Color + explanation"),
+            localized(copy.locale, "오류 원인과 해결 방법을 문구로 전달하고 색상만으로 상태를 표현하지 않습니다.", "Explain the error and resolution in words instead of communicating state through color alone."),
+        )
+        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
+            CatalogExampleCanvas {
+                BeezText(
+                    text = "نص طويل يحافظ على ترتيب القراءة ويلتف داخل المساحة المتاحة",
+                    role = BeezTextRole.Body,
+                    textAlign = TextAlign.Start,
+                    modifier = Modifier.fillMaxWidth(),
+                )
+            }
+        }
+    }
+
+    CatalogGuideSection(
+        title = copy.accessibilityGuide,
+        body = localized(
+            copy.locale,
+            "Text는 원본 문구 semantics를 제공하지만 role, focus 또는 action을 암묵적으로 만들지 않습니다.",
+            "Text exposes the original copy semantics without implicitly adding a role, focus target, or action.",
+        ),
+    ) {
+        CatalogDefinitionRow("Semantics", "Text · no action", localized(copy.locale, "시각적으로 말줄임돼도 원본 문자열을 accessibility bridge에 유지합니다.", "Keeps the original string in the accessibility bridge even when visually ellipsized."))
+        CatalogDefinitionRow("Interaction", "None", localized(copy.locale, "링크, 선택과 복사가 필요하면 그 동작과 semantics를 소유하는 별도 pattern을 사용합니다.", "Use a dedicated pattern that owns behavior and semantics when links, selection, or copy are needed."))
+        CatalogDefinitionRow("Contrast", "WCAG 2.2 AA", localized(copy.locale, "Primary, Secondary, Critical은 neutral 배경, OnBrand는 brand 배경에서 검증합니다.", "Primary, Secondary, and Critical are verified on neutral; OnBrand is verified on brand."))
+        CatalogDefinitionRow("Content", "Font scale · CJK · RTL", localized(copy.locale, "고정 높이로 문구를 자르지 않고 논리적 Start/End와 자연스러운 줄바꿈을 사용합니다.", "Avoid fixed-height clipping and use logical Start/End alignment with natural wrapping."))
+    }
+
+    CatalogGuideSection(
+        title = "API",
+        body = localized(copy.locale, "현재 String 기반 commonMain signature와 semantic role 사용 예제입니다.", "The current String-based commonMain signature and semantic-role example."),
+    ) {
+        CatalogCodeBlock(
+            """fun BeezText(
+    text: String,
+    modifier: Modifier = Modifier,
+    role: BeezTextRole = Body,
+    tone: BeezTextTone = Primary,
+    textAlign: TextAlign = Start,
+    overflow: TextOverflow = Clip,
+    maxLines: Int = Int.MAX_VALUE,
+)""",
+        )
+        CatalogCodeBlock(
+            """BeezText(
+    text = "Payment details",
+    role = BeezTextRole.SectionTitle,
+)""",
+        )
+    }
 }
 
 @Composable
@@ -1324,6 +1627,7 @@ fun BeezSurface(
 private fun componentTitle(component: CatalogComponent, copy: CatalogCopy): String = when (component) {
     CatalogComponent.ActionButton -> copy.actionButton
     CatalogComponent.Checkbox -> copy.checkbox
+    CatalogComponent.Text -> copy.text
     CatalogComponent.TextField -> copy.textField
     CatalogComponent.Surface -> copy.surface
 }
@@ -1331,9 +1635,13 @@ private fun componentTitle(component: CatalogComponent, copy: CatalogCopy): Stri
 private fun componentSummary(component: CatalogComponent, locale: CatalogLocale): String = when (component) {
     CatalogComponent.ActionButton -> localized(locale, "명확한 action을 실행하는 기본 interaction component입니다.", "A primary interaction component for clear, immediate actions.")
     CatalogComponent.Checkbox -> localized(locale, "서로 독립적인 binary option을 선택하거나 해제합니다.", "Selects or clears an independent binary option.")
+    CatalogComponent.Text -> localized(locale, "Semantic typography와 foreground 역할로 제품 문구의 위계를 표현합니다.", "Expresses product copy hierarchy through semantic typography and foreground roles.")
     CatalogComponent.TextField -> localized(locale, "Label과 상태 안내를 갖춘 단일 행 text input입니다.", "A single-line text input with a persistent label and state guidance.")
     CatalogComponent.Surface -> localized(locale, "관련 콘텐츠를 shape와 elevation으로 묶는 비대화형 container입니다.", "A non-interactive container that groups related content with shape and elevation.")
 }
+
+private fun componentMaturityLabel(component: CatalogComponent, copy: CatalogCopy): String =
+    if (component == CatalogComponent.Text) copy.proposed else copy.experimental
 
 private fun playgroundDescription(locale: CatalogLocale): String = localized(
     locale,

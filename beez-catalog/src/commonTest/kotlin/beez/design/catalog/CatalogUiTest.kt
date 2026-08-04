@@ -149,6 +149,7 @@ class CatalogUiTest {
         onNodeWithText("Components").performClick()
         onNodeWithText("Action Button").assertHasClickAction()
         onNodeWithText("Checkbox").assertHasClickAction()
+        onNodeWithText("Text").assertHasClickAction()
         onNodeWithText("Text Field").assertHasClickAction()
         onNodeWithText("Surface").assertHasClickAction().performClick()
 
@@ -158,7 +159,29 @@ class CatalogUiTest {
         onAllNodesWithText("Accessibility").assertCountEquals(2)
         onNodeWithText("All components", substring = true).performClick()
 
-        onAllNodesWithText("Open guide →").assertCountEquals(4)
+        onAllNodesWithText("Open guide →").assertCountEquals(5)
+    }
+
+    @Test
+    fun textCatalogProvidesRoleToneLayoutAndAccessibilityGuidance() = runComposeUiTest {
+        setContent {
+            CatalogApp(initialLocale = CatalogLocale.English)
+        }
+
+        onNodeWithText("Themes").performClick()
+        onNodeWithText("Dark").performClick()
+        onNodeWithText("Test Brand").performClick()
+        onNodeWithText("Components").performClick()
+        onNodeWithText("Text").performClick()
+
+        onNodeWithText("Typography roles").assertExists()
+        onNodeWithText("Foreground tones").assertExists()
+        onNodeWithText("Wrapping and layout").assertExists()
+        onNodeWithText("Title that names the screen purpose").assertExists()
+        onNodeWithText("Text on the brand area").assertExists()
+        onNodeWithText("Keeps the original string in the accessibility bridge even when visually ellipsized.").assertExists()
+        onNodeWithText("نص طويل يحافظ على ترتيب القراءة ويلتف داخل المساحة المتاحة").assertExists()
+        onNodeWithText("fun BeezText(", substring = true).assertExists()
     }
 
     @Test
