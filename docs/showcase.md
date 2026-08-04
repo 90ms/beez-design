@@ -117,7 +117,7 @@ Example에는 현재 선택한 property와 결과를 함께 표시한다. Action
 
 - `beez-catalog` Compose Web/Wasm 모듈: navigation, locale, theme, component card overview와 실제 Action Button/Checkbox/Text/Text Field/Surface detail을 포함한 vertical slice 및 공통 UI 테스트
 - GitHub Pages: Compose Web/Wasm distribution 배포 workflow 구성됨
-- Compose Web Catalog: Active. 기존 Component card overview와 detail navigation은 Pages에 배포되어 있으며 Text guide는 현재 source 반영 후 원격 검증 대기 중
+- Compose Web Catalog: Active. Component card overview와 Action Button/Checkbox/Text/Text Field/Surface detail guide가 Pages에 배포되어 원격 검증을 통과함
 - Stable 문서 사이트: 미정
 
 배포 HTML은 `html`과 `body`를 viewport 크기로 고정한다. Compose `ComposeViewport`가 문서의 콘텐츠 높이를 viewport로 오인하지 않도록 하는 Web/Wasm 런타임 전제다.

@@ -4,7 +4,7 @@
 
 | 항목 | 값 |
 | --- | --- |
-| Status | Proposed |
+| Status | Experimental |
 | Since | 미출시 |
 | Platforms | Android / iOS / Desktop / Web |
 | Replaces | 해당 없음 |
@@ -312,10 +312,10 @@ API와 의도된 동작 차이는 없다. 글꼴 fallback, 줄바꿈 지점과 g
 
 | Platform | 구현 상태 |
 | --- | --- |
-| Android | In Progress |
-| iOS | In Progress |
-| Desktop | In Progress |
-| Web | In Progress |
+| Android | Experimental |
+| iOS | Experimental |
+| Desktop | Experimental |
+| Web | Experimental |
 
 ## Test matrix
 
@@ -326,7 +326,7 @@ API와 의도된 동작 차이는 없다. 글꼴 fallback, 줄바꿈 지점과 g
 - [x] tone 전체의 foreground token mapping
 - [x] `textAlign`, `overflow`와 `maxLines`
 - [x] 유효하지 않은 `maxLines` 거부
-- [ ] Light/Dark와 test brand theme
+- [x] Light/Dark와 test brand theme
 - [x] LTR/RTL의 `Start` 정렬
 - [x] 긴 문구, 좁은 constraint와 확대 font scale
 - [x] interaction role/action을 암묵적으로 추가하지 않음
@@ -335,9 +335,11 @@ State, callback과 상태 저장은 비대화형 stateless Text에 적용되지 
 
 ### Visual
 
-- [ ] Light/Dark/alternate brand의 role과 tone matrix
-- [ ] 긴 콘텐츠와 좁은 constraint
-- [ ] RTL과 확대 font scale
+- [x] Light/Dark/alternate brand의 role과 tone matrix
+- [x] 긴 콘텐츠와 좁은 constraint
+- [x] RTL과 확대 font scale
+
+공통 단위/UI 테스트가 role, tone, layout, semantics, theme, RTL과 확대 font scale 계약을 검증한다. Desktop 시각 회귀 테스트는 Light, Dark와 alternate brand에서 대표 role/tone, 긴 콘텐츠, RTL과 1.5배 font scale을 검증하며, Catalog의 카드·상세 guide와 theme scenario도 원격 library validation 및 Pages workflow를 통과했다. 실제 플랫폼별 보조기술 검증은 아래 Manual 항목으로 남아 있으므로 현재 maturity는 Experimental이다.
 
 ### Manual
 
@@ -373,3 +375,4 @@ keyboard action은 Text에 적용되지 않는다.
 | 2026-08-04 | 최초 Proposed 명세 | 초기 범위의 semantic typography vertical slice 정의 |
 | 2026-08-04 | commonMain 구현과 단위/UI 테스트 추가 | role, tone, layout과 비대화형 semantics 계약 검증 시작 |
 | 2026-08-04 | Catalog 카드와 상세 사용 가이드 추가 | 실제 API의 role, tone, layout과 접근성 선택 기준 제공 |
+| 2026-08-04 | Experimental 전환 | 공통 테스트, Desktop 시각 기준선과 원격 Catalog 검증 완료 |

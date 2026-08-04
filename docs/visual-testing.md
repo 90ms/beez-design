@@ -1,7 +1,7 @@
 # BEEZ Visual Regression Testing
 
 - 상태: Active
-- 기준일: 2026-08-03
+- 기준일: 2026-08-04
 
 ## 목적
 
@@ -34,6 +34,7 @@ Desktop 기준은 지원 플랫폼 전체가 pixel 단위로 같다는 의미가
 - Checkbox: Light, Dark, alternate brand의 focused checked와 checked/unchecked/disabled state
 - Text Field: Light, Dark error, alternate brand RTL/read-only
 - Surface: Light, Dark, alternate brand의 Flat/Raised/Floating matrix
+- Text: Light와 Dark의 대표 role/tone, alternate brand의 RTL과 1.5배 font scale
 
 각 scenario는 고정된 canvas와 BEEZ semantic token을 사용한다. Alternate brand는 테스트 내부에서 semantic color role만 교체하며 제품용 public token scheme을 추가하지 않는다.
 

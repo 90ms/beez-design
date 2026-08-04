@@ -197,7 +197,7 @@ private fun CatalogComponentCard(
                     style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary),
                     modifier = Modifier.weight(1f),
                 )
-                CatalogMaturityBadge(label = componentMaturityLabel(component, copy))
+                CatalogMaturityBadge(label = copy.experimental)
             }
             BasicText(
                 text = componentSummary(component, copy.locale),
@@ -314,7 +314,7 @@ private fun ComponentDetailHeader(copy: CatalogCopy, component: CatalogComponent
                 style = BeezTheme.typography.display.copy(color = BeezTheme.colors.foregroundPrimary),
                 modifier = Modifier.weight(1f),
             )
-            CatalogMaturityBadge(label = componentMaturityLabel(component, copy))
+            CatalogMaturityBadge(label = copy.experimental)
         }
         BasicText(
             text = componentSummary(component, copy.locale),
@@ -1639,9 +1639,6 @@ private fun componentSummary(component: CatalogComponent, locale: CatalogLocale)
     CatalogComponent.TextField -> localized(locale, "Label과 상태 안내를 갖춘 단일 행 text input입니다.", "A single-line text input with a persistent label and state guidance.")
     CatalogComponent.Surface -> localized(locale, "관련 콘텐츠를 shape와 elevation으로 묶는 비대화형 container입니다.", "A non-interactive container that groups related content with shape and elevation.")
 }
-
-private fun componentMaturityLabel(component: CatalogComponent, copy: CatalogCopy): String =
-    if (component == CatalogComponent.Text) copy.proposed else copy.experimental
 
 private fun playgroundDescription(locale: CatalogLocale): String = localized(
     locale,

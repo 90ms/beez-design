@@ -110,7 +110,6 @@ internal data class CatalogCopy(
     val disabled: String,
     val reset: String,
     val ready: String,
-    val proposed: String,
     val experimental: String,
 )
 
@@ -159,7 +158,6 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         disabled = "비활성화",
         reset = "초기화",
         ready = "준비됨 · 값을 입력하세요",
-        proposed = "제안됨",
         experimental = "실험적",
     )
 
@@ -207,7 +205,6 @@ private fun copyFor(locale: CatalogLocale): CatalogCopy = when (locale) {
         disabled = "Disable",
         reset = "Reset",
         ready = "Ready · enter a value",
-        proposed = "Proposed",
         experimental = "Experimental",
     )
 }
