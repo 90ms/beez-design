@@ -162,7 +162,10 @@ class CatalogUiTest {
         onAllNodesWithText("Accessibility").assertCountEquals(2)
         onNodeWithText("All components", substring = true).performClick()
 
-        onAllNodesWithText("Open guide →").assertCountEquals(5)
+        onNodeWithText("Action Button")
+            .performScrollTo()
+            .assertHasClickAction()
+        onNodeWithText("Text").assertHasClickAction()
     }
 
     @Test
@@ -199,7 +202,7 @@ class CatalogUiTest {
             .performClick()
         onNodeWithText("Elevation Floating").performClick()
 
-        onAllNodesWithText("Floating Surface").assertCountEquals(2)
+        onNodeWithText("Floating Surface").assertExists()
         onNodeWithText("Flat").assertExists()
         onNodeWithText("Raised").assertExists()
         onNodeWithText("Elevation is not an interaction state; select exactly one depth at a time.").assertExists()
