@@ -151,7 +151,10 @@ class CatalogUiTest {
         onNodeWithText("Checkbox").assertHasClickAction()
         onNodeWithText("Text").assertHasClickAction()
         onNodeWithText("Text Field").assertHasClickAction()
-        onNodeWithText("Surface").assertHasClickAction().performClick()
+        onNodeWithText("Surface")
+            .assertHasClickAction()
+            .performScrollTo()
+            .performClick()
 
         onNodeWithText("Anatomy").assertExists()
         onNodeWithText("Properties").assertExists()
@@ -191,7 +194,9 @@ class CatalogUiTest {
         }
 
         onNodeWithText("Components").performClick()
-        onNodeWithText("Surface").performClick()
+        onNodeWithText("Surface")
+            .performScrollTo()
+            .performClick()
         onNodeWithText("Elevation Floating").performClick()
 
         onAllNodesWithText("Floating Surface").assertCountEquals(2)
