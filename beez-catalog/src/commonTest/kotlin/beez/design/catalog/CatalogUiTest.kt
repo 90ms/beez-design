@@ -65,7 +65,9 @@ class CatalogUiTest {
         onNodeWithText("Test Brand").performClick()
         onNodeWithText("Components").performClick()
         onNodeWithText("Action Button").performClick()
-        onNodeWithText("Run example").performClick()
+        onNodeWithText("Run example")
+            .performScrollTo()
+            .performClick()
 
         onNodeWithText("Clicks: 1").assertExists()
         onNodeWithText("One highest-priority action").assertExists()
