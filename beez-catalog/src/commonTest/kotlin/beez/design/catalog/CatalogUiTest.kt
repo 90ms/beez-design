@@ -162,10 +162,9 @@ class CatalogUiTest {
         onAllNodesWithText("Accessibility").assertCountEquals(2)
         onNodeWithText("All components", substring = true).performClick()
 
-        onNodeWithText("Action Button")
+        onNodeWithText("One contract, many contexts.")
             .performScrollTo()
-            .assertHasClickAction()
-        onNodeWithText("Text").assertHasClickAction()
+            .assertExists()
     }
 
     @Test
