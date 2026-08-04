@@ -141,7 +141,7 @@ class CatalogUiTest {
         onAllNodesWithText("Accessibility").assertCountEquals(2)
         onNodeWithText("All components", substring = true).performClick()
 
-        onAllNodesWithText("View details →").assertCountEquals(4)
+        onAllNodesWithText("Open guide →").assertCountEquals(4)
     }
 
     @Test

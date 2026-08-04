@@ -1,6 +1,7 @@
 package beez.design.catalog
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -9,6 +10,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.text.BasicText
@@ -19,6 +22,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
@@ -111,36 +116,58 @@ private fun CatalogComponentCard(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    BeezSurface(
-        modifier = modifier,
-        elevation = BeezSurfaceElevation.Raised,
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.containerRadius)
+    Column(
+        modifier = modifier
+            .clip(shape)
+            .background(BeezTheme.colors.backgroundNeutral)
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .clickable(role = Role.Button, onClick = onClick)
+            .semantics(mergeDescendants = true) { role = Role.Button },
     ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(176.dp)
+                .background(BeezTheme.colors.strokeNeutral.copy(alpha = 0.16f))
+                .clearAndSetSemantics { }
+                .padding(BeezTheme.spacing.screenGutter),
+            contentAlignment = Alignment.Center,
+        ) {
+            ComponentCardPreview(component = component, copy = copy)
+            Box(
+                modifier = Modifier
+                    .matchParentSize()
+                    .clickable(onClick = onClick)
+                    .clearAndSetSemantics { },
+            )
+        }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .semantics(mergeDescendants = true) { role = Role.Button }
-                .clickable(role = Role.Button, onClick = onClick)
+                .heightIn(min = 144.dp)
                 .padding(BeezTheme.spacing.screenGutter),
-            verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+            verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
         ) {
-            BasicText(
-                text = componentTitle(component, copy),
-                style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary),
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+            ) {
+                BasicText(
+                    text = componentTitle(component, copy),
+                    style = BeezTheme.typography.sectionTitle.copy(color = BeezTheme.colors.foregroundPrimary),
+                    modifier = Modifier.weight(1f),
+                )
+                CatalogMaturityBadge(label = copy.experimental)
+            }
             BasicText(
                 text = componentSummary(component, copy.locale),
                 style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary),
             )
-            Box(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clearAndSetSemantics { }
-                    .padding(vertical = BeezTheme.spacing.contentInlineGap),
-            ) {
-                ComponentCardPreview(component = component, copy = copy)
-            }
+            Spacer(modifier = Modifier.weight(1f))
             BasicText(
-                text = if (copy.locale == CatalogLocale.Korean) "상세 가이드 보기 →" else "View details →",
+                text = localized(copy.locale, "가이드 열기 →", "Open guide →"),
                 style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundPrimary),
             )
         }
@@ -153,15 +180,12 @@ private fun ComponentCardPreview(component: CatalogComponent, copy: CatalogCopy)
         CatalogComponent.ActionButton -> BeezActionButton(
             label = if (copy.locale == CatalogLocale.Korean) "계속하기" else "Continue",
             onClick = {},
-            enabled = false,
-            modifier = Modifier.fillMaxWidth(),
         )
 
         CatalogComponent.Checkbox -> BeezCheckbox(
             checked = true,
             onCheckedChange = {},
             label = if (copy.locale == CatalogLocale.Korean) "업데이트 받기" else "Receive updates",
-            enabled = false,
         )
 
         CatalogComponent.TextField -> BeezTextField(
@@ -174,7 +198,7 @@ private fun ComponentCardPreview(component: CatalogComponent, copy: CatalogCopy)
 
         CatalogComponent.Surface -> BeezSurface(
             elevation = BeezSurfaceElevation.Floating,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().widthIn(max = 280.dp),
         ) {
             BasicText(
                 text = if (copy.locale == CatalogLocale.Korean) "관련 콘텐츠 영역" else "Related content area",
@@ -191,28 +215,85 @@ private fun ComponentDetail(
     component: CatalogComponent,
     onBack: () -> Unit,
 ) {
-    BeezActionButton(
-        label = "← ${copy.backToComponents}",
-        onClick = onBack,
-        variant = BeezActionButtonVariant.Outline,
-        size = BeezActionButtonSize.Small,
-    )
-    CatalogSectionHeader(
-        eyebrow = "${copy.components} / ${copy.componentDetails.uppercase()}",
-        title = componentTitle(component, copy),
-        body = componentSummary(component, copy.locale),
-    )
-    BasicText(
-        text = copy.experimental,
-        style = BeezTheme.typography.label.copy(color = BeezTheme.colors.foregroundSecondary),
-    )
+    Column(
+        modifier = Modifier.fillMaxWidth(),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.screenSectionGap),
+    ) {
+        BeezActionButton(
+            label = "← ${copy.backToComponents}",
+            onClick = onBack,
+            variant = BeezActionButtonVariant.Outline,
+            size = BeezActionButtonSize.Small,
+        )
+        ComponentDetailHeader(copy = copy, component = component)
 
-    when (component) {
-        CatalogComponent.ActionButton -> ActionButtonDetail(copy)
-        CatalogComponent.Checkbox -> CheckboxDetail(copy)
-        CatalogComponent.TextField -> TextFieldDetail(copy)
-        CatalogComponent.Surface -> SurfaceDetail(copy)
+        when (component) {
+            CatalogComponent.ActionButton -> ActionButtonDetail(copy)
+            CatalogComponent.Checkbox -> CheckboxDetail(copy)
+            CatalogComponent.TextField -> TextFieldDetail(copy)
+            CatalogComponent.Surface -> SurfaceDetail(copy)
+        }
     }
+}
+
+@Composable
+private fun ComponentDetailHeader(copy: CatalogCopy, component: CatalogComponent) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.containerRadius)
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(shape)
+            .background(BeezTheme.colors.backgroundNeutral)
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(BeezTheme.spacing.screenGutter),
+        verticalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentInlineGap),
+    ) {
+        BasicText(
+            text = "${copy.components} / ${copy.componentDetails}",
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(BeezTheme.spacing.contentStackGap),
+        ) {
+            BasicText(
+                text = componentTitle(component, copy),
+                style = BeezTheme.typography.display.copy(color = BeezTheme.colors.foregroundPrimary),
+                modifier = Modifier.weight(1f),
+            )
+            CatalogMaturityBadge(label = copy.experimental)
+        }
+        BasicText(
+            text = componentSummary(component, copy.locale),
+            style = BeezTheme.typography.body.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+        BasicText(
+            text = localized(
+                copy.locale,
+                "Playground · 구조 · 속성 · 사용 가이드 · 접근성 · API",
+                "Playground · Anatomy · Properties · Guidelines · Accessibility · API",
+            ),
+            style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundSecondary),
+        )
+    }
+}
+
+@Composable
+private fun CatalogMaturityBadge(label: String) {
+    val shape = androidx.compose.foundation.shape.RoundedCornerShape(BeezTheme.shapes.roundRadius)
+    BasicText(
+        text = label,
+        style = BeezTheme.typography.caption.copy(color = BeezTheme.colors.foregroundPrimary),
+        modifier = Modifier
+            .clip(shape)
+            .background(BeezTheme.colors.strokeNeutral.copy(alpha = 0.16f))
+            .border(1.dp, BeezTheme.colors.strokeNeutral, shape)
+            .padding(
+                horizontal = BeezTheme.spacing.controlContentGap,
+                vertical = BeezTheme.spacing.controlCompactVerticalInset,
+            ),
+    )
 }
 
 @Composable
