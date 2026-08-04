@@ -10,7 +10,8 @@ This file records consumer-visible BEEZ changes. Versions remain unreleased unti
 - Semantic color contrast validation for registered text and non-text pairs.
 - Experimental Action Button, Text Field, and binary Checkbox components with shared Compose implementations, accessibility behavior, tests, visual baselines, catalog scenarios, and specifications.
 - Experimental non-interactive Surface with Flat/Raised/Floating semantic elevation, shared tests, visual baselines, specification, and Catalog scenarios.
-- Card-based component overview and guided component detail screens in the Compose Catalog.
+- Responsive component overview cards and bilingual guided detail screens with interactive playgrounds, anatomy, public properties, variants or states, layout rules, usage guidance, accessibility notes, and commonMain API examples in the Compose Catalog.
+- Catalog-specific Korean font coverage validation and a generated Noto Sans KR subset for all current Korean guide copy.
 - Compose Multiplatform Web/Wasm catalog and GitHub Pages deployment.
 - Repository-local Maven staging publication for the aligned `beez-tokens`, `beez-foundation`, and `beez-components` modules.
 - Standalone Android and Desktop KMP consumer fixture that resolves the published Components artifact and its transitive dependencies without Material.
